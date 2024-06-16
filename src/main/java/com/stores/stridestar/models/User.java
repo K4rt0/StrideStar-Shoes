@@ -2,6 +2,7 @@ package com.stores.stridestar.models;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -65,4 +66,7 @@ public class User {
 
     @Column(name = "lockout", columnDefinition = "boolean default false", nullable = false)
     private boolean lockout;
+
+    @OneToMany(mappedBy = "user")
+    private List<DeliveryAddress> deliveryAddresses;
 }
