@@ -20,16 +20,31 @@ public class SecurityConfig {
         public SecurityFilterChain configure(HttpSecurity http) throws Exception {
                 return http
                                 .authorizeHttpRequests(requests -> requests
-                                                .requestMatchers("/", "/home", "/fontawesome/**")
+                                                .requestMatchers("/", "/home", "/main-site/**", "/fontawesome/**")
                                                 .permitAll()
-                                                .requestMatchers("/admin/**", "/assets/admin/**")
-                                                .hasRole("ADMIN") // Use hasRole instead of hasAnyAuthority
-                                                .requestMatchers("/api/**")
-                                                .permitAll()
+                                                /*
+                                                 * .requestMatchers("/admin/**", "/admin/**")
+                                                 * .hasRole("ADMIN") // Use hasRole instead of hasAnyAuthority
+                                                 * .requestMatchers("/api/**")
+                                                 * .permitAll()
+                                                 */
                                                 .anyRequest().authenticated())
-                                .formLogin(form -> form
+                                .formLogin(formLogin -> formLogin
                                                 .loginPage("/login")
+                                                .loginProcessingUrl("/login")
+                                                .defaultSuccessUrl("/", true)
+                                                .failureUrl("/login?error")
                                                 .permitAll())
+                                .logout(logout -> logout
+                                                .logoutUrl("/logout")
+                                                .logoutSuccessUrl("/login")
+                                                .deleteCookies("JSESSIONID")
+                                                .invalidateHttpSession(true)
+                                                .clearAuthentication(true)
+                                                .permitAll())
+                                .sessionManagement(sessionManagement -> sessionManagement
+                                                .maximumSessions(1)
+                                                .expiredUrl("/login"))
                                 .logout(logout -> logout.permitAll())
                                 .build();
         }

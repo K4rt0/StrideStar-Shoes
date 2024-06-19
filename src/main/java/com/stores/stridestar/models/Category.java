@@ -2,6 +2,7 @@ package com.stores.stridestar.models;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,6 +32,9 @@ public class Category {
     private String name;
 
     private String avatar;
+
+    @Column(name = "display", columnDefinition = "boolean default false")
+    private boolean display;
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;

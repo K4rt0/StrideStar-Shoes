@@ -7,8 +7,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    @SuppressWarnings("deprecation")
     @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
+    public void configurePathMatch(@SuppressWarnings("null") PathMatchConfigurer configurer) {
         configurer.setUseTrailingSlashMatch(true);
     }
 }
