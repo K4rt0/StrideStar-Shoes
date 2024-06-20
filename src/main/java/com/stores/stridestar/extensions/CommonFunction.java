@@ -41,7 +41,8 @@ public class CommonFunction {
                 if (i > 0) {
                     extension = fileName.substring(i+1);
                 }
-                Path filePath = uploadPath.resolve(seoUrl + "." + extension);
+                seoUrl = seoUrl + "." + extension;
+                Path filePath = uploadPath.resolve(seoUrl);
                 Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
                 return seoUrl;
             } catch (IOException e) {
