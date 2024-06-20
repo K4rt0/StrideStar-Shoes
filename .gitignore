@@ -34,3 +34,4 @@ build/
 
 # Application properties (if needed)
 /src/main/resources/application.properties
+/src/main/resources/static/images/
