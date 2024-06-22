@@ -8,7 +8,7 @@
 </head>
 <body>
     <section layout:fragment="content">
-        <form th:action="@{/admin/categories/create}" th:object="${category}" enctype="multipart/form-data" method="post">
+        <form id="categoryForm" enctype="multipart/form-data" method="post">
             <div class="row">
                 <div class="col-8">
                     <div class="card mb-4">
@@ -40,6 +40,7 @@
                                 <label class="col-sm-2 col-form-label"></label>
                                 <div class="col-sm-10 align-content-center">
                                     <button type="submit" class="btn btn-primary">Thêm</button>
+                                    <a href="/admin/categories" class="btn btn-secondary">Trở về</a>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +56,7 @@
                                     Kéo thả hoặc ấn vào để tải ảnh
                                     <span class="note needsclick">(Tối đa 5MB)</span>
                                 </div>
-                                <input name="avatar" type="file" hidden />
+                                <input id="avatar" name="avatar" type="file" hidden />
                             </div>
                         </div>
                     </div>
@@ -65,6 +66,36 @@
         </form>
         <script src="/admin/vendor/libs/dropzone/dropzone.js"></script>
         <script src="/admin/js/forms-file-upload.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#categoryForm').submit(function(e) {
+                    e.preventDefault();
+
+                    var formData = new FormData();
+                    var category = {
+                        name: $('#category-name').val(),
+                        display: $('#category-display').is(':checked')
+                    };
+                    formData.append('category', new Blob([JSON.stringify(category)], {type: "application/json"}));
+                    formData.append('avatar', $('#avatar')[0].files[0]);
+                    
+                    $.ajax({
+                        url: '/api/categories/create',
+                        type: 'POST',
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        success: function(response) {
+                            alert("Tạo mới danh mục thành công !");
+                            window.location.href = '/admin/categories';
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Thêm danh mục thất bại');
+                        }
+                    });
+                });
+            });
+        </script>
     </section>
 </body>
 </html>
