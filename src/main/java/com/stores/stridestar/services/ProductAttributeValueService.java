@@ -22,6 +22,10 @@ public class ProductAttributeValueService {
         return productAttributeValueRepository.findAll();
     }
 
+    public List<ProductAttributeValue> getAllByProductAttributeId(Long attributeId) {
+        return productAttributeValueRepository.findByProductAttributeId(attributeId);
+    }
+
     public Optional<ProductAttributeValue> getAttributeValueById(Long id) {
         return productAttributeValueRepository.findById(id);
     }

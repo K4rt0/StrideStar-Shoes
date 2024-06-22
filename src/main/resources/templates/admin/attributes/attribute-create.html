@@ -23,6 +23,7 @@
                             <label class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-10 align-content-center">
                                 <button id="createAttribute" class="btn btn-primary">Tạo mới</button>
+                                <a href="/admin/attributes" class="btn btn-secondary">Trở về</a>
                             </div>
                         </div>
                     </div>
@@ -59,10 +60,6 @@
                 </div>
             </div>
         </div>
-
-        <script src="/admin/js/attribute-create.js"></script>
-
-        <!-- 
         <script>
             $(document).ready(function() {
                 let attributeValues = [];
@@ -75,18 +72,24 @@
                             productAttributeValues: attributeValues.map(value => ({ value: value }))
                         };
                         $.ajax({
-                            url: '/admin/attributes/create',
+                            url: '/api/attributes/create',
                             method: 'POST',
                             contentType: 'application/json',
                             data: JSON.stringify(productAttribute),
                             success: function(response) {
                                 window.location.href = '/admin/attributes';
+                                showIziToast('Thông báo', 'Tạo thuộc tính thành công !');
                             },
                             error: function(error) {
+                                showIziToast('Lỗi', 'Tạo thuộc tính không thành công !', 'red');
                                 alert('Lỗi khi tạo thuộc tính!');
-                                console.error(error); // Thêm log lỗi để kiểm tra
+                                console.error(error);
                             }
                         });
+                    }
+                    else
+                    {
+                        showIziToast('Cảnh báo', 'Bạn chưa nhập tên thuộc tính !', 'yellow');
                     }
                 });
 
@@ -104,6 +107,10 @@
                             '</tr>'
                         );
                         $('#attributeValue').val('');
+                    }
+                    else
+                    {
+                        showIziToast('Cảnh báo', 'Bạn chưa nhập giá trị thuộc tính !', 'yellow');
                     }
                 });
 
@@ -129,9 +136,7 @@
                     }
                 });
             });
-        </script> -->
-
+        </script>
     </section>
-
 </body>
 </html>

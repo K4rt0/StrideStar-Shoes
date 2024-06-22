@@ -33,7 +33,7 @@ public class ProductAttributeService {
     public void updateAttribute(@NotNull ProductAttribute productAttribute) {
         ProductAttribute existingAttribute = productAttributeRepository.findById(productAttribute.getId())
                 .orElseThrow(() -> new IllegalStateException("Attribute with ID " + productAttribute.getId() + " does not exist."));
-        existingAttribute.setName(existingAttribute.getName());
+        existingAttribute.setName(productAttribute.getName());
         productAttributeRepository.save(existingAttribute);
     }
 
