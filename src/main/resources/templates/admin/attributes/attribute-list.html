@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+    layout:decorate="~{admin/adminLayout}">
+<head>
+    <title>Stride Star - Danh sách thuộc tính</title>
+</head>
+<body>
+    <section layout:fragment="content">
+        <div class="card">
+            <h5 class="card-header">Danh sách thuộc tính</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên danh mục</th>
+                            <th>Số lượng giá trị</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                        <tr th:each="attribute : ${attributes}">
+                            <td>[[${attribute.id}]]</td>
+                            <td>
+                                [[${attribute.name}]]
+                            </td>
+                            <td>
+                                [[${attribute.getProductAttributeValues().size()}]]
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" th:href="@{/admin/attributes/edit/{id}(id=${attribute.id})}">
+                                            <i class="bx bx-edit-alt me-1"></i> Sửa
+                                        </a>
+                                        <a class="dropdown-item" th:href="@{/admin/attributes/delete/{id}(id=${attribute.id})}"
+                                            onclick="return confirm('Bạn có chắc muốn xoá danh mục này?')">
+                                            <i class="bx bx-trash me-1"></i> Xoá
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
