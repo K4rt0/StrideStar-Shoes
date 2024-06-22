@@ -69,18 +69,18 @@ public class CategoryApiController {
     public ResponseEntity<Category> updateCategory(@PathVariable("id") Long id,
                                                    @Valid @RequestPart("category") Category category,
                                                    @RequestPart(value = "avatars", required = false) List<MultipartFile> avatars) {
-        Category ecategory = categoryService.getCategoryById(id)
+        Category existingCategory = categoryService.getCategoryById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + id));
         
-                ecategory.setName(category.getName());
-                ecategory.setDisplay(category.isDisplay());
+                existingCategory.setName(category.getName());
+                existingCategory.setDisplay(category.isDisplay());
 
         if (avatars != null && !avatars.isEmpty()) {
             for (MultipartFile avatar : avatars) {
                 if (!avatar.isEmpty()) {
                     try {
-                        String seoUrl = CommonFunction.SEOUrl(ecategory.getName());
-                        ecategory.setAvatar(CommonFunction.saveFile(seoUrl, "/categories", avatar));
+                        String seoUrl = CommonFunction.SEOUrl(existingCategory.getName());
+                        existingCategory.setAvatar(CommonFunction.saveFile(seoUrl, "/categories", avatar));
                     } catch (IOException e) {
                         e.printStackTrace();
                         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -89,8 +89,8 @@ public class CategoryApiController {
             }
         }
 
-        categoryService.updateCategory(ecategory);
-        return new ResponseEntity<Category>(ecategory, HttpStatus.OK);
+        categoryService.updateCategory(existingCategory);
+        return new ResponseEntity<Category>(existingCategory, HttpStatus.OK);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Category> deleteCategory(@PathVariable("id") Long id) {

@@ -2,6 +2,8 @@ package com.stores.stridestar.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,5 +40,6 @@ public class Category {
     private boolean display;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
+    @JsonManagedReference
     private List<Product> products;
 }
