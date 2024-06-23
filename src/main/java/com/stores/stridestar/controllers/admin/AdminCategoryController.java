@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/admin/categories")
-public class AdminCategoryController {
+public class     AdminCategoryController {
     @Autowired
     private CategoryService categoryService;
 
