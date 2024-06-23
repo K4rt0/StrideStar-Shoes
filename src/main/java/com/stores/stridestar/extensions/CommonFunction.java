@@ -10,9 +10,6 @@ import java.nio.file.StandardCopyOption;
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.ResourceUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class CommonFunction {
@@ -37,13 +34,15 @@ public class CommonFunction {
                 String extension = "";
                 String fileName = file.getOriginalFilename();
 
-                int i = fileName.lastIndexOf('.');
-                if (i > 0) {
-                    extension = fileName.substring(i+1);
+                if(fileName != null) {
+                    int i = fileName.lastIndexOf('.');
+                    if (i > 0) {
+                        extension = fileName.substring(i+1);
+                    }
+                    seoUrl = seoUrl + "." + extension;
+                    Path filePath = uploadPath.resolve(seoUrl);
+                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
                 }
-                seoUrl = seoUrl + "." + extension;
-                Path filePath = uploadPath.resolve(seoUrl);
-                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
                 return seoUrl;
             } catch (IOException e) {
                 throw new IOException("Could not save uploaded file: " + seoUrl, e);

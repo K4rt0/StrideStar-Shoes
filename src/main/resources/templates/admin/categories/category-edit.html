@@ -8,23 +8,23 @@
 </head>
 <body>
     <section layout:fragment="content">
-        <form th:action="@{/admin/categories/edit/{id}(id=${category.id})}" th:object="${category}" enctype="multipart/form-data" method="post">
+        <form id="categoryForm" enctype="multipart/form-data" method="post">
             <div class="row">
                 <div class="col-8">
                     <div class="card mb-4">
-                        <div class="card-header">Chỉnh sửa danh mục - [[${category.name}]]</div>
+                        <div class="card-header">Chỉnh sửa danh mục - <span id="category-title"></span></div>
                         <div class="card-body">
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="name">Tên danh mục</label>
+                                <label class="col-sm-2 col-form-label" for="category-name">Tên danh mục</label>
                                 <div class="col-sm-10 align-content-center">
-                                    <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Nike, Adidas,...">
+                                    <input type="text" class="form-control" id="category-name" placeholder="Nike, Adidas,...">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="display">Hiển thị</label>
+                                <label class="col-sm-2 col-form-label" for="category-display">Hiển thị</label>
                                 <div class="col-sm-10 align-content-center">
                                     <label class="switch switch-primary">
-                                        <input type="checkbox" id="display" th:field="*{display}" class="switch-input">
+                                        <input type="checkbox" id="category-display" class="switch-input">
                                         <span class="switch-toggle-slider">
                                             <span class="switch-on">
                                                 <i class="bx bx-check"></i>
@@ -40,6 +40,7 @@
                                 <label class="col-sm-2 col-form-label"></label>
                                 <div class="col-sm-10 align-content-center">
                                     <button type="submit" class="btn btn-primary">Sửa</button>
+                                    <a href="/admin/categories" class="btn btn-secondary">Trở về</a>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +56,7 @@
                                     Kéo thả hoặc ấn vào để tải ảnh
                                     <span class="note needsclick">(Tối đa 5MB)</span>
                                 </div>
-                                <input name="avatar" type="file" hidden />
+                                <input id="avatar" name="avatar" type="file" hidden />
                             </div>
                         </div>
                     </div>
@@ -65,7 +66,53 @@
         </form>
         <script src="/admin/vendor/libs/dropzone/dropzone.js"></script>
         <script src="/admin/js/forms-file-upload.js"></script>
-        
+        <script>
+            $(document).ready(function() {
+                var categoryId = window.location.pathname.split('/').pop();
+                $.ajax({
+                    url: '/api/categories/getById/' + categoryId,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#category-title').text(response.name);
+                        $('#category-name').val(response.name);
+                        $('#category-display').prop('checked', response.display);
+                    }
+                });
+
+                $('#categoryForm').submit(function(e) {
+                    e.preventDefault();
+                    var formData = new FormData();
+                    var category = {
+                        name: $('#category-name').val(),
+                        display: $('#category-display').is(':checked')
+                    };
+                    formData.append('category', new Blob([JSON.stringify(category)], {type: "application/json"}));
+
+                    var files = $('#avatar')[0].files;
+                    if (files.length > 0) {
+                        for (var i = 0; i < files.length; i++) {
+                            formData.append('avatars', files[i]);
+                        }
+                    }
+
+                    $.ajax({
+                        url: '/api/categories/update/' + categoryId,
+                        type: 'PUT',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        success: function(response) {
+                            alert("Cập nhật danh mục thành công !");
+                            window.location.href = '/admin/categories';
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Cập nhật danh mục thất bại: ' + xhr.responseText);
+                        }
+                    });
+                });
+            });
+        </script>
     </section>
 </body>
 </html>
