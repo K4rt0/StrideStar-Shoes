@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("/")
 public class HomeController {
@@ -15,7 +17,14 @@ public class HomeController {
 
     @GetMapping
     public String home(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
+        var products =  productService.getAllProducts();
+        model.addAttribute("products",products.stream()
+                                                .limit(8)
+                                                .collect(Collectors.toList()));
+
+        var bestProducts = products.stream().limit(6).collect(Collectors.toList());
+        model.addAttribute("bestProducts", bestProducts);
+
         return "main-site/home/index";
     }
 }
