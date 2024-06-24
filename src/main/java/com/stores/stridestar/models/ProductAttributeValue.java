@@ -1,16 +1,12 @@
 package com.stores.stridestar.models;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -36,8 +32,14 @@ public class ProductAttributeValue {
 
     @ManyToOne
     @JoinColumn(name = "productAttribute_id")
+    @JsonBackReference
     private ProductAttribute productAttribute;
 
-    @OneToMany(mappedBy = "productAttributeValue")
-    private List<VariantAttribute> variantAttributes;
+    @ManyToMany
+    @JoinTable(
+            name = "product_attribute_value_variant",
+            joinColumns = @JoinColumn(name = "product_attribute_value_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_variant_id")
+    )
+    private Set<ProductVariant> variants = new HashSet<>();
 }

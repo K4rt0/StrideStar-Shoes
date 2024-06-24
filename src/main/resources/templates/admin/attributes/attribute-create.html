@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+    layout:decorate="~{admin/adminLayout}">
+<head>
+    <title>Stride Star - Thêm thuộc tính</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <section layout:fragment="content">
+        <div class="row">
+            <div class="col-12 col-lg-6 col-md-12">
+                <div class="card mb-4">
+                    <div class="card-header">Thêm thuộc tính</div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="name">Tên thuộc tính</label>
+                            <div class="col-sm-10 align-content-center">
+                                <input type="text" class="form-control" id="attributeName" placeholder="Màu sắc, size,...">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10 align-content-center">
+                                <button id="createAttribute" class="btn btn-primary">Tạo mới</button>
+                                <a href="/admin/attributes" class="btn btn-secondary">Trở về</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-md-12">
+                <div class="card mb-4">
+                    <div class="card-header">Thêm giá trị thuộc tính</div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="value">Giá trị</label>
+                            <div class="col-7 align-content-center">
+                                <input type="text" class="form-control" id="attributeValue">
+                            </div>
+                            <div class="col-2 align-content-center">
+                                <button id="addAttributeValue" class="btn btn-warning"><i class="fa-regular fa-plus me-1"></i> Thêm</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-bordered" id="attributeValuesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Giá trị</th>
+                                            <th style="width: 140px;">Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                let attributeValues = [];
+
+                $('#createAttribute').click(function() {
+                    const name = $('#attributeName').val();
+                    if (name) {
+                        const productAttribute = {
+                            name: name,
+                            productAttributeValues: attributeValues.map(value => ({ value: value }))
+                        };
+                        $.ajax({
+                            url: '/api/attributes/create',
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify(productAttribute),
+                            success: function(response) {
+                                window.location.href = '/admin/attributes';
+                                showIziToast('Thông báo', 'Tạo thuộc tính thành công !');
+                            },
+                            error: function(error) {
+                                showIziToast('Lỗi', 'Tạo thuộc tính không thành công !', 'red');
+                                alert('Lỗi khi tạo thuộc tính!');
+                                console.error(error);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        showIziToast('Cảnh báo', 'Bạn chưa nhập tên thuộc tính !', 'yellow');
+                    }
+                });
+
+                $('#addAttributeValue').click(function() {
+                    const value = $('#attributeValue').val();
+                    if (value) {
+                        attributeValues.push(value);
+                        $('#attributeValuesTable tbody').append(
+                            '<tr>' +
+                            '<td class="value-cell">' + value + '</td>' +
+                            '<td>' +
+                            '<button class="btn btn-warning btn-sm editValue" data-value="' + value + '">Sửa</button> ' +
+                            '<button class="btn btn-danger btn-sm removeValue" data-value="' + value + '">Xoá</button>' +
+                            '</td>' +
+                            '</tr>'
+                        );
+                        $('#attributeValue').val('');
+                    }
+                    else
+                    {
+                        showIziToast('Cảnh báo', 'Bạn chưa nhập giá trị thuộc tính !', 'yellow');
+                    }
+                });
+
+                $(document).on('click', '.removeValue', function() {
+                    const value = $(this).data('value');
+                    attributeValues = attributeValues.filter(v => v !== value);
+                    $(this).closest('tr').remove();
+                });
+
+                $(document).on('click', '.editValue', function() {
+                    const value = $(this).data('value');
+                    const $row = $(this).closest('tr');
+                    const $valueCell = $row.find('.value-cell');
+                    const newValue = prompt("Sửa giá trị thuộc tính:", value);
+                    if (newValue) {
+                        const index = attributeValues.indexOf(value);
+                        if (index !== -1) {
+                            attributeValues[index] = newValue;
+                            $valueCell.text(newValue);
+                            $(this).data('value', newValue);
+                            $row.find('.removeValue').data('value', newValue);
+                        }
+                    }
+                });
+            });
+        </script>
+    </section>
+</body>
+</html>
