@@ -40,12 +40,14 @@ public class SecurityConfig {
         return auth; // Trả về nhà cung cấp xác thực.
     }
 
+
+
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http
             .csrf(CsrfConfigurer::disable)
             .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/api/**", "/main-site/**", "/fontawesome/**", "/shop/**", "/","/register", "/user/**").permitAll()
+                .requestMatchers("/api/**", "/main-site/**", "/fontawesome/**", "/shop/**", "/","/register", "/user/**","/about/**","/blogs/**", "/contact/**").permitAll()
                 .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated())
             .formLogin(formLogin -> formLogin

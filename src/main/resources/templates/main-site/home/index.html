@@ -179,7 +179,7 @@
                               <li><a href="shop.html">Women</a></li>
                             </ul>
                           </div>
-                          <h4 class="title"><a href="single-product.html" th:text="${product.name}"></a></h4>
+                          <h4 class="title"><a th:href="@{'/shop/product-detail/' + ${product.id}}" th:text="${product.name}"></a></h4>
                           <div class="prices">
                             <span class="price-old" th:if="${product.variants[0].price != null}" th:text="'$' + ${product.variants[0].price}"></span>
                             <span class="sep">-</span>
@@ -342,7 +342,7 @@
                                       <li><a href="shop.html">Women</a></li>
                                     </ul>
                                   </div>
-                                  <h4 class="title"><a href="single-product.html" th:text="${product.name}"></a></h4>
+                                  <h4 class="title"><a th:href="@{'/shop/product-detail/' + ${product.id}}" th:text="${product.name}"></a></h4>
                                   <div class="prices">
                                     <span class="price-old" th:if="${product.variants[0].price != null}" th:text="'$' + ${product.variants[0].price}"></span>
                                     <span class="sep">-</span>
