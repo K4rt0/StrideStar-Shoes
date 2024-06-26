@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+    layout:decorate="~{admin/adminLayout}">
+<head>
+    <title>Stride Star - Danh sách sản phẩm</title>
+</head>
+<body>
+    <section layout:fragment="content">
+        <div class="card">
+            <div class="card-header">
+                <div class="row px-3">
+                    <h5 class="col-auto me-auto my-auto p-0">Danh sách sản phẩm</h5>
+                    <a href="/admin/products/create" class="btn btn-primary col-auto"><i class="fa-solid fa-plus me-1"></i>Thêm</a>
+                </div>
+            </div>
+            <div class="table-responsive text-nowrap">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên danh mục</th>
+                            <th>Hiển thị</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="productList" class="table-border-bottom-0">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                updateProductForm();
+
+                $(document).on('click', '.deleteProduct', function() {
+                    var row = $(this).closest('tr');
+                    if (confirm('Bạn có chắc chắn muốn xóa thuộc tính này?')) {
+                        $.ajax({
+                            url: '/api/products/delete/' + $(this).data('id'),
+                            type: 'DELETE',
+                            success: function() {
+                                row.remove();
+                                showIziToast('Thành công', 'Xóa thuộc tính thành công!', 'green');
+                            },
+                            error: function() {
+                                showIziToast('Lỗi', 'Xóa thuộc tính thất bại!', 'red');
+                            }
+                        });
+                    }
+                });
+
+                function updateProductForm() {
+                    $.ajax({
+                        url: '/api/products/getAll',
+                        type: 'GET',
+                        success: function(response) {
+                            $('#productList').empty();
+                            if(response != null) {
+                                response.forEach(function(product) {
+                                    $('#productList').append(`
+                                        <tr>
+                                            <td>${product.id}</td>
+                                            <td>
+                                                <img src="/images/products/${product.image}" width="60px" height="60px" alt="${product.name}" class="product-image rounded-circle me-2 object-fit-cover"> ${product.name}
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-label-${product.display ? 'success' : 'warning'} me-1">${product.display ? 'Hiển thị' : 'Ẩn'}</span>
+                                            </td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="/admin/products/edit/${product.id}">
+                                                            <i class="bx bx-edit-alt me-1"></i> Sửa
+                                                        </a>
+                                                        <a href="#" class="deleteProduct dropdown-item" data-id="${product.id}">
+                                                            <i class="bx bx-trash me-1"></i> Xoá
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    `);
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    </section>
+</body>
+</html>
