@@ -33,6 +33,7 @@ public class UserService implements UserDetailsService {
     public void save(@NotNull User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user.setCreatedDate(LocalDateTime.now()) ;
+        user.setProvider(Provider.LOCAL.value);
         userRepository.save(user);
     }
 
