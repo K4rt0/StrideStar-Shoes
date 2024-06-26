@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main-site/layout}">
+<head>
+  <title>Đăng ký</title>
+</head>
+<body>
+<section layout:fragment="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8 m-auto">
+        <div class="section-title text-center">
+          <h2 class="title">Đăng ký</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="login-form-content">
+          <form th:action="@{/register}" method="post">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="username">Tên đăng nhập<span class="required">*</span></label>
+                  <input id="username" class="form-control" type="text" name="username">
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="fullname">Họ và tên <span class="required">*</span></label>
+                  <input id="fullname" class="form-control" type="text" name="fullName">
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="email">Email <span class="required">*</span></label>
+                  <input id="email" class="form-control" type="text" name="email">
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="password">Mật khẩu <span class="required">*</span></label>
+                  <input id="password" class="form-control" type="password" name="password">
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <button class="btn-login" type="submit">Đăng ký</button>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group account-info-group mb--0">
+                  <div>
+                    Đã có tài khoản?
+                    <a href="/login">
+                      Đăng nhập
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -135,7 +135,7 @@
             <!--== End Product Category Area Wrapper ==-->
       
             <!--== Start Product Area Wrapper ==-->
-            <section class="product-area product-default-area product-featured-area">
+            <!-- <section class="product-area product-default-area product-featured-area">
               <div class="container">
                 <div class="row">
                   <div class="col-12">
@@ -149,7 +149,6 @@
                 </div>
                 <div class="row">
                   <div class="col-sm-6 col-lg-3" th:each="product : ${products}">
-                    <!--== Start Product Item ==-->
                     <div class="product-item">
                       <div class="inner-content">
                         <div class="product-thumb">
@@ -181,19 +180,17 @@
                           </div>
                           <h4 class="title"><a href="single-product.html" th:text="${product.name}"></a></h4>
                           <div class="prices">
-                            <span class="price-old">$100</span>
+                            <span class="price-old" th:if="${product.variants[0].price != null}" th:text="'$' + ${product.variants[0].price}"></span>
                             <span class="sep">-</span>
-                            <span class="price">$240.00</span>
+                            <span class="price" th:if="${product.variants[0].price != null}" th:text="'$' + ${product.variants[0].price}"></span>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <!--== End proPduct Item ==-->
                   </div>
-
                 </div>
               </div>
-            </section>
+            </section> -->
             <!--== End Product Area Wrapper ==-->
       
             <!--== Start Divider Area Wrapper ==-->
@@ -299,7 +296,7 @@
                 <div class="row">
                   <div class="col-12">
                     <div class="section-title text-center">
-                      <h3 class="title">Best Seller</h3>
+                      <h3 class="title">Mua nhiều nhất</h3>
                       <div class="desc">
                         <p>There are many variations of passages of Lorem Ipsum available</p>
                       </div>
@@ -311,7 +308,7 @@
                     <div class="product-slider-wrap">
                       <div class="swiper-container product-slider-col4-container">
                         <div class="swiper-wrapper">
-                          <div class="swiper-slide">
+                          <div class="swiper-slide" th:each="product : ${bestProducts}">
                             <!--== Start Product Item ==-->
                             <div class="product-item">
                               <div class="inner-content">
@@ -325,219 +322,29 @@
                                     </ul>
                                   </div>
                                   <div class="product-action">
-                            <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                            <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                            <button type="button" class="btn-product-quick-view-open">
-                              <i class="fa fa-arrows"></i>
-                            </button>
-                            <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
-                          </div>
+                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                    <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
+                                    <button type="button" class="btn-product-quick-view-open">
+                                      <i class="fa fa-arrows"></i>
+                                    </button>
+                                    <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
+                                  </div>
                                   <a class="banner-link-overlay" href="shop.html"></a>
                                 </div>
                                 <div class="product-info">
                                   <div class="category">
-                            <ul>
-                              <li><a href="shop.html">Men</a></li>
-                                      <li class="sep">/</li>
-                                      <li><a href="shop.html">Women</a></li>
-                                    </ul>
-                                  </div>
-                                  <h4 class="title"><a href="single-product.html">Modern Smart Shoes</a></h4>
-                                  <div class="prices">
-                                    <span class="price-old">$200</span>
-                                    <span class="sep">-</span>
-                                    <span class="price">$240.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <!--== End prPduct Item ==-->
-                          </div>
-                          <div class="swiper-slide">
-                            <!--== Start Product Item ==-->
-                            <div class="product-item">
-                              <div class="inner-content">
-                                <div class="product-thumb">
-                                  <a href="single-product.html">
-                                    <img src="/main-site/img/shop/7.webp" width="270" height="274" alt="Image-HasTech">
-                                  </a>
-                                  <div class="product-action">
-                            <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                            <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                            <button type="button" class="btn-product-quick-view-open">
-                              <i class="fa fa-arrows"></i>
-                            </button>
-                            <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
-                          </div>
-                                  <a class="banner-link-overlay" href="shop.html"></a>
-                                </div>
-                                <div class="product-info">
-                                  <div class="category">
-                            <ul>
-                              <li><a href="shop.html">Men</a></li>
-                                      <li class="sep">/</li>
-                                      <li><a href="shop.html">Women</a></li>
-                                    </ul>
-                                  </div>
-                                  <h4 class="title"><a href="single-product.html">Quickiin Mens shoes</a></h4>
-                                  <div class="prices">
-                                    <span class="price">$440.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <!--== End prPduct Item ==-->
-                          </div>
-                          <div class="swiper-slide">
-                            <!--== Start Product Item ==-->
-                            <div class="product-item">
-                              <div class="inner-content">
-                                <div class="product-thumb">
-                                  <a href="single-product.html">
-                                    <img src="/main-site/img/shop/3.webp" width="270" height="274" alt="Image-HasTech">
-                                  </a>
-                                  <div class="product-flag">
                                     <ul>
-                                      <li class="discount">-10%</li>
-                                    </ul>
-                                  </div>
-                                  <div class="product-action">
-                            <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                            <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                            <button type="button" class="btn-product-quick-view-open">
-                              <i class="fa fa-arrows"></i>
-                            </button>
-                            <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
-                          </div>
-                                  <a class="banner-link-overlay" href="shop.html"></a>
-                                </div>
-                                <div class="product-info">
-                                  <div class="category">
-                            <ul>
-                              <li><a href="shop.html">Men</a></li>
+                                      <li>
+                                        <a href="shop.html">Men</a></li>
                                       <li class="sep">/</li>
                                       <li><a href="shop.html">Women</a></li>
                                     </ul>
                                   </div>
-                                  <h4 class="title"><a href="single-product.html">Rexpo Womens shoes</a></h4>
+                                  <h4 class="title"><a href="single-product.html" th:text="${product.name}"></a></h4>
                                   <div class="prices">
-                                    <span class="price-old">$130</span>
+                                    <span class="price-old" th:if="${product.variants[0].price != null}" th:text="'$' + ${product.variants[0].price}"></span>
                                     <span class="sep">-</span>
-                                    <span class="price">$333.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <!--== End prPduct Item ==-->
-                          </div>
-                          <div class="swiper-slide">
-                            <!--== Start Product Item ==-->
-                            <div class="product-item">
-                              <div class="inner-content">
-                                <div class="product-thumb">
-                                  <a href="single-product.html">
-                                    <img src="/main-site/img/shop/4.webp" width="270" height="274" alt="Image-HasTech">
-                                  </a>
-                                  <div class="product-action">
-                            <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                            <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                            <button type="button" class="btn-product-quick-view-open">
-                              <i class="fa fa-arrows"></i>
-                            </button>
-                            <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
-                          </div>
-                                  <a class="banner-link-overlay" href="shop.html"></a>
-                                </div>
-                                <div class="product-info">
-                                  <div class="category">
-                            <ul>
-                              <li><a href="shop.html">Men</a></li>
-                                      <li class="sep">/</li>
-                                      <li><a href="shop.html">Women</a></li>
-                                    </ul>
-                                  </div>
-                                  <h4 class="title"><a href="single-product.html">Leather Mens Slipper</a></h4>
-                                  <div class="prices">
-                                    <span class="price">$540.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <!--== End prPduct Item ==-->
-                          </div>
-                          <div class="swiper-slide">
-                            <!--== Start Product Item ==-->
-                            <div class="product-item">
-                              <div class="inner-content">
-                                <div class="product-thumb">
-                                  <a href="single-product.html">
-                                    <img src="/main-site/img/shop/5.webp" width="270" height="274" alt="Image-HasTech">
-                                  </a>
-                                  <div class="product-action">
-                            <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                            <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                            <button type="button" class="btn-product-quick-view-open">
-                              <i class="fa fa-arrows"></i>
-                            </button>
-                            <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
-                          </div>
-                                  <a class="banner-link-overlay" href="shop.html"></a>
-                                </div>
-                                <div class="product-info">
-                                  <div class="category">
-                            <ul>
-                              <li><a href="shop.html">Men</a></li>
-                                      <li class="sep">/</li>
-                                      <li><a href="shop.html">Women</a></li>
-                                    </ul>
-                                  </div>
-                                  <h4 class="title"><a href="single-product.html">Primitive Mens shoes</a></h4>
-                                  <div class="prices">
-                                    <span class="price-old">$40</span>
-                                    <span class="sep">-</span>
-                                    <span class="price">$280.00</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <!--== End prPduct Item ==-->
-                          </div>
-                          <div class="swiper-slide">
-                            <!--== Start Product Item ==-->
-                            <div class="product-item">
-                              <div class="inner-content">
-                                <div class="product-thumb">
-                                  <a href="single-product.html">
-                                    <img src="/main-site/img/shop/6.webp" width="270" height="274" alt="Image-HasTech">
-                                  </a>
-                                  <div class="product-flag">
-                                    <ul>
-                                      <li class="discount">-10%</li>
-                                    </ul>
-                                  </div>
-                                  <div class="product-action">
-                            <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                            <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                            <button type="button" class="btn-product-quick-view-open">
-                              <i class="fa fa-arrows"></i>
-                            </button>
-                            <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
-                          </div>
-                                  <a class="banner-link-overlay" href="shop.html"></a>
-                                </div>
-                                <div class="product-info">
-                                  <div class="category">
-                            <ul>
-                              <li><a href="shop.html">Men</a></li>
-                                      <li class="sep">/</li>
-                                      <li><a href="shop.html">Women</a></li>
-                                    </ul>
-                                  </div>
-                                  <h4 class="title"><a href="single-product.html">Simple Fabric Shoe</a></h4>
-                                  <div class="prices">
-                                    <span class="price-old">$400</span>
-                                    <span class="sep">-</span>
-                                    <span class="price">$580.00</span>
+                                    <span class="price" th:if="${product.variants[0].price != null}" th:text="'$' + ${product.variants[0].price}"></span>
                                   </div>
                                 </div>
                               </div>
