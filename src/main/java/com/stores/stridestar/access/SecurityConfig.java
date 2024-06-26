@@ -47,7 +47,7 @@ public class SecurityConfig {
         return http
             .csrf(CsrfConfigurer::disable)
             .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/api/**", "/main-site/**", "/fontawesome/**", "/shop/**", "/","/register", "/user/**","/about/**","/blogs/**", "/contact/**").permitAll()
+                .requestMatchers("/api/**", "/main-site/**", "/css/**", "/images/**", "/js/**", "/summernote-bs5/**", "/fontawesome/**", "/shop/**", "/","/register", "/user/**").permitAll()
                 .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated())
             .formLogin(formLogin -> formLogin

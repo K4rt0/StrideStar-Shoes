@@ -1,5 +1,6 @@
 package com.stores.stridestar.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -36,6 +37,6 @@ public class ProductAttribute {
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "productAttribute")
-    @JsonManagedReference
-    private List<ProductAttributeValue> productAttributeValues;
+    @JsonManagedReference("product-attribute")
+    private List<ProductAttributeValue> productAttributeValues = new ArrayList<>();
 }

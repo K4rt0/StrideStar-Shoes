@@ -1,13 +1,14 @@
 package com.stores.stridestar.models;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -25,20 +26,20 @@ public class ProductVariant {
     private Long id;
 
     @Column(name = "price")
-    @NotBlank(message = "Giá sản phẩm không được bỏ trống !")
+    @Min(value = 0, message = "Giá của sản phẩm phải từ 0đ !")
     private double price;
 
     @Column(name = "quantity")
-    @NotBlank(message = "Số lượng sản phẩm không được bỏ trống !")
-    @Size(min = 0, message = "Số lượng sản phẩm phải từ 0 !")
+    @Min(value = 0, message = "Số lượng sản phẩm phải từ 0 !")
     private int quantity;
 
     @ManyToOne
+    @JsonBackReference("product-variant")
     @JoinColumn(name = "product_id")
-    @JsonBackReference
     private Product product;
 
-    @ManyToMany(mappedBy = "variants")
-    private Set<ProductAttributeValue> attributeValues = new HashSet<>();
+    @OneToMany(mappedBy = "productVariant")
+    @JsonManagedReference("variant-attribute-variant")
+    private List<VariantAttribute> variantAttributes = new ArrayList<>();
 
 }

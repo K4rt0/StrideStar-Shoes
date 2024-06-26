@@ -21,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.stores.stridestar.extensions.CommonFunction;
 import com.stores.stridestar.models.Category;
+import com.stores.stridestar.models.Product;
 import com.stores.stridestar.services.CategoryService;
+import com.stores.stridestar.services.ProductService;
 
 import jakarta.validation.Valid;
 
@@ -32,6 +34,9 @@ public class CategoryApiController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private ProductService productService;
+    
     @GetMapping("/getAll")
     public ResponseEntity<List<Category>> getAll() {
         List<Category> categories = categoryService.getAllCategories();
@@ -98,6 +103,11 @@ public class CategoryApiController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + id));
         if(category == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        
+        List<Product> products = productService.getAllByCategoryId(id);
+        products.forEach(product -> {
+            productService.deleteById(product.getId());
+        });
         categoryService.deleteCategoryById(id);
         return new ResponseEntity<Category>(category, HttpStatus.OK);
     }

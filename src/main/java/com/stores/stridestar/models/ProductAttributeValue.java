@@ -1,10 +1,10 @@
 package com.stores.stridestar.models;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -32,14 +32,10 @@ public class ProductAttributeValue {
 
     @ManyToOne
     @JoinColumn(name = "productAttribute_id")
-    @JsonBackReference
+    @JsonBackReference("product-attribute")
     private ProductAttribute productAttribute;
 
-    @ManyToMany
-    @JoinTable(
-            name = "product_attribute_value_variant",
-            joinColumns = @JoinColumn(name = "product_attribute_value_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_variant_id")
-    )
-    private Set<ProductVariant> variants = new HashSet<>();
+    @OneToMany(mappedBy = "productAttributeValue")
+    @JsonManagedReference("variant-attribute-value")
+    private List<VariantAttribute> variantAttributes = new ArrayList<>();
 }

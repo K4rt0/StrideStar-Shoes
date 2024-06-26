@@ -1,5 +1,7 @@
 package com.stores.stridestar.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +20,7 @@ public class ProductImage {
     private String url;
 
     @ManyToOne
+    @JsonBackReference("product-images")
     @JoinColumn(name = "product_id")
     private Product product;
 }

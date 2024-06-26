@@ -1,6 +1,10 @@
 package com.stores.stridestar.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -34,10 +38,14 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonBackReference
+    @JsonBackReference("category-product")
     private Category category;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
-    @JsonManagedReference
-    private List<ProductVariant> variants;
+    @JsonManagedReference("product-variant")
+    private List<ProductVariant> productVariants = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+    @JsonManagedReference("product-images")
+    private List<ProductImage> productImages = new ArrayList<>();
 }

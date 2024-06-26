@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+    layout:decorate="~{admin/adminLayout}">
+<head>
+    <title>Stride Star - Tạo sản phẩm</title>
+    <link rel="stylesheet" href="/summernote-bs5/summernote-bs5.min.css">
+    <link rel="stylesheet" href="/admin/vendor/libs/dropzone/dropzone.css" />
+</head>
+<body>
+    <section layout:fragment="content">
+        <form id="form-addProduct" enctype="multipart/form-data">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between">
+                    <h5 class="card-title m-0 align-content-center">Thêm sản phẩm</h5>
+                    <div class="form-floating">
+                        <a href="/admin/products" class="btn btn-secondary">Trở về</a>
+                        <button type="submit" class="btn btn-primary">Thêm</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-9 col-md-12">
+                            <div class="row mb-3">
+                                <div class="col-12 col-lg-6 col-md-12 mb-3">
+                                    <label class="form-label" for="product-name">Tên sản phẩm</label>
+                                    <input type="text" class="form-control" id="product-name" placeholder="Nike, Adidas,...">
+                                </div>
+                                <div class="col-12 col-lg-4 col-md-12 mb-3">
+                                    <label class="form-label" for="product-category">Danh mục</label>
+                                    <select class="form-select" id="product-category">
+                                        <option value="0" selected>Chọn danh mục</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-lg-2 col-md-12 mb-3">
+                                    <label class="form-label" for="product-display">Hiển thị</label>
+                                    <div class="col-sm-10 align-content-center">
+                                        <label class="switch switch-lg">
+                                            <input type="checkbox" id="product-display" class="switch-input">
+                                            <span class="switch-toggle-slider">
+                                                <span class="switch-on">
+                                                    <i class="bx bx-check"></i>
+                                                </span>
+                                                <span class="switch-off">
+                                                    <i class="bx bx-x"></i>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <textarea id="product-description" class="summernote"></textarea>
+                        </div>
+                        <div class="col-12 col-lg-3 col-md-12">
+                            <div class="card mb-4">
+                                <h5 class="card-header p-3">Hình ảnh</h5>
+                                <div class="card-body p-0 px-3">
+                                    <div class="ratio ratio-1x1 border border-2 border-dashed rounded">
+                                        <img id="preview-avatar" class="rounded object-fit-cover img-fluid p-1">
+                                    </div>
+                                </div>
+                                <div class="card-footer p-3">
+                                    <input type="file" id="avatar" class="form-control" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4 p-3">
+                        <h5 class="card-header p-0 py-3">Ảnh mô tả</h5>
+                        <div class="card-body p-0">
+                            <div class="dropzone needsclick dz-clickable p-0" id="dropzone-multi" data-type="images">
+                                <div class="dz-message needsclick">
+                                    Kéo thả hoặc ấn vào để tải ảnh
+                                    <span class="note needsclick">(Tối đa 5MB)</span>
+                                </div>
+                                <input id="images" name="images" type="file" multiple hidden />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="variantForm">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between">
+                        <h5 class="card-title m-0 align-content-center">Thêm biến thể</h5>
+                        <div class="form-floating">
+                            <button type="button" id="btn-addVariant" class="btn btn-primary">Thêm</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="variantList" class="accordion mt-3 accordion-without-arrow">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <script src="/summernote-bs5/summernote-bs5.js"></script>
+        <script src="/admin/vendor/libs/dropzone/dropzone.js"></script>
+        <script src="/admin/js/forms-file-upload.js"></script>
+        <script>
+            let attributes = [];
+            let variants = [];
+            $(document).ready(function() {
+                let attributeHtml = '';
+                let variantId = 0;
+                getAttribute();
+                uploadCategory();
+
+                $('#avatar').change(function() {
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            $('#preview-avatar').attr('src', e.target.result);
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+                
+                
+                //#region Variant
+                $('#btn-addVariant').click(function() {
+                    $('#variantList').append(`
+                        <div class="accordion-item card">
+                            <h2 class="accordion-header text-body d-flex justify-content-between">
+                                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#variantList-${variantId}" aria-controls="variantList-${variantId}">
+                                    <span>Product Variant #${variantId + 1}</span>
+                                    <button type="button" data-id="${variantId}" class="btn-deleteVariant btn bg-transparent text-danger"><i class="fa-sharp fa-solid fa-xmark"></i></button>
+                                </button>
+                            </h2>
+                
+                            <div id="variantList-${variantId}" class="accordion-collapse collapse" data-bs-parent="#variantList">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-12 col-lg-6 col-md-6 mb-3">
+                                            <label class="form-label" for="quantity">Số lượng</label>
+                                            <input type="number" class="form-control variant-quantity" data-id="${variantId}" id="quantity">
+                                        </div>
+                                        <div class="col-12 col-lg-6 col-md-6 mb-3">
+                                            <label class="form-label" for="price">Giá tiền</label>
+                                            <input type="text" class="form-control variant-price" data-id="${variantId}" id="price">
+                                        </div>
+                                    </div>
+                                    <div id="attributeList-${variantId}" data-id="${variantId}" class="c_attributeList row">
+                                        ${attributeHtml}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    variants.push({
+                        variantId: variantId,
+                        quantity: 0,
+                        price: 0,
+                        variantAttributes: []
+                    });
+                    variantId++;
+                });
+                $(document).on('click', '.btn-deleteVariant', function() {
+                    let variantId = $(this).data('id');
+                    let index = variants.findIndex(function(variant) {
+                        return variant.variantId == variantId;
+                    });
+                    variants.splice(index, 1);
+                    $(this).closest('.accordion-item').remove();
+                });
+
+                $(document).on('change', '.variant-quantity, .variant-price', function() {
+                    let variantId = $(this).data('id');
+                    let value = parseInt($(this).val());
+                    let property = $(this).hasClass('variant-quantity') ? 'quantity' : 'price';
+                    let index = variants.findIndex(function(variant) {
+                        return variant.variantId == variantId;
+                    });
+
+                    variants[index][property] = value;
+                });
+
+                $(document).on('change', '.attributeListSelect', function() {
+                    let variantId = $(this).closest('.c_attributeList').data('id');
+                    let selectedAttributeId = $(this).data('attributeid');
+                    let value = parseInt($(this).val());
+                    let index = variants.findIndex(function(variant) {
+                        return variant.variantId == variantId;
+                    });
+                    console.log(index, variantId);
+
+                    if(variants[index].variantAttributes.length > 0) {
+                        let indexFound = variants[index].variantAttributes.findIndex(function(item) {
+                            return item.id === selectedAttributeId;
+                        });
+                        if (indexFound !== -1) {
+                            if(value == 0) {
+                                variants[index].variantAttributes.splice(indexFound, 1);
+                                return
+                            }
+                            variants[index].variantAttributes[indexFound].productAttributeValue.id = value;
+                            return;
+                        }
+                    }
+                    variants[index].variantAttributes.push({
+                        id: selectedAttributeId,
+                        productAttributeValue: {
+                            id: value
+                        },
+                        productVariant: {
+                            id: variantId
+                        }
+                    });
+                });
+                
+                $('#form-addProduct').submit(function(e) {
+                    e.preventDefault();
+
+                    if(validateForm()) {
+                        var name = $('#product-name').val();
+                        var description = $('#product-description').val();
+                        var categoryId = $('#product-category').val();
+                        var display = $('#product-display').is(':checked');
+                        var avatar = $('#avatar')[0].files[0];
+                        var images = $('#images')[0].files;
+
+                        let product = {
+                            name: name,
+                            description: description,
+                            category: {
+                                id: categoryId
+                            },
+                            display: display,
+                            productVariants: variants
+                        };
+
+                        var formData = new FormData();
+                        formData.append("product", new Blob([JSON.stringify(product)], { type: "application/json" }));
+                        if (avatar) {
+                            formData.append("avatar", avatar);
+                        }
+                        for (var i = 0; i < images.length; i++) {
+                            formData.append("images", images[i]);
+                        }
+
+                        $.ajax({
+                            url: '/api/products/create',
+                            type: 'POST',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                if(response != null) {
+                                    window.location.href = '/admin/products';
+                                    showIziToast('Thành công', 'Thêm sản phẩm thành công!', 'green');
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(xhr);
+                                console.log(status);
+                                console.log(error);
+                                showIziToast('Lỗi', 'Thêm sản phẩm thất bại!', 'red');
+                            }
+                        });
+                    }
+                });
+                //#endregion
+
+                function uploadCategory() {
+                    $.ajax({
+                        url: '/api/categories/getAll',
+                        type: 'GET',
+                        success: function(response) {
+                            if(response != null) {
+                                response.forEach(function(category) {
+                                    $('#product-category').append(`<option value="${category.id}">${category.name}</option>`);
+                                });
+                            }
+                        }
+                    });
+                }
+                function getAttribute() {
+                    $.ajax({
+                        url: '/api/attributes/getAll',
+                        type: 'GET',
+                        success: function(response) {
+                            if(response != null)
+                                attributes = response;
+                            loadAttributeHtml();
+                        },
+                        error: function() {
+                            showIziToast('Lỗi', 'Lấy dữ liệu thuộc tính thất bại!', 'red');
+                        }
+                    });
+                }
+                function loadAttributeHtml() {
+                    let i = 0;
+                    attributes.forEach(function(attribute) {
+                        i++;
+                        attributeHtml += `
+                            <div class="col-12 col-lg-2 col-md-2 mb-3">
+                                <label class="form-label" for="variant-${i}">${attribute.name}</label>
+                                <select class="form-select attributeListSelect" data-attributeId="${attribute.id}" id="variant-${i}">
+                                    <option value="0" selected>Chưa chọn</option>
+                        `;
+
+                        attribute.productAttributeValues.forEach(function(value) {
+                            attributeHtml += `<option value="${value.id}">${value.value}</option>`;
+                        });
+                        attributeHtml += `
+                                </select>
+                            </div>
+                        `;
+                    });
+                }
+                function validateForm() {
+                    if($('#product-name').val() == '') {
+                        showIziToast('Lỗi', 'Tên sản phẩm không được để trống !', 'red');
+                        return false;
+                    } else if($('#product-category').val() == 0) {
+                        showIziToast('Lỗi', 'Danh mục không được để trống !', 'red');
+                        return false;
+                    } else if($('#avatar').val() == '') {
+                        showIziToast('Lỗi', 'Hình ảnh không được để trống !', 'red');
+                        return false;
+                    } else if(variants.length == 0) {
+                        showIziToast('Lỗi', 'Biến thể không được để trống !', 'red');
+                        return false;
+                    } else {
+                        for (let variant of variants) {
+                            if (variant.quantity === 0 || variant.price === 0) {
+                                showIziToast('Lỗi', 'Số lượng và giá tiền của mỗi biến thể không được để trống!', 'red');
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
+                }
+                
+                $('.summernote').summernote({
+                    height: 200,
+                    tabsize: 2
+                });
+            });
+        </script>
+    </section>
+</body>
+</html>
