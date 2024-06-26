@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/adminLayout}">
+<head>
+    <title>Stride Star - Chỉnh sửa bài viết blog</title>
+    <link rel="stylesheet" href="/admin/vendor/libs/dropzone/dropzone.css" />
+    <!-- Thêm Summernote CSS cho Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.css" />
+</head>
+<body>
+<section layout:fragment="content">
+    <form th:action="@{/admin/blogs/edit/{id}(id=${blog.id})}" th:object="${blog}" enctype="multipart/form-data" method="post">
+        <div class="row">
+            <div class="col-8">
+                <div class="card mb-4">
+                    <div class="card-header">Chỉnh sửa bài viết blog</div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="blog-title">Tiêu đề</label>
+                            <div class="col-sm-10 align-content-center">
+                                <input type="text" class="form-control" th:field="*{title}" id="blog-title" placeholder="Tiêu đề bài viết">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="blog-content">Nội dung</label>
+                            <div class="col-sm-10 align-content-center">
+                                <textarea class="form-control" th:field="*{content}" id="blog-content" placeholder="Nội dung bài viết"></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10 align-content-center">
+                                <button type="submit" class="btn btn-primary">Lưu</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Basic -->
+            <div class="col-4">
+                <div class="card mb-4">
+                    <h5 class="card-header">Ảnh đại diện</h5>
+                    <div class="card-body">
+                        <div class="dropzone needsclick dz-clickable" id="dropzone-basic" data-type="images">
+                            <div class="dz-message needsclick">
+                                Kéo thả hoặc ấn vào để tải ảnh
+                                <span class="note needsclick">(Tối đa 5MB)</span>
+                            </div>
+                            <input name="avatar" type="file" hidden onchange="loadFile(event)" />
+                        </div>
+                       <!-- <div class="row mt-3">
+                            <div class="col-12">
+                                <img id="preview" th:src="@{${blog.avatarUrl}}" alt="Ảnh đại diện" style="display: block; max-width: 100%; height: auto;" />
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <!-- /Basic -->
+        </div>
+    </form>
+    <script src="/admin/vendor/libs/dropzone/dropzone.js"></script>
+    <script src="/admin/js/forms-file-upload.js"></script>
+    <!-- Thêm jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Thêm Summernote JS cho Bootstrap 5 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js"></script>
+    <!-- Khởi tạo Summernote -->
+    <script>
+        $(document).ready(function() {
+            $('#blog-content').summernote({
+                height: 300,                 // set editor height
+                minHeight: null,             // set minimum height of editor
+                maxHeight: null,             // set maximum height of editor
+                focus: true                  // set focus to editable area after initializing summernote
+            });
+        });
+
+        function loadFile(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('preview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</section>
+</body>
+</html>
