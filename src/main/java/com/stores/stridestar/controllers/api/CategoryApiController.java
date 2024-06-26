@@ -31,15 +31,15 @@ import jakarta.validation.Valid;
 public class CategoryApiController {
     @Autowired
     private CategoryService categoryService;
-    
+
     @GetMapping("/getAll")
     public ResponseEntity<List<Category>> getAll() {
         List<Category> categories = categoryService.getAllCategories();
 
-		if(categories.isEmpty())
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if(categories.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-		return new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
+        return new ResponseEntity<List<Category>>(categories, HttpStatus.OK);
     }
     @PostMapping("/create")
     public ResponseEntity<Category> createCategory(@Valid @RequestPart("category") Category category,
@@ -71,9 +71,9 @@ public class CategoryApiController {
                                                    @RequestPart(value = "avatars", required = false) List<MultipartFile> avatars) {
         Category existingCategory = categoryService.getCategoryById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + id));
-        
-                existingCategory.setName(category.getName());
-                existingCategory.setDisplay(category.isDisplay());
+
+        existingCategory.setName(category.getName());
+        existingCategory.setDisplay(category.isDisplay());
 
         if (avatars != null && !avatars.isEmpty()) {
             for (MultipartFile avatar : avatars) {
@@ -95,7 +95,7 @@ public class CategoryApiController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Category> deleteCategory(@PathVariable("id") Long id) {
         Category category = categoryService.getCategoryById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + id));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + id));
         if(category == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         categoryService.deleteCategoryById(id);

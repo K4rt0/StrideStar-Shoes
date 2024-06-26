@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -23,11 +24,6 @@ public class ProductVariant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 50)
-    @NotBlank(message = "Giá trị thuộc tính không được bỏ trống !")
-    @Size(min = 1, max = 50, message = "Giá trị thuộc tính phải từ 1 đến 50 ký tự !")
-    private String value;
-
     @Column(name = "price")
     @NotBlank(message = "Giá sản phẩm không được bỏ trống !")
     private double price;
@@ -39,6 +35,7 @@ public class ProductVariant {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonBackReference
     private Product product;
 
     @ManyToMany(mappedBy = "variants")

@@ -1,36 +1,36 @@
-<!DOCTYPE html> 
-<html xmlns:th="http://www.thymeleaf.org" 
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
-    layout:decorate="~{admin/adminLayout}">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/adminLayout}">
 <head>
     <title>Stride Star - Danh sách danh mục</title>
 </head>
 <body>
-    <section layout:fragment="content">
-        <div class="card">
-            <div class="card-header">
-                <div class="row px-3">
-                    <h5 class="col-auto me-auto my-auto p-0">Danh sách danh mục</h5>
-                    <a href="/admin/categories/create" class="btn btn-primary col-auto"><i class="fa-solid fa-plus me-1"></i>Thêm</a>
-                </div>
-            </div>
-            <div class="table-responsive text-nowrap">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Tên danh mục</th>
-                            <th>Hiển thị</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="categoryList" class="table-border-bottom-0">
-                        
-                    </tbody>
-                </table>
+<section layout:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="row px-3">
+                <h5 class="col-auto me-auto my-auto p-0">Danh sách danh mục</h5>
+                <a href="/admin/categories/create" class="btn btn-primary col-auto"><i class="fa-solid fa-plus me-1"></i>Thêm</a>
             </div>
         </div>
-        <script>
+        <div class="table-responsive text-nowrap">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tên danh mục</th>
+                    <th>Hiển thị</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="categoryList" class="table-border-bottom-0">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
             $(document).ready(function() {
                 updateCategoryList();
 
@@ -51,7 +51,7 @@
                         }
                     });
                 });
-                
+
                 function updateCategoryList() {
                     $.ajax({
                         url: '/api/categories/getAll',
@@ -95,6 +95,6 @@
                 }
             });
         </script>
-    </section>
+</section>
 </body>
 </html>

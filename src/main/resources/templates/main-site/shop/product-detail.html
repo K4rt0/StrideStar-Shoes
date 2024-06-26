@@ -36,134 +36,156 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <div class="product-single-item">
-                            <div class="row">
-                                <div class="col-xl-6">
-                                    <!--== Start Product Thumbnail Area ==-->
-                                    <div class="product-single-thumb product-single-thumb-normal">
-                                        <div class="swiper-container single-product-thumb single-product-thumb-slider swiper-container-fade swiper-container-initialized swiper-container-horizontal">
-                                            <div class="swiper-wrapper">
-                                                <div class="swiper-slide swiper-slide-active"
-                                                     style="width: 570px; opacity: 1; transform: translate3d(0px, 0px, 0px);">
-                                                    <a class="lightbox-image" data-fancybox="gallery"
-                                                       href="/main-site/img/shop/product-single/1.webp">
-                                                        <img src="/main-site/img/shop/product-single/1.webp" width="570"
-                                                             height="541" alt="Image-HasTech">
-                                                    </a>
+                        <form th:action="@{/cart/add}" method="post">
+                            <div class="product-single-item">
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <!--== Start Product Thumbnail Area ==-->
+                                        <div class="product-single-thumb product-single-thumb-normal">
+                                            <div class="swiper-container single-product-thumb single-product-thumb-slider swiper-container-fade swiper-container-initialized swiper-container-horizontal">
+                                                <div class="swiper-wrapper">
+                                                    <div class="swiper-slide swiper-slide-active"
+                                                         style="width: 570px; opacity: 1; transform: translate3d(0px, 0px, 0px);">
+                                                        <a class="lightbox-image" data-fancybox="gallery"
+                                                           href="/main-site/img/shop/product-single/1.webp">
+                                                            <img src="/main-site/img/shop/product-single/1.webp" width="570"
+                                                                 height="541" alt="Image-HasTech">
+                                                        </a>
+                                                    </div>
+                                                    <div class="swiper-slide swiper-slide-next"
+                                                         style="width: 570px; opacity: 0; transform: translate3d(-570px, 0px, 0px);">
+                                                        <a class="lightbox-image" data-fancybox="gallery"
+                                                           href="/main-site/img/shop/product-single/2.webp">
+                                                            <img src="/main-site/img/shop/product-single/2.webp" width="570"
+                                                                 height="541" alt="Image-HasTech">
+                                                        </a>
+                                                    </div>
+                                                    <div class="swiper-slide"
+                                                         style="width: 570px; opacity: 0; transform: translate3d(-1140px, 0px, 0px);">
+                                                        <a class="lightbox-image" data-fancybox="gallery"
+                                                           href="/main-site/img/shop/product-single/3.webp">
+                                                            <img src="/main-site/img/shop/product-single/3.webp" width="570"
+                                                                 height="541" alt="Image-HasTech">
+                                                        </a>
+                                                    </div>
+                                                    <div class="swiper-slide"
+                                                         style="width: 570px; opacity: 0; transform: translate3d(-1710px, 0px, 0px);">
+                                                        <a class="lightbox-image" data-fancybox="gallery"
+                                                           href="/main-site/img/shop/product-single/4.webp">
+                                                            <img src="/main-site/img/shop/product-single/4.webp" width="570"
+                                                                 height="541" alt="Image-HasTech">
+                                                        </a>
+                                                    </div>
+                                                    <div class="swiper-slide"
+                                                         style="width: 570px; opacity: 0; transform: translate3d(-2280px, 0px, 0px);">
+                                                        <a class="lightbox-image" data-fancybox="gallery"
+                                                           href="/main-site/img/shop/product-single/5.webp">
+                                                            <img src="/main-site/img/shop/product-single/5.webp" width="570"
+                                                                 height="541" alt="Image-HasTech">
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                                <div class="swiper-slide swiper-slide-next"
-                                                     style="width: 570px; opacity: 0; transform: translate3d(-570px, 0px, 0px);">
-                                                    <a class="lightbox-image" data-fancybox="gallery"
-                                                       href="/main-site/img/shop/product-single/2.webp">
-                                                        <img src="/main-site/img/shop/product-single/2.webp" width="570"
-                                                             height="541" alt="Image-HasTech">
-                                                    </a>
+                                                <span class="swiper-notification" aria-live="assertive"
+                                                      aria-atomic="true"></span></div>
+                                            <div class="swiper-container single-product-nav single-product-nav-slider swiper-container-initialized swiper-container-horizontal swiper-container-thumbs">
+                                                <div class="swiper-wrapper" style="transition-duration: 0ms;">
+                                                    <div class="swiper-slide">
+                                                        <img src="assets/img/shop/product-single/nav-1.webp" width="127"
+                                                             height="127" alt="Image-HasTech">
+                                                    </div>
+                                                    <div class="swiper-slide">
+                                                        <img src="assets/img/shop/product-single/nav-2.webp" width="127"
+                                                             height="127" alt="Image-HasTech">
+                                                    </div>
+                                                    <div class="swiper-slide">
+                                                        <img src="assets/img/shop/product-single/nav-3.webp" width="127"
+                                                             height="127" alt="Image-HasTech">
+                                                    </div>
+                                                    <div class="swiper-slide">
+                                                        <img src="assets/img/shop/product-single/nav-4.webp" width="127"
+                                                             height="127" alt="Image-HasTech">
+                                                    </div>
+                                                    <div class="swiper-slide">
+                                                        <img src="assets/img/shop/product-single/nav-5.webp" width="127"
+                                                             height="127" alt="Image-HasTech">
+                                                    </div>
                                                 </div>
-                                                <div class="swiper-slide"
-                                                     style="width: 570px; opacity: 0; transform: translate3d(-1140px, 0px, 0px);">
-                                                    <a class="lightbox-image" data-fancybox="gallery"
-                                                       href="/main-site/img/shop/product-single/3.webp">
-                                                        <img src="/main-site/img/shop/product-single/3.webp" width="570"
-                                                             height="541" alt="Image-HasTech">
-                                                    </a>
-                                                </div>
-                                                <div class="swiper-slide"
-                                                     style="width: 570px; opacity: 0; transform: translate3d(-1710px, 0px, 0px);">
-                                                    <a class="lightbox-image" data-fancybox="gallery"
-                                                       href="/main-site/img/shop/product-single/4.webp">
-                                                        <img src="/main-site/img/shop/product-single/4.webp" width="570"
-                                                             height="541" alt="Image-HasTech">
-                                                    </a>
-                                                </div>
-                                                <div class="swiper-slide"
-                                                     style="width: 570px; opacity: 0; transform: translate3d(-2280px, 0px, 0px);">
-                                                    <a class="lightbox-image" data-fancybox="gallery"
-                                                       href="/main-site/img/shop/product-single/5.webp">
-                                                        <img src="/main-site/img/shop/product-single/5.webp" width="570"
-                                                             height="541" alt="Image-HasTech">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <span class="swiper-notification" aria-live="assertive"
-                                                  aria-atomic="true"></span></div>
-                                        <div class="swiper-container single-product-nav single-product-nav-slider swiper-container-initialized swiper-container-horizontal swiper-container-thumbs">
-                                            <div class="swiper-wrapper" style="transition-duration: 0ms;">
-                                                <div class="swiper-slide">
-                                                    <img src="assets/img/shop/product-single/nav-1.webp" width="127"
-                                                         height="127" alt="Image-HasTech">
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <img src="assets/img/shop/product-single/nav-2.webp" width="127"
-                                                         height="127" alt="Image-HasTech">
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <img src="assets/img/shop/product-single/nav-3.webp" width="127"
-                                                         height="127" alt="Image-HasTech">
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <img src="assets/img/shop/product-single/nav-4.webp" width="127"
-                                                         height="127" alt="Image-HasTech">
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <img src="assets/img/shop/product-single/nav-5.webp" width="127"
-                                                         height="127" alt="Image-HasTech">
-                                                </div>
-                                            </div>
-                                            <span class="swiper-notification" aria-live="assertive"
-                                                  aria-atomic="true"></span></div>
+                                                <span class="swiper-notification" aria-live="assertive"
+                                                      aria-atomic="true"></span></div>
+                                        </div>
+                                        <!--== End Product Thumbnail Area ==-->
                                     </div>
-                                    <!--== End Product Thumbnail Area ==-->
-                                </div>
-                                <div class="col-xl-6">
-                                    <!--== Start Product Info Area ==-->
-                                    <div class="product-single-info" th:object="${product}">
-                                        <h3 class="main-title" th:text="*{name}"></h3>
-                                        <div class="prices">
-                                            <span class="price">$20.19</span>
-                                        </div>
-                                        <div class="rating-box-wrap">
-                                            <div class="rating-box">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                    <div class="col-xl-6">
+                                        <!--== Start Product Info Area ==-->
+                                        <input type="hidden" value="*{id}" id="productId"/>
+                                        <input type="hidden" value="${firstProductVariant.id}" id="variantId"/>
+
+                                        <div class="product-single-info" th:object="${product}">
+                                            <h3 class="main-title" th:text="*{name}"></h3>
+                                            <div class="prices">
+                                                <span class="price">$20.19</span>
                                             </div>
-                                            <div class="review-status">
-                                                <a href="javascript:void(0)">(5 Customer Review)</a>
-                                            </div>
-                                        </div>
-                                        <p th:text="*{description}"></p>
-                                        <div class="product-quick-action">
-                                            <div class="qty-wrap">
-                                                <div class="pro-qty">
-                                                    <input type="text" title="Quantity" value="1">
-                                                    <div class="dec qty-btn">-</div>
-                                                    <div class="inc qty-btn">+</div>
+                                            <div class="rating-box-wrap">
+                                                <div class="rating-box">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                                <div class="review-status">
+                                                    <a href="javascript:void(0)">(5 Customer Review)</a>
                                                 </div>
                                             </div>
-                                            <a class="btn-theme" href="shop-cart.html">Thêm vào giỏ hàng</a>
-                                        </div>
-                                        <div class="product-wishlist-compare">
-                                            <a href="shop-wishlist.html"><i class="pe-7s-like"></i>Add to Wishlist</a>
-                                            <a href="shop-compare.html"><i class="pe-7s-shuffle"></i>Add to Compare</a>
-                                        </div>
-                                        <div class="product-info-footer">
-                                            <h6 class="code">
-                                                <span>Code :</span> <span style="color:black" th:text="*{id}"></span>
-                                            </h6>
-                                            <div class="social-icons">
-                                                <span>Share</span>
-                                                <a href="#/"><i class="fa fa-facebook"></i></a>
-                                                <a href="#/"><i class="fa fa-dribbble"></i></a>
-                                                <a href="#/"><i class="fa fa-pinterest-p"></i></a>
+                                            <p th:text="*{description}"></p>
+
+                                            <div class="product-color">
+                                                <h6 class="title">Color</h6>
+                                                <ul class="color-list">
+                                                    <li th:each="product : ${}" ></li>
+
+                                                </ul>
+                                            </div>
+                                            <div class="product-size">
+                                                <h6 class="title">Size</h6>
+                                                <ul class="size-list">
+                                                    <li>S</li>
+                                                    <li class="active">M</li>
+                                                    <li>L</li>
+                                                    <li>XL</li>
+                                                </ul>
+                                            </div>
+                                            <div class="product-quick-action">
+                                                <div class="qty-wrap">
+                                                    <div class="pro-qty">
+                                                        <input type="text" title="Quantity" value="1">
+                                                        <div class="dec qty-btn">-</div>
+                                                        <div class="inc qty-btn">+</div>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn-theme" href="shop-cart.html">Thêm vào giỏ hàng</button>
+                                            </div>
+                                            <div class="product-wishlist-compare">
+                                                <a href="shop-wishlist.html"><i class="pe-7s-like"></i>Add to Wishlist</a>
+                                                <a href="shop-compare.html"><i class="pe-7s-shuffle"></i>Add to Compare</a>
+                                            </div>
+                                            <div class="product-info-footer">
+                                                <h6 class="code">
+                                                    <span>Code :</span> <span style="color:black" th:text="*{id}"></span>
+                                                </h6>
+                                                <div class="social-icons">
+                                                    <span>Share</span>
+                                                    <a href="#/"><i class="fa fa-facebook"></i></a>
+                                                    <a href="#/"><i class="fa fa-dribbble"></i></a>
+                                                    <a href="#/"><i class="fa fa-pinterest-p"></i></a>
+                                                </div>
                                             </div>
                                         </div>
+                                        <!--== End Product Info Area ==-->
                                     </div>
-                                    <!--== End Product Info Area ==-->
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
 

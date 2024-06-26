@@ -60,7 +60,7 @@
                       <ul>
                         <li class="number"><i class="fa fa-phone"></i><a href="tel://0123456789">+00 123 456 789</a></li>
                         <li class="email"><i class="fa fa-envelope"></i><a href="mailto://demo@example.com">demo@example.com</a></li>
-                        <li class="account"><i class="fa fa-user"></i><a href="tai-khoan-cua-toi">Tài khoản</a></li>
+                        <li class="account"><i class="fa fa-user"></i><a href="/account">Tài khoản</a></li>
                       </ul>
                     </div>
                   </div>
@@ -133,10 +133,8 @@
                       <ul class="submenu-nav submenu-nav-mega column-3">
                         <li class="mega-menu-item"><a href="#/" class="mega-title"><span>Danh mục</span></a>
                           <ul>
-                            <li><a href="shop-three-columns.html"><span>Shop 3 Column</span></a></li>
-                            <li><a href="shop-four-columns.html"><span>Shop 4 Column</span></a></li>
-                            <li><a href="shop.html"><span>Shop Left Sidebar</span></a></li>
-                            <li><a href="shop-right-sidebar.html"><span>Shop Right Sidebar</span></a></li>
+                            <li th:each="category : ${categories}"><a href=""><span th:text="${category.name}"></span></a></li>
+
                           </ul>
                         </li>
                         <li class="mega-menu-item"><a href="/" class="mega-title"><span>Phong cách</span></a>
