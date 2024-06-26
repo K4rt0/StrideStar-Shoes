@@ -1,5 +1,6 @@
 package com.stores.stridestar.access;
 
+import com.stores.stridestar.services.OAuthService;
 import com.stores.stridestar.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -21,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final OAuthService oAuthService;
+    private final UserService userService;
 
     @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
     public UserDetailsService userDetailsService() {
@@ -56,6 +61,24 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/", true)
                 .failureUrl("/login?error")
                 .permitAll())
+                .oauth2Login(
+                        oauth2Login -> oauth2Login.loginPage("/login")
+                                .failureUrl("/login?error")
+                                .userInfoEndpoint(userInfoEndpoint ->
+                                        userInfoEndpoint
+                                                .userService(oAuthService)
+                                )
+                                .successHandler(
+                                        (request, response,
+                                         authentication) -> {
+                                            var oidcUser = (DefaultOidcUser) authentication.getPrincipal();
+
+                                            userService.saveOauthUser(oidcUser.getEmail(), oidcUser.getName());
+                                            response.sendRedirect("/");
+                                        }
+                                )
+                                .permitAll()
+                )
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")

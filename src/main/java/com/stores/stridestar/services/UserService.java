@@ -1,6 +1,7 @@
 package com.stores.stridestar.services;
 
 
+import com.stores.stridestar.access.Provider;
 import com.stores.stridestar.access.Role;
 import com.stores.stridestar.models.User;
 import com.stores.stridestar.repositories.IRoleRepository;
@@ -46,7 +47,19 @@ public class UserService implements UserDetailsService {
                 () -> { throw new UsernameNotFoundException("User not found"); }
         );
     }
-
+    public void saveOauthUser(String email, @NotNull String username) {
+        if(userRepository.findByUsername(username).isPresent())
+            return;
+        var user = new User();
+        user.setUsername(username);
+        user.setFullName(email);
+        user.setEmail(email);
+        user.setCreatedDate(LocalDateTime.now()) ;
+        user.setPassword(new BCryptPasswordEncoder().encode(username));
+        user.setProvider(Provider.GOOGLE.value);
+        user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
+        userRepository.save(user);
+    }
     // Tải thông tin chi tiết người dùng để xác thực.
     @Override
     public UserDetails loadUserByUsername(String username) throws

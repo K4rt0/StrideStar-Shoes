@@ -38,7 +38,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonBackReference("category-product")
+
     private Category category;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
