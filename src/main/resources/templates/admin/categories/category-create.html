@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
-    layout:decorate="~{admin/adminLayout}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/adminLayout}">
 <head>
     <title>Stride Star - Tạo danh mục</title>
     <link rel="stylesheet" href="/admin/vendor/libs/dropzone/dropzone.css" />
 </head>
 <body>
-    <section layout:fragment="content">
-        <form id="categoryForm" enctype="multipart/form-data" method="post">
-            <div class="row">
-                <div class="col-8">
-                    <div class="card mb-4">
-                        <div class="card-header">Thêm danh mục</div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="category-name">Tên danh mục</label>
-                                <div class="col-sm-10 align-content-center">
-                                    <input type="text" class="form-control" name="name" id="category-name" placeholder="Nike, Adidas,...">
-                                </div>
+<section layout:fragment="content">
+    <form id="categoryForm" enctype="multipart/form-data" method="post">
+        <div class="row">
+            <div class="col-8">
+                <div class="card mb-4">
+                    <div class="card-header">Thêm danh mục</div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="category-name">Tên danh mục</label>
+                            <div class="col-sm-10 align-content-center">
+                                <input type="text" class="form-control" name="name" id="category-name" placeholder="Nike, Adidas,...">
                             </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="category-display">Hiển thị</label>
-                                <div class="col-sm-10 align-content-center">
-                                    <label class="switch switch-primary">
-                                        <input type="checkbox" id="category-display" name="display" class="switch-input" checked="">
-                                        <span class="switch-toggle-slider">
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="category-display">Hiển thị</label>
+                            <div class="col-sm-10 align-content-center">
+                                <label class="switch switch-primary">
+                                    <input type="checkbox" id="category-display" name="display" class="switch-input" checked="">
+                                    <span class="switch-toggle-slider">
                                             <span class="switch-on">
                                                 <i class="bx bx-check"></i>
                                             </span>
@@ -33,40 +33,40 @@
                                                 <i class="bx bx-x"></i>
                                             </span>
                                         </span>
-                                    </label>
-                                </div>
+                                </label>
                             </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label"></label>
-                                <div class="col-sm-10 align-content-center">
-                                    <button type="submit" class="btn btn-primary">Thêm</button>
-                                    <a href="/admin/categories" class="btn btn-secondary">Trở về</a>
-                                </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"></label>
+                            <div class="col-sm-10 align-content-center">
+                                <button type="submit" class="btn btn-primary">Thêm</button>
+                                <a href="/admin/categories" class="btn btn-secondary">Trở về</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Basic -->
-                <div class="col-4">
-                    <div class="card mb-4">
-                        <h5 class="card-header">Ảnh đại diện</h5>
-                        <div class="card-body">
-                            <div class="dropzone needsclick dz-clickable" id="dropzone-basic" data-type="images">
-                                <div class="dz-message needsclick">
-                                    Kéo thả hoặc ấn vào để tải ảnh
-                                    <span class="note needsclick">(Tối đa 5MB)</span>
-                                </div>
-                                <input id="avatar" name="avatar" type="file" hidden />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Basic -->
             </div>
-        </form>
-        <script src="/admin/vendor/libs/dropzone/dropzone.js"></script>
-        <script src="/admin/js/forms-file-upload.js"></script>
-        <script>
+            <!-- Basic -->
+            <div class="col-4">
+                <div class="card mb-4">
+                    <h5 class="card-header">Ảnh đại diện</h5>
+                    <div class="card-body">
+                        <div class="dropzone needsclick dz-clickable" id="dropzone-basic" data-type="images">
+                            <div class="dz-message needsclick">
+                                Kéo thả hoặc ấn vào để tải ảnh
+                                <span class="note needsclick">(Tối đa 5MB)</span>
+                            </div>
+                            <input id="avatar" name="avatar" type="file" hidden />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Basic -->
+        </div>
+    </form>
+    <script src="/admin/vendor/libs/dropzone/dropzone.js"></script>
+    <script src="/admin/js/forms-file-upload.js"></script>
+    <script>
             $(document).ready(function() {
                 $('#categoryForm').submit(function(e) {
                     e.preventDefault();
@@ -78,7 +78,7 @@
                     };
                     formData.append('category', new Blob([JSON.stringify(category)], {type: "application/json"}));
                     formData.append('avatar', $('#avatar')[0].files[0]);
-                    
+                    console.log(formData);
                     $.ajax({
                         url: '/api/categories/create',
                         type: 'POST',
@@ -96,6 +96,6 @@
                 });
             });
         </script>
-    </section>
+</section>
 </body>
 </html>

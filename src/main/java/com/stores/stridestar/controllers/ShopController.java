@@ -38,6 +38,9 @@ public class ShopController {
                 .limit(6).collect(Collectors.toList());
         model.addAttribute("relatedProducts", relatedProducts);
 
+        var firstProductVariant = product.getProductVariants().stream().findFirst();
+        model.addAttribute("firstProductVariant", firstProductVariant);
+
         return "main-site/shop/product-detail";
     }
 }

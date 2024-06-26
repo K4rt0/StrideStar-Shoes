@@ -40,6 +40,8 @@ public class SecurityConfig {
         return auth; // Trả về nhà cung cấp xác thực.
     }
 
+
+
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http
