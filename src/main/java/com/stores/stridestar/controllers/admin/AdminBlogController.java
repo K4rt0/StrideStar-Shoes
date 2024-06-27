@@ -1,5 +1,6 @@
 package com.stores.stridestar.controllers.admin;
 
+import com.stores.stridestar.extensions.CommonFunction;
 import com.stores.stridestar.models.Blog;
 import com.stores.stridestar.services.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,8 @@ public class AdminBlogController {
         if (!file.isEmpty()) {
             try {
                 // Lưu ảnh vào thư mục static/images/blog
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get("src/main/resources/static/images/blog/" + file.getOriginalFilename());
-                Files.write(path, bytes);
-                blog.setAvatarUrl("/images/blog/" + file.getOriginalFilename());
+                String seoUrl = CommonFunction.SEOUrl(blog.getTitle());
+                blog.setAvatarUrl(CommonFunction.saveFile(seoUrl, "/blogs", file));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -66,17 +65,14 @@ public class AdminBlogController {
         if (!file.isEmpty()) {
             try {
                 // Lưu ảnh vào thư mục static/images/blog
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get("src/main/resources/static/images/blog/" + file.getOriginalFilename());
-                Files.write(path, bytes);
-                blog.setAvatarUrl("/images/blog/" + file.getOriginalFilename());
+                String seoUrl = CommonFunction.SEOUrl(blog.getTitle());
+                blog.setAvatarUrl(CommonFunction.saveFile(seoUrl, "/blogs", file));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             blog.setAvatarUrl(currentBlog.getAvatarUrl());
         }
-        blog.setId(id);
         blogService.saveBlog(blog);
         return "redirect:/admin/blogs";
     }

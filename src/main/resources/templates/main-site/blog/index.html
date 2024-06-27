@@ -33,7 +33,7 @@
                     <div class="inner-content">
                         <div class="thumb">
                             <a th:href="@{/blog/{id}(id=${blog.id})}">
-                                <img th:src="@{${blog.avatarUrl}}" width="370" height="260" th:alt="${blog.title}">
+                                <img th:src="@{'/images/blogs/' + ${blog.avatarUrl}}" width="370" height="260" th:alt="${blog.title}">
                             </a>
                         </div>
                         <div class="content">

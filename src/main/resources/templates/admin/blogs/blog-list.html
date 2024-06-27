@@ -23,7 +23,7 @@
             <tr th:each="blog : ${blogs}">
                 <td th:text="${blog.id}"></td>
                 <td th:text="${blog.title}"></td>
-                <td><img th:src="@{${blog.avatarUrl}}" alt="Ảnh đại diện" width="100"></td>
+                <td><img th:src="@{'/images/blogs/' + ${blog.avatarUrl}}" alt="Ảnh đại diện" width="100" height="60" style="object-fit:cover"></td>
                 <td>
                     <a th:href="@{'/admin/blogs/edit/' + ${blog.id}}" class="btn btn-warning btn-sm">Chỉnh sửa</a>
                     <a th:href="@{'/admin/blogs/delete/' + ${blog.id}}" class="btn btn-danger btn-sm">Xóa</a>
