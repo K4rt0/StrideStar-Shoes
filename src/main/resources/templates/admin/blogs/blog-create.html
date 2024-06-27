@@ -42,12 +42,12 @@
                 <div class="card mb-4">
                     <h5 class="card-header">Ảnh đại diện</h5>
                     <div class="card-body">
-                        <div class="dropzone needsclick dz-clickable" id="dropzone-basic" data-type="images">
+                        <div class="dropzone needsclick dz-clickable" id="dropzone-basic" >
                             <div class="dz-message needsclick">
                                 Kéo thả hoặc ấn vào để tải ảnh
                                 <span class="note needsclick">(Tối đa 5MB)</span>
                             </div>
-                            <input name="avatar" type="file" hidden onchange="loadFile(event)" />
+                            <input name="avatar" type="file" hidden onchange="loadFile(event)" accept="image/*"/>
                         </div>
                         <div class="row mt-3">
                             <div class="col-12">
