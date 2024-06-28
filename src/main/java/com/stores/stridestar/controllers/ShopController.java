@@ -1,7 +1,5 @@
 package com.stores.stridestar.controllers;
 
-
-import com.stores.stridestar.models.Category;
 import com.stores.stridestar.models.Product;
 import com.stores.stridestar.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

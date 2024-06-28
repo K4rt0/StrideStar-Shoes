@@ -86,11 +86,10 @@
                         contentType: false,
                         data: formData,
                         success: function(response) {
-                            alert("Tạo mới danh mục thành công !");
                             window.location.href = '/admin/categories';
                         },
                         error: function(xhr, status, error) {
-                            alert('Thêm danh mục thất bại');
+                            showIziToast('Lỗi', 'Thêm danh mục thất bại !', 'red');
                         }
                     });
                 });
