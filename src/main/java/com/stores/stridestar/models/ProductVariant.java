@@ -3,10 +3,8 @@ package com.stores.stridestar.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -34,12 +32,12 @@ public class ProductVariant {
     private int quantity;
 
     @ManyToOne
-    @JsonBackReference("product-variant")
+    @JsonIgnoreProperties("productVariants")
     @JoinColumn(name = "product_id")
     private Product product;
 
     @OneToMany(mappedBy = "productVariant")
-    @JsonManagedReference("variant-attribute-variant")
+    @JsonIgnoreProperties("productVariant")
     private List<VariantAttribute> variantAttributes = new ArrayList<>();
 
 }

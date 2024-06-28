@@ -1,6 +1,6 @@
 package com.stores.stridestar.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,11 +23,11 @@ public class VariantAttribute {
 
     @ManyToOne
     @JoinColumn(name = "productVariant_id")
-    @JsonBackReference("variant-attribute-variant")
+    @JsonIgnoreProperties("variantAttributes")
     private ProductVariant productVariant;
 
     @ManyToOne
     @JoinColumn(name = "productAttributeValue_id")
-    @JsonBackReference("variant-attribute-value")
+    @JsonIgnoreProperties("variantAttributes")
     private ProductAttributeValue productAttributeValue;
 }

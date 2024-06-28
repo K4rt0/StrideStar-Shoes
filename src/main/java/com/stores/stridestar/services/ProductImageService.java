@@ -44,7 +44,7 @@ public class ProductImageService {
         productImageRepository.deleteByProductId(productId);
     }
 
-    public void deleteProductById(Long id) {
+    public void deleteProductImageById(Long id) {
         if (!productImageRepository.existsById(id)) {
             throw new IllegalStateException("Product with ID " + id + " does not exist.");
         }

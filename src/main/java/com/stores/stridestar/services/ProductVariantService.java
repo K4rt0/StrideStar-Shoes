@@ -26,13 +26,6 @@ public class ProductVariantService {
         return productVariantRepository.findById(id);
     }
 
-    public void addAllProductVariant(List<ProductVariant> productVariants) {
-        for (ProductVariant productVariant : productVariants) {
-            productVariant.setId(null);
-        }
-        System.out.println("asdsad");
-    }
-
     public ProductVariant addProductVariant(ProductVariant productVariant) {
         return productVariantRepository.save(productVariant);
     }

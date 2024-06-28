@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -36,6 +36,6 @@ public class ProductAttributeValue {
     private ProductAttribute productAttribute;
 
     @OneToMany(mappedBy = "productAttributeValue")
-    @JsonManagedReference("variant-attribute-value")
+    @JsonIgnoreProperties("productAttributeValue")
     private List<VariantAttribute> variantAttributes = new ArrayList<>();
 }

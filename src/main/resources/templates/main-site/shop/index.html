@@ -112,9 +112,9 @@
                                                             </div>
                                                             <h4 class="title"><a href="single-product.html" th:text="${product.name}"></a></h4>
                                                             <div class="prices">
-                                                                <span class="price-old" th:if="${product.variants[0].price != null}" th:text="'$' + ${product.variants[0].price}"></span>
+                                                                <span class="price-old" th:if="${product.productVariants[0].price != null}" th:text="'$' + ${product.productVariants[0].price}"></span>
                                                                 <span class="sep">-</span>
-                                                                <span class="price" th:if="${product.variants[0].price != null}" th:text="'$' + ${product.variants[0].price}"></span>
+                                                                <span class="price" th:if="${product.productVariants[0].price != null}" th:text="'$' + ${product.productVariants[0].price}"></span>
                                                             </div>
                                                         </div>
                                                     </div>
