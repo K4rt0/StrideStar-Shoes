@@ -60,6 +60,9 @@
                       <ul>
                         <li class="number"><i class="fa fa-phone"></i><a href="tel://0123456789">+00 123 456 789</a></li>
                         <li class="email"><i class="fa fa-envelope"></i><a href="mailto://demo@example.com">demo@example.com</a></li>
+                        <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                          <a th:href="@{/admin}" class="">Admin</a>
+                        </li>
                         <li class="account"><i class="fa fa-user"></i><a href="/account">Tài khoản</a></li>
                       </ul>
                     </div>
@@ -77,7 +80,7 @@
               <div class="header-middle-align">
                 <div class="header-middle-align-start">
                   <div class="header-logo-area">
-                    <a href="index-2.html">
+                    <a href="/">
                       <img class="logo-main" src="/main-site/img/logo.webp" width="131" height="34" alt="Logo" />
                       <img class="logo-light" src="/main-site/img/logo-light.webp" width="131" height="34" alt="Logo" />
                     </a>
@@ -124,7 +127,7 @@
               <div class="header-align">
                 <div class="header-navigation-area position-relative">
                   <ul class="main-menu nav">
-                    <li class="has-submenu"><a href="/"><span>Trang chủ</span></a>
+                    <li class=""><a href="/"><span>Trang chủ</span></a>
 
                     </li>
                     <li><a href="/about"><span>Về chúng tôi</span></a></li>
@@ -376,8 +379,8 @@
           </li>
         </ul>
         <p class="cart-total"><span>Subtotal:</span><span class="amount">£89.99</span></p>
-        <a class="btn-theme" data-margin-bottom="10" href="shop-cart.html">View cart</a>
-        <a class="btn-theme" href="shop-checkout.html">Checkout</a>
+        <a class="btn-theme" data-margin-bottom="10" href="/cart">Xem giỏ hàng</a>
+        <a class="btn-theme" href="/cart/checkout">Checkout</a>
         <a class="d-block text-end lh-1" href="shop-checkout.html"><img src="/main-site/img/photos/paypal.webp" width="133" height="26" alt="Has-image"></a>
       </div>
     </div>

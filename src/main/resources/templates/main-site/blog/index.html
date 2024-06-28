@@ -1,0 +1,64 @@
+<!-- src/main/resources/templates/main-site/blog/index.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{main-site/layout}">
+<head>
+    <title>Blog List</title>
+</head>
+<body>
+<div class="page-header-area" data-bg-img="http://localhost:8080/images/blog/bg3.webp">
+    <div class="container pt--0 pb--0">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-header-content">
+                    <h2 class="title" data-aos="fade-down" data-aos-duration="1000">Blog</h2>
+                    <nav class="breadcrumb-area" data-aos="fade-down" data-aos-duration="1200">
+                        <ul class="breadcrumb">
+                            <li><a href="index-2.html">Home</a></li>
+                            <li class="breadcrumb-sep">//</li>
+                            <li>Blog</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section layout:fragment="content" class="blog-area blog-inner-area">
+    <div class="container">
+        <div class="row" th:if="${blogs != null}">
+            <div class="col-md-6 col-lg-4" th:each="blog : ${blogs}">
+                <!--== Start Blog Item ==-->
+                <div class="post-item">
+                    <div class="inner-content">
+                        <div class="thumb">
+                            <a th:href="@{/blog/{id}(id=${blog.id})}">
+                                <img th:src="@{'/images/blogs/' + ${blog.avatarUrl}}" width="370" height="260" th:alt="${blog.title}">
+                            </a>
+                        </div>
+                        <div class="content">
+                            <div class="meta-post">
+                                <ul>
+                                    <li class="post-date">
+                                        <i class="fa fa-calendar"></i>
+                                        <a th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.formattedCreatedAt}">Date</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h4 class="title">
+                                <a th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}">Title</a>
+                            </h4>
+                            <a class="post-btn" th:href="@{/blog/{id}(id=${blog.id})}">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                <!--== End Blog Item ==-->
+            </div>
+        </div>
+        <div class="row" th:if="${blogs == null}">
+            <p>No blogs found</p>
+        </div>
+    </div>
+</section>
+</body>
+</html>

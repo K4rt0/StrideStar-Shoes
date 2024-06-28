@@ -20,9 +20,15 @@ public class CartController {
         var cartItems = cartService.getCartItems();
         model.addAttribute("cartItems", cartItems);
 
-        return "/cart/cart";
+        return "/main-site/cart/index";
     }
+    @GetMapping("/checkout")
+    public String checkout(Model model) {
+        var cartItems = cartService.getCartItems();
+        model.addAttribute("cartItems", cartItems);
 
+        return "/main-site/cart/checkout";
+    }
     @PostMapping("/add")
     public String addToCart(@RequestParam Long userId,@RequestParam Long productId,@RequestParam Long variantId, @RequestParam int quantity) {
         Product product = productService.getProductById(productId).orElseThrow();
