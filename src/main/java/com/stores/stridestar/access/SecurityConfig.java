@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
     private final OAuthService oAuthService;
-    private final UserService userService;
+    private final UserService userServiceeerrrrrrrrre;
 
     @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
     public UserDetailsService userDetailsService() {

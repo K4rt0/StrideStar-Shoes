@@ -480,9 +480,9 @@
                                                     <h4 class="title"><a href="single-product.html" th:text="${relatedProduct.name}"></a>
                                                     </h4>
                                                     <div class="prices">
-                                                        <span class="price-old" th:if="${relatedProduct.variants[0].price != null}" th:text="'$' + ${relatedProduct.variants[0].price}"></span>
+                                                        <span class="price-old" th:if="${relatedProduct.productVariants[0].price != null}" th:text="'$' + ${relatedProduct.productVariants[0].price}"></span>
                                                         <span class="sep">-</span>
-                                                        <span class="price" th:if="${relatedProduct.variants[0].price != null}" th:text="'$' + ${relatedProduct.variants[0].price}"></span>
+                                                        <span class="price" th:if="${relatedProduct.productVariants[0].price != null}" th:text="'$' + ${relatedProduct.productVariants[0].price}"></span>
                                                     </div>
                                                 </div>
                                             </div>
