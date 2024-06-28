@@ -154,7 +154,7 @@
                       <div class="inner-content">
                         <div class="product-thumb">
                           <a href="single-product.html">
-                            <img src="/main-site/img/shop/1.webp" width="270" height="274" alt="Image-HasTech">
+                            <img th:src="@{'/images/products/' + ${product.image}}" width="270" height="274" alt="Image-HasTech">
                           </a>
                           <div class="product-flag">
                             <ul>
@@ -174,9 +174,8 @@
                         <div class="product-info">
                           <div class="category">
                             <ul>
-                              <li><a href="shop.html">Men</a></li>
-                              <li class="sep">/</li>
-                              <li><a href="shop.html">Women</a></li>
+                              <li><a href="shop.html" th:text="${product.category.name}"></a></li>
+
                             </ul>
                           </div>
                           <h4 class="title"><a th:href="@{'/shop/product-detail/' + ${product.id}}" th:text="${product.name}"></a></h4>
@@ -317,7 +316,7 @@
                               <div class="inner-content">
                                 <div class="product-thumb">
                                   <a href="single-product.html">
-                                    <img src="/main-site/img/shop/1.webp" width="270" height="274" alt="Image-HasTech">
+                                    <img th:src="@{'/images/products/' + ${product.image}}" width="270" height="274" alt="Image-HasTech">
                                   </a>
                                   <div class="product-flag">
                                     <ul>
@@ -336,10 +335,9 @@
                                 </div>
                                 <div class="product-info">
                                   <div class="category">
-                            <ul>
-                              <li><a href="shop.html">Men</a></li>
-                                      <li class="sep">/</li>
-                                      <li><a href="shop.html">Women</a></li>
+                                    <ul>
+                                      <li><a href="shop.html"th:text="${product.category.name}"></a></li>
+
                                     </ul>
                                   </div>
                                   <h4 class="title"><a th:href="@{'/shop/product-detail/' + ${product.id}}" th:text="${product.name}"></a></h4>
