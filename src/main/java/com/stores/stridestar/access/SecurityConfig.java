@@ -2,6 +2,7 @@ package com.stores.stridestar.access;
 
 import com.stores.stridestar.services.OAuthService;
 import com.stores.stridestar.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,8 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.SecurityFilterChain;
-
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -43,25 +42,24 @@ public class SecurityConfig {
     }
 
 
-
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http
-            .csrf(CsrfConfigurer::disable)
-            .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/api/**", "/main-site/**", "/css/**", "/images/**", "/js/**",
-                        "/summernote-bs5/**", "/fontawesome/**", "/shop/**", "/","/register", "/user/**"
-                        , "/cart/**"
-                )
-                .permitAll()
-                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                .anyRequest().authenticated())
-            .formLogin(formLogin -> formLogin
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/login?error")
-                .permitAll())
+                .csrf(CsrfConfigurer::disable)
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/api/**", "/main-site/**", "/css/**", "/images/**", "/js/**",
+                                "/summernote-bs5/**", "/fontawesome/**", "/shop/**", "/", "/register", "/user/**"
+                                , "/cart/**"
+                        )
+                        .permitAll()
+                        .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                        .anyRequest().authenticated())
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error")
+                        .permitAll())
                 .oauth2Login(
                         oauth2Login -> oauth2Login.loginPage("/login")
                                 .failureUrl("/login?error")
@@ -80,25 +78,25 @@ public class SecurityConfig {
                                 )
                                 .permitAll()
                 )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
-                .deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .permitAll())
-            .rememberMe(rememberMe -> rememberMe
-                    .key("hutech")
-                    .rememberMeCookieName("hutech")
-                    .tokenValiditySeconds(24 * 60 * 60) // Thời gian nhớ đăng nhập.
-                    .userDetailsService(userDetailsService())
-            )
-            .exceptionHandling(exceptionHandling -> exceptionHandling
-                    .accessDeniedPage("/403") // Trang báo lỗi khi truy cập không được phép.
-            )
-            .sessionManagement(sessionManagement -> sessionManagement
-                .maximumSessions(1)
-                .expiredUrl("/login"))
-            .build();
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .permitAll())
+                .rememberMe(rememberMe -> rememberMe
+                        .key("hutech")
+                        .rememberMeCookieName("hutech")
+                        .tokenValiditySeconds(24 * 60 * 60) // Thời gian nhớ đăng nhập.
+                        .userDetailsService(userDetailsService())
+                )
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedPage("/403") // Trang báo lỗi khi truy cập không được phép.
+                )
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .maximumSessions(1)
+                        .expiredUrl("/login"))
+                .build();
     }
 }
