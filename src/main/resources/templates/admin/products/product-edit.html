@@ -3,170 +3,540 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
     layout:decorate="~{admin/adminLayout}">
 <head>
-    <title>Stride Star - Thêm thuộc tính</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Stride Star - Tạo sản phẩm</title>
+    <link rel="stylesheet" href="/summernote-bs5/summernote-bs5.min.css">
+    <link rel="stylesheet" href="/admin/vendor/libs/dropzone/dropzone.css" />
 </head>
 <body>
     <section layout:fragment="content">
-        <div id="attributeForm" class="row">
-            <div class="col-12 col-lg-6 col-md-12">
-                <div class="card mb-4">
-                    <div class="card-header">Thêm thuộc tính</div>
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <label class="col-sm-3 col-form-label" for="name">Tên thuộc tính</label>
-                            <div class="col-sm-9 align-content-center">
-                                <input type="text" class="form-control" id="attributeName" placeholder="Màu sắc, size,...">
+        <form id="form-updateProduct">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between">
+                    <h5 class="card-title m-0 align-content-center">Thêm sản phẩm</h5>
+                    <div class="form-floating">
+                        <a href="/admin/products" class="btn btn-secondary">Trở về</a>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-9 col-md-12">
+                            <div class="row mb-3">
+                                <div class="col-12 col-lg-6 col-md-12 mb-3">
+                                    <label class="form-label" for="product-name">Tên sản phẩm</label>
+                                    <input type="text" class="form-control" id="product-name" placeholder="Nike, Adidas,...">
+                                </div>
+                                <div class="col-12 col-lg-4 col-md-12 mb-3">
+                                    <label class="form-label" for="product-category">Danh mục</label>
+                                    <select class="form-select" id="product-category">
+                                        <option value="0" selected>Chọn danh mục</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-lg-2 col-md-12 mb-3">
+                                    <label class="form-label" for="product-display">Hiển thị</label>
+                                    <div class="col-sm-10 align-content-center">
+                                        <label class="switch switch-lg">
+                                            <input type="checkbox" id="product-display" class="switch-input">
+                                            <span class="switch-toggle-slider">
+                                                <span class="switch-on">
+                                                    <i class="bx bx-check"></i>
+                                                </span>
+                                                <span class="switch-off">
+                                                    <i class="bx bx-x"></i>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <textarea id="product-description" class="summernote"></textarea>
+                        </div>
+                        <div class="col-12 col-lg-3 col-md-12">
+                            <div class="card mb-4">
+                                <h5 class="card-header p-3">Hình ảnh</h5>
+                                <div class="card-body p-0 px-3">
+                                    <div class="ratio ratio-1x1 border border-2 border-dashed rounded">
+                                        <img id="preview-avatar" class="rounded object-fit-cover img-fluid p-1">
+                                    </div>
+                                </div>
+                                <div class="card-footer p-3">
+                                    <input type="file" id="avatar" class="form-control" accept="image/*">
+                                </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-3 col-form-label"></label>
-                            <div class="col-sm-9 align-content-center">
-                                <button id="editAttribute" class="btn btn-primary">Sửa</button>
-                                <a href="/admin/attributes" class="btn btn-secondary">Trở về</a>
+                    </div>
+                    <div class="card">
+                        <h5 class="card-header p-3">Ảnh mô tả</h5>
+                        <div class="card-body">
+                            <div class="card">
+                                <div id="images-list" class="card-body row">
+                                    
+                                </div>
+                                <input type="file" id="images" class="form-control image-input" multiple accept="image/*">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-6 col-md-12">
+            <div id="variantForm">
                 <div class="card mb-4">
-                    <div class="card-header">Thêm giá trị thuộc tính</div>
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="value">Giá trị</label>
-                            <div class="col-7 align-content-center">
-                                <input type="text" class="form-control" id="attributeValue">
-                            </div>
-                            <div class="col-2 align-content-center">
-                                <button id="addAttributeValue" class="btn btn-warning"><i class="fa-regular fa-plus me-1"></i> Thêm</button>
-                            </div>
+                    <div class="card-header d-flex justify-content-between">
+                        <h5 class="card-title m-0 align-content-center">Thêm biến thể</h5>
+                        <div class="form-floating">
+                            <button type="button" id="btn-addVariant" class="btn btn-primary">Thêm</button>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Giá trị</th>
-                                            <th style="width: 140px;">Hành động</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="attributeValueList"></tbody>
-                                </table>
-                            </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="variantList" class="accordion mt-3 accordion-without-arrow">
+                            
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
+        <script src="/summernote-bs5/summernote-bs5.js"></script>
+        <script src="/admin/vendor/libs/dropzone/dropzone.js"></script>
+        <script src="/admin/js/forms-file-upload.js"></script>
         <script>
+            let attributes = [];
+            let variants = [];
+            let variants_new = [];
+            let productImages = [];
+            let productImages_new = [];
+            let variantId = 0;
             $(document).ready(function() {
-                let attributeValues = [];
-                let attributeId = window.location.href.split('/')[window.location.href.split('/').length - 1];
-                loadAttributeForm();
+                var productId = window.location.pathname.split('/').pop();
                 
-                $('#editAttribute').click(function() {
-                    const name = $('#attributeName').val();
-                    if (name) {
+
+                getAttribute();
+                uploadCategory();
+                uploadProduct();
+
+                $('#avatar').change(function() {
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            $('#preview-avatar').attr('src', e.target.result);
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+                
+
+                $('.image-input').on('change', async function(event) {
+                    const input = $(this);
+                    const fileList = Array.from(event.target.files);
+
+                    for (const file of fileList) {
+                        productImages_new.push(file); // Thêm tệp tin vào mảng
+                        await new Promise(resolve => {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                $('#images-list').append(`
+                                    <div class="col-12 col-lg-2 col-md-6 mb-3 imagesPreview">
+                                        <div class="card">
+                                            <div class="card-body ratio ratio-1x1 bg-dark">
+                                                <img class="p-3 object-fit-cover" src="${e.target.result}" alt="New Image">
+                                            </div>
+                                            <hr class="m-0" style="border-top: 3px solid;">
+                                            <div class="card-footer text-center p-0">
+                                                <button type="button" class="btn btn-transparent w-100 btn-deleteImage" data-id="${files.length - 1}" data-isNew="true">Xoá hình ảnh</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `);
+                                resolve();
+                            };
+                            reader.readAsDataURL(file);
+                        });
+                    }
+
+                    // Cập nhật giá trị của input sau khi thêm tệp tin
+                    const dataTransfer = new DataTransfer();
+                    productImages_new.forEach(f => dataTransfer.items.add(f));
+                    input[0].files = dataTransfer.productImages_new;
+                });
+
+                $(document).on('click', '.btn-deleteImage', function() {
+                    const isNewImage = $(this).data('isnew');
+                    const index = $(this).data('id');
+                    $(this).closest('.imagesPreview').remove();
+                    if (!isNewImage) {
+                        for(let i = 0; i < productImages.length; i++) {
+                            if(productImages[i].id == index) {
+                                productImages.splice(i, 1);
+                                break;
+                            }
+                        }
+                    } else {
+                        let newIndex = index - productImages.length;
+                        productImages_new.splice(newIndex, 1);
+
+                        $('#images-list .btn-deleteImage').each(function(index) {
+                            $(this).data('id', index);
+                        });
+                        const dataTransfer = new DataTransfer();
+                        productImages_new.forEach(f => dataTransfer.items.add(f));
+                        $('#images')[0].files = dataTransfer.files;
+                    }
+                });
+                
+                $('#form-updateProduct').submit(function(e) {
+                    e.preventDefault();
+
+                    if(validateForm()) {
+                        var name = $('#product-name').val();
+                        var description = $('#product-description').val();
+                        var categoryId = $('#product-category').val();
+                        var display = $('#product-display').is(':checked');
+
+                        var avatar = $('#avatar')[0].files[0];
+                        var images = $('#images')[0].files;
+
+                        let product = {
+                            name: name,
+                            description: description,
+                            category: {
+                                id: categoryId
+                            },
+                            display: display,
+                            productVariants: variants
+                        };
+
+                        var formData = new FormData();
+                        formData.append("product", new Blob([JSON.stringify(product)], { type: "application/json" }));
+                        if(avatar != null) {
+                            formData.append("avatar", avatar);
+                        }
+                        if(images.length != 0) {
+                            for (var i = 0; i < images.length; i++) {
+                                formData.append("images", images[i]);
+                            }
+                        }
+                        if(productImages.length != 0) {
+                            formData.append("oldImages", new Blob([JSON.stringify(productImages)], { type: "application/json" }));
+                        }
+                        if(variants_new.length != 0) {
+                            formData.append("variants", new Blob([JSON.stringify(variants_new)], { type: "application/json" }));
+                        }
+
                         $.ajax({
-                            url: '/api/attributes/update/' + attributeId,
+                            url: '/api/products/edit/' + productId,
                             type: 'PUT',
-                            contentType: 'application/json',
-                            data: JSON.stringify({
-                                name: name,
-                                productAttributeValues: attributeValues
-                            }),
-                            success: function() {
-                                showIziToast('Thành công', 'Sửa thuộc tính thành công !', 'green');
-                                window.location.href = '/admin/attributes';
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                if(response != null) {
+                                    window.location.href = '/admin/products';
+                                    showIziToast('Thành công', 'Cập nhật sản phẩm thành công!', 'green');
+                                }
                             },
                             error: function(xhr, status, error) {
-                                console.log(xhr);
-                                showIziToast('Lỗi', 'Sửa thuộc tính thất bại !', 'red');
+                                showIziToast('Lỗi', 'Cập nhật sản phẩm thất bại!', 'red');
                             }
                         });
                     }
-                    else
-                    {
-                        showIziToast('Cảnh báo', 'Bạn chưa nhập tên thuộc tính !', 'yellow');
-                    }
                 });
-                $('#addAttributeValue').click(function() {
-                    const value = $('#attributeValue').val();
-                    if (value) {
-                        attributeValues.push(new Object({ id: 0, value: value, variantAttributes: [] }));
-                        $('#attributeValueList').append(`
-                            <tr>
-                                <td class="value-cell" data-id="0" data-value="${value}">${value}</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm editValue" data-id="0" data-value="${value}">Sửa</button> 
-                                    <button class="btn btn-danger btn-sm removeValue" data-id="0" data-value="${value}">Xoá</button>
-                                </td>
-                            </tr>
-                        `);
-                        $('#attributeValue').val('');
+                
+                $(document).on('click', '.btn-deleteVariant', function() {
+                    let variantId = $(this).data('id');
+                    let isNew = $(this).data('isnew');
+                    if(!isNew) {
+                        for(let i = 0; i < variants.length; i++) {
+                            if(variants[i].id == variantId) {
+                                variants.splice(i, 1);
+                                break;
+                            }
+                        }
+                    } else {
+                        for(let i = 0; i < variants_new.length; i++) {
+                            if(variants_new[i].variantId == variantId) {
+                                variants_new.splice(i, 1);
+                                break;
+                            }
+                        }
                     }
-                    else
-                    {
-                        showIziToast('Cảnh báo', 'Bạn chưa nhập giá trị thuộc tính !', 'yellow');
-                    }
+                    $(this).closest('.accordion-item').remove();
                 });
-                $(document).on('click', '.removeValue', function() {
-                    const value = $(this).data('value');
-                    const index = attributeValues.findIndex(v => v.value == value);
-                    if (index !== -1) {
-                        attributeValues.splice(index, 1); // Remove the item if found
-                    }
-                    $(this).closest('tr').remove();
+
+                $('#btn-addVariant').click(function() {
+                    variants_new.push({
+                        variantId: variantId,
+                        quantity: 0,
+                        price: 0,
+                        variantAttributes: []
+                    });
+                    $('#variantList').append(`
+                        <div class="accordion-item card">
+                            <h2 class="accordion-header text-body d-flex justify-content-between">
+                                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#variantList-${variantId}" aria-controls="variantList-${variantId}">
+                                    <span>Product Variant #${variantId + 1}</span>
+                                    <button type="button" data-id="${variantId}" data-isNew="true" class="btn-deleteVariant btn bg-transparent text-danger"><i class="fa-sharp fa-solid fa-xmark"></i></button>
+                                </button>
+                            </h2>
+                
+                            <div id="variantList-${variantId}" class="accordion-collapse collapse" data-bs-parent="#variantList">
+                                <div class="accordion-body" data-isNew="true">
+                                    <div class="row">
+                                        <div class="col-12 col-lg-6 col-md-6 mb-3">
+                                            <label class="form-label" for="quantity">Số lượng</label>
+                                            <input type="number" class="form-control variant-quantity" value="0" data-id="${variantId}" id="quantity">
+                                        </div>
+                                        <div class="col-12 col-lg-6 col-md-6 mb-3">
+                                            <label class="form-label" for="price">Giá tiền</label>
+                                            <input type="text" class="form-control variant-price" value="0" data-id="${variantId}" id="price">
+                                        </div>
+                                    </div>
+                                    <div id="attributeList-${variantId}" data-id="${variantId}" class="c_attributeList row">
+                                        ${loadAttributeHtml(variants_new[variants_new.length - 1])}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    variantId++;
                 });
-                $(document).on('click', '.editValue', function() {
-                    const value = $(this).data('value');
-                    const $row = $(this).closest('tr');
-                    const $valueCell = $row.find('.value-cell');
-                    const newValue = prompt("Sửa giá trị thuộc tính:", value);
-                    if (newValue) {
-                        const index = attributeValues.findIndex(v => v.value == value);
-                        if (index !== -1) {
-                            attributeValues[index].value = newValue;
-                            $valueCell.text(newValue);
-                            
-                            $valueCell.data('value', newValue);
-                            $row.find('.editValue').data('value', newValue);
-                            $row.find('.removeValue').data('value', newValue);
+
+                $(document).on('change', '.variant-quantity, .variant-price', function() {
+                    let variantId = $(this).data('id');
+                    let value = parseInt($(this).val());
+                    let isNew = $(this).closest('.accordion-body').data('isnew');
+                    let property = $(this).hasClass('variant-quantity') ? 'quantity' : 'price';
+
+                    if(!isNew) {
+                        let indexFound = variants.findIndex(function(variant) {
+                            return variant.id == variantId;
+                        });
+                        if(indexFound !== -1) {
+                            variants[indexFound][property] = value;
+                        }
+                    } else {
+                        let indexFound = variants_new.findIndex(function(variant) {
+                            return variant.variantId == variantId;
+                        });
+                        if(indexFound !== -1) {
+                            variants_new[indexFound][property] = value;
                         }
                     }
                 });
-                
-                function loadAttributeForm() {
+
+                $(document).on('change', '.attributeListSelect', function() {
+                    let variantId = $(this).closest('.c_attributeList').data('id');
+                    let selectedAttributeId = $(this).data('attributeid');
+                    let value = parseInt($(this).val());
+                    let isNew = $(this).closest('.accordion-body').data('isnew');
+
+                    if(!isNew) {
+                        let index = variants.findIndex(function(variant) {
+                            return variant.id == variantId;
+                        });
+
+                        if(variants[index].variantAttributes.length > 0) {
+                            let indexFound = variants[index].variantAttributes.findIndex(function(item) {
+                                return item.attributeId === selectedAttributeId;
+                            });
+                            if (indexFound !== -1) {
+                                if(value == 0) {
+                                    variants[index].variantAttributes.splice(indexFound, 1);
+                                    return
+                                }
+                                variants[index].variantAttributes[indexFound].productAttributeValue.id = value;
+                                return;
+                            }
+                        }
+                    }
+                    else {
+                        let index = variants_new.findIndex(function(variant) {
+                            return variant.variantId == variantId;
+                        });
+
+                        if(variants_new[index].variantAttributes.length > 0) {
+                            let indexFound = variants_new[index].variantAttributes.findIndex(function(item) {
+                                return item.id === selectedAttributeId;
+                            });
+                            if (indexFound !== -1) {
+                                if(value == 0) {
+                                    variants_new[index].variantAttributes.splice(indexFound, 1);
+                                    return
+                                }
+                                variants_new[index].variantAttributes[indexFound].productAttributeValue.id = value;
+                                return;
+                            }
+                        }
+                        variants_new[index].variantAttributes.push({
+                            id: selectedAttributeId,
+                            productAttributeValue: {
+                                id: value
+                            },
+                            productVariant: {
+                                id: variantId
+                            }
+                        });
+                    }
+                });
+
+                function uploadProduct() {
                     $.ajax({
-                        url: '/api/attributes/getById/' + attributeId,
+                        url: '/api/products/getById/' + productId,
                         type: 'GET',
                         success: function(response) {
-                            $('#attributeName').val(response.name);
-                            response.productAttributeValues.forEach(function(attributeValue) {
-                                $('#editAttribute').attr('data-id', response.id);
+                            if(response != null) {
+                                $('#product-name').val(response.name);
+                                $('#product-category').val(response.category.id);
+                                $('#product-display').prop('checked', response.display);
+                                $('#product-description').summernote('code', response.description);
+                                $('#preview-avatar').attr('src', response.image);
+                                response.productImages.forEach(function(image) {
+                                    $('#images-list').append(`
+                                        <div class="col-12 col-lg-2 col-md-6 mb-3 imagesPreview">
+                                            <div class="card">
+                                                <div class="card-body ratio ratio-1x1 bg-dark">
+                                                    <img class="p-3 object-fit-cover" src="${image.url}" alt="${response.name}">
+                                                </div>
+                                                <hr class="m-0" style="border-top: 3px solid;">
+                                                <div class="card-footer text-center p-0">
+                                                    <button type="button" class="btn btn-transparent w-100 btn-deleteImage" data-id="${image.id}" data-isNew="false">Xoá hình ảnh</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `);
+                                    productImages.push({
+                                        id: image.id,
+                                        url: image.url
+                                    });
+                                });
 
-                                attributeValues.push(attributeValue);
+                                response.productVariants.forEach(function(variant) {
+                                    $('#variantList').append(`
+                                        <div class="accordion-item card">
+                                            <h2 class="accordion-header text-body d-flex justify-content-between">
+                                                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#variantList-${variant.id}" aria-controls="variantList-${variant.id}">
+                                                    <span>Product Variant #${variant.id}</span>
+                                                    <button type="button" data-id="${variant.id}" data-isNew="false" class="btn-deleteVariant btn bg-transparent text-danger"><i class="fa-sharp fa-solid fa-xmark"></i></button>
+                                                </button>
+                                            </h2>
                                 
-                                $('#attributeValueList').append(`
-                                    <tr>
-                                        <td class="value-cell" data-id="${attributeValue.id}" data-value="${attributeValue.value}">${attributeValue.value}</td>
-                                        <td>
-                                            <button class="btn btn-warning btn-sm editValue" data-id="${attributeValue.id}" data-value="${attributeValue.value}">Sửa</button> 
-                                            <button class="btn btn-danger btn-sm removeValue" data-id="${attributeValue.id}" data-value="${attributeValue.value}">Xoá</button>
-                                        </td>
-                                    </tr>
-                                `);
-                            });
+                                            <div id="variantList-${variant.id}" class="accordion-collapse collapse" data-bs-parent="#variantList">
+                                                <div class="accordion-body" data-isNew="false">
+                                                    <div class="row">
+                                                        <div class="col-12 col-lg-6 col-md-6 mb-3">
+                                                            <label class="form-label" for="quantity">Số lượng</label>
+                                                            <input type="number" class="form-control variant-quantity" data-id="${variant.id}" value="${variant.quantity}" id="quantity">
+                                                        </div>
+                                                        <div class="col-12 col-lg-6 col-md-6 mb-3">
+                                                            <label class="form-label" for="price">Giá tiền</label>
+                                                            <input type="text" class="form-control variant-price" data-id="${variant.id}" value="${variant.price}" id="price">
+                                                        </div>
+                                                    </div>
+                                                    <div id="attributeList-${variant.id}" data-id="${variant.id}" class="c_attributeList row">
+                                                        ${loadAttributeHtml(variant)}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `);
+                                    variants.push({
+                                        id: variant.id,
+                                        quantity: variant.quantity,
+                                        price: variant.price,
+                                        variantAttributes: variant.variantAttributes
+                                    });
+                                    variants[variants.length - 1].variantAttributes.forEach(function(vAttribute) {
+                                        // Find the first attribute that contains a productAttributeValue with a matching id
+                                        const matchingAttribute = attributes.find(function(attribute) {
+                                            return attribute.productAttributeValues.some(function(value) {
+                                                return value.id == vAttribute.productAttributeValue.id;
+                                            });
+                                        });
+
+                                        // If a matching attribute is found, assign its id to vAttribute.id
+                                        if (matchingAttribute) {
+                                            vAttribute.attributeId = matchingAttribute.id;
+                                        }
+                                    });
+                                });
+                            }
                         },
                         error: function() {
-                            showIziToast('Lỗi', 'Không tìm thấy thuộc tính !', 'red');
-                            window.location.href = '/admin/attributes';
+                            showIziToast('Lỗi', 'Lấy dữ liệu sản phẩm thất bại!', 'red');
                         }
                     });
                 }
+                function uploadCategory() {
+                    $.ajax({
+                        url: '/api/categories/getAll',
+                        type: 'GET',
+                        success: function(response) {
+                            if(response != null) {
+                                response.forEach(function(category) {
+                                    $('#product-category').append(`<option value="${category.id}">${category.name}</option>`);
+                                });
+                            }
+                        }
+                    });
+                }
+                function getAttribute() {
+                    $.ajax({
+                        url: '/api/attributes/getAll',
+                        type: 'GET',
+                        success: function(response) {
+                            if(response != null)
+                                attributes = response;
+                        },
+                        error: function() {
+                            showIziToast('Lỗi', 'Lấy dữ liệu thuộc tính thất bại!', 'red');
+                        }
+                    });
+                }
+                function loadAttributeHtml(variant) {
+                    let i = 0;
+                    let string = '';
+                    console.log(variant);
+                    attributes.forEach(function(attribute) {
+                        i++;
+                        string += `
+                            <div class="col-12 col-lg-2 col-md-2 mb-3">
+                                <label class="form-label" for="variant-${i}">${attribute.name}</label>
+                                <select class="form-select attributeListSelect" data-attributeId="${attribute.id}" id="variant-${i}">
+                                    <option value="0">Chưa chọn</option>
+                        `;
+                        attribute.productAttributeValues.forEach(function(value) {
+                            string += `<option value="${value.id}" ${variant.variantAttributes.find(x => x.productAttributeValue.id === value.id) ? 'selected' : ''}>${value.value}</option>`;
+                        });
+                        string += `
+                                </select>
+                            </div>
+                        `;
+                    });
+                    return string;
+                }
+                function validateForm() {
+                    if($('#product-name').val() == '') {
+                        showIziToast('Lỗi', 'Tên sản phẩm không được để trống !', 'red');
+                        return false;
+                    } else if($('#product-category').val() == 0) {
+                        showIziToast('Lỗi', 'Danh mục không được để trống !', 'red');
+                        return false;
+                    } else if(variants.length == 0) {
+                        showIziToast('Lỗi', 'Biến thể không được để trống !', 'red');
+                        return false;
+                    } else {
+                        for (let variant of variants) {
+                            if (variant.quantity === 0 || variant.price === 0) {
+                                showIziToast('Lỗi', 'Số lượng và giá tiền của mỗi biến thể không được để trống!', 'red');
+                                return false;
+                            }
+                        }
+                    }
+                    return true;
+                }
+                
+                $('.summernote').summernote({
+                    height: 200,
+                    tabsize: 2
+                });
             });
-
         </script>
     </section>
 </body>

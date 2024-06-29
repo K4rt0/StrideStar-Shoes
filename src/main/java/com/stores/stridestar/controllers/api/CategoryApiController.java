@@ -1,6 +1,5 @@
 package com.stores.stridestar.controllers.api;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.stores.stridestar.extensions.CommonFunction;
 import com.stores.stridestar.models.Category;
 import com.stores.stridestar.models.Product;
+import com.stores.stridestar.services.AmazonS3Service;
 import com.stores.stridestar.services.CategoryService;
 import com.stores.stridestar.services.ProductService;
 
@@ -36,6 +36,9 @@ public class CategoryApiController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private AmazonS3Service amazonS3Service;
     
     @GetMapping("/getAll")
     public ResponseEntity<List<Category>> getAll() {
@@ -50,13 +53,8 @@ public class CategoryApiController {
     public ResponseEntity<Category> createCategory(@Valid @RequestPart("category") Category category,
                                                    @RequestParam("avatar") MultipartFile avatar) {
         if (!avatar.isEmpty()) {
-            try {
-                String seoUrl = CommonFunction.SEOUrl(category.getName());
-                category.setAvatar(CommonFunction.saveFile(seoUrl, "/categories", avatar));
-            } catch (IOException e) {
-                e.printStackTrace();
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            String seoUrl = CommonFunction.SEOUrl(category.getName());
+            category.setAvatar(amazonS3Service.uploadFile(avatar, seoUrl));
         }
 
         categoryService.addCategory(category);
@@ -70,28 +68,20 @@ public class CategoryApiController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<Category>(category, HttpStatus.OK);
     }
-    @PutMapping("/update/{id}")
+    @PutMapping("/edit/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable("id") Long id,
                                                    @Valid @RequestPart("category") Category category,
-                                                   @RequestPart(value = "avatars", required = false) List<MultipartFile> avatars) {
+                                                   @RequestPart(value = "avatar") MultipartFile avatar) {
         Category existingCategory = categoryService.getCategoryById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + id));
 
         existingCategory.setName(category.getName());
         existingCategory.setDisplay(category.isDisplay());
-
-        if (avatars != null && !avatars.isEmpty()) {
-            for (MultipartFile avatar : avatars) {
-                if (!avatar.isEmpty()) {
-                    try {
-                        String seoUrl = CommonFunction.SEOUrl(existingCategory.getName());
-                        existingCategory.setAvatar(CommonFunction.saveFile(seoUrl, "/categories", avatar));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                    }
-                }
-            }
+        
+        if (!avatar.isEmpty()) {
+            amazonS3Service.deleteFile(amazonS3Service.getFileName(category.getAvatar()));
+            String seoUrl = CommonFunction.SEOUrl(category.getName());
+            existingCategory.setAvatar(amazonS3Service.uploadFile(avatar, seoUrl));
         }
 
         categoryService.updateCategory(existingCategory);
@@ -109,6 +99,7 @@ public class CategoryApiController {
             productService.deleteById(product.getId());
         });
         categoryService.deleteCategoryById(id);
+        amazonS3Service.deleteFile(amazonS3Service.getFileName(category.getAvatar()));
         return new ResponseEntity<Category>(category, HttpStatus.OK);
     }
 }

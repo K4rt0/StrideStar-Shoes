@@ -7,7 +7,6 @@ import com.stores.stridestar.models.User;
 import com.stores.stridestar.repositories.IRoleRepository;
 import com.stores.stridestar.repositories.IUserRepository;
 import jakarta.validation.constraints.NotNull;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +19,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-@Slf4j
 @Transactional
 public class UserService implements UserDetailsService {
 
@@ -29,7 +27,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     private IRoleRepository roleRepository;
 
-    // Lưu người dùng mới vào cơ sở dữ liệu sau khi mã hóa mật khẩu.
     public void save(@NotNull User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user.setCreatedDate(LocalDateTime.now()) ;
