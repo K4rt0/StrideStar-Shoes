@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{main-site/layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initialscale=1.0" name="viewport">
+    <title>Access Denied</title>
+
+</head>
+<body layout:fragment="content">
+
+<div class="d-flex align-items-center justify-content-center vh-25" style="margin: 100px 0">
+    <div class="text-center">
+        <h1 class="display-1 fw-bold">403</h1>
+        <p class="fs-3"><span class="text-danger">Opps!</span> Access
+            Denied.</p>
+        <p class="lead">
+            You don't have permission to access this page.
+        </p>
+        <a class="btn btn-primary" href="/">Back to homepage</a>
+    </div>
+</div>
+<th:block th:replace="~{layout::footer}"></th:block>
+</body>
+</html>

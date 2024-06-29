@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{main-site/layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Internal Server Error</title>
+
+</head>
+<body layout:fragment="content">
+<div class="d-flex align-items-center justify-content-center vh-25" style="margin: 100px 0">
+    <div class="text-center">
+        <h1 class="display-1 fw-bold">500</h1>
+        <p class="fs-3"><span class="text-danger">Opps!</span>
+            Internal Server Error.</p>
+        <p class="lead">
+            The server encountered an internal error and was unable to
+            complete your request.
+        </p>
+        <small class="text-muted">Please check the server logs for more
+            details.</small><br/>
+        <a class="btn btn-primary" href="/">Back to homepage</a>
+    </div>
+</div>
+
+</body>
+</html>
