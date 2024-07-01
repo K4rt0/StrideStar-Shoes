@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -79,5 +80,27 @@ public class UserService implements UserDetailsService {
     public Optional<User> findByUsername(String username) throws
             UsernameNotFoundException {
         return userRepository.findByUsername(username);
+    }
+
+
+
+    public void updateUser(User user) {
+        User existingUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        existingUser.setFullName(user.getFullName());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPhoneNumber(user.getPhoneNumber());
+        existingUser.setAddress(user.getAddress());
+        existingUser.setBirthDate(user.getBirthDate());
+
+        if (user.getNewPassword() != null && !user.getNewPassword().isEmpty()) {
+            if (!user.getNewPassword().equals(user.getConfirmPassword())) {
+                throw new IllegalArgumentException("Passwords do not match");
+            }
+            existingUser.setPassword(new BCryptPasswordEncoder().encode(user.getNewPassword()));
+        }
+
+        userRepository.save(existingUser);
     }
 }
