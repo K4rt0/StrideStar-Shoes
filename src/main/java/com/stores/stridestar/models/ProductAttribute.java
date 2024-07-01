@@ -3,7 +3,7 @@ package com.stores.stridestar.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,6 +37,6 @@ public class ProductAttribute {
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "productAttribute")
-    @JsonManagedReference("product-attribute")
+    @JsonIgnoreProperties("productAttribute")
     private List<ProductAttributeValue> productAttributeValues = new ArrayList<>();
 }

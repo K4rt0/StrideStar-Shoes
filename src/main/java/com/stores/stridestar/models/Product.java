@@ -30,6 +30,7 @@ public class Product {
     @Column(name = "display", columnDefinition = "boolean default false")
     private boolean display;
     
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
     private String image;
 

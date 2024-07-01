@@ -1,4 +1,4 @@
-package com.stores.stridestar.models;
+package com.stores.stridestar.models.enums;
 
 public enum OrderStatus {
     PENDING("Đang chờ xem xét"),

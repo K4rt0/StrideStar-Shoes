@@ -3,7 +3,6 @@ package com.stores.stridestar.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
@@ -32,7 +31,7 @@ public class ProductAttributeValue {
 
     @ManyToOne
     @JoinColumn(name = "productAttribute_id")
-    @JsonBackReference("product-attribute")
+    @JsonIgnoreProperties("productAttributeValues")
     private ProductAttribute productAttribute;
 
     @OneToMany(mappedBy = "productAttributeValue")

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+    layout:decorate="~{admin/adminLayout}">
+<head>
+    <title>Stride Star - Tạo sản phẩm</title>
+    <link rel="stylesheet" href="/summernote-bs5/summernote-bs5.min.css">
+    <link rel="stylesheet" href="/admin/vendor/libs/dropzone/dropzone.css" />
+</head>
+<body>
+    <section layout:fragment="content">
+        
+          
+          <!-- Order Details Table -->
+          
+          <div class="row">
+            <div class="col-12 col-lg-8">
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <div class="d-flex flex-column justify-content-center">
+                    <h5 id="order-id" class="mb-1 mt-3"></h5>
+                    <p id="order-date" class="text-body"></p>
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <div id="btn-action" class="mb-2 text-end row"></div>
+                    <div id="btn-payment" class="row"></div>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th class="w-50">sản phẩm</th>
+                        <th class="w-25">giá tiền</th>
+                        <th class="w-25">Số lượng</th>
+                        <th>Tổng</th>
+                      </tr>
+                    </thead>
+                    <tbody id="product-list">
+                      
+                    </tbody>
+                  </table>
+                  <div class="d-flex justify-content-end align-items-center m-3 mb-2 p-1">
+                    <div class="order-calculations">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span class="w-px-100">Tạm tính:</span>
+                        <span id="order-subtotal" class="text-heading"></span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span class="w-px-100">Giảm giá:</span>
+                        <span class="text-heading mb-0">0đ</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span class="w-px-100">Thuế:</span>
+                        <span class="text-heading">0đ</span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <h6 class="w-px-100 mb-0">Thành tiền:</h6>
+                        <h6 id="order-totalprice" class="mb-0">0đ</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <h6 class="card-title m-0">Khách hàng</h6>
+                </div>
+                <div class="card-body">
+                  <div class="d-flex justify-content-start align-items-center mb-4">
+                    <div id="order-userAvatar" class="avatar me-2"></div>
+                    <div class="d-flex flex-column">
+                      <a href="app-user-view-account.html" class="text-body text-nowrap">
+                        <h6 id="order-userName" class="mb-0"></h6>
+                      </a>
+                      <small id="order-userId" class="text-muted"></small>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-start align-items-center mb-4">
+                    <span class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i class="bx bx-cart-alt bx-sm lh-sm"></i></span>
+                    <h6 id="order-count" class="text-body text-nowrap mb-0"></h6>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <h6>Thông tin liên hệ</h6>
+                  </div>
+                  <p id="order-email" class="mb-1"></p>
+                  <p id="order-phone" class="mb-3"></p>
+                </div>
+              </div>
+          
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between">
+                  <h6 class="card-title m-0">Địa chỉ giao hàng</h6>
+                </div>
+                <div class="card-body">
+                  <p id="order-ship-name" class="mb-0"></p>
+                  <p id="order-ship-phone" class="mb-0"></p>
+                  <p id="order-ship-address" class="mb-0"></p>
+                  <p id="order-ship-note" class="mb-0"></p>
+                </div>
+              </div>
+            </div>
+        </div>
+        <script>
+          $(document).ready(function() {
+            var orderId = window.location.pathname.split('/').pop();
+            $.ajax({
+              url: '/api/orders/getById/' + orderId,
+              type: 'GET',
+              success: function(response) {
+                let totalPrice = 0;
+                console.log(response);
+                loadButtonAction(response);
+                getPaymentButton(response.paymentStatus);
+                
+                $('#order-id').html(`Hoá đơn #${response.id} - ${getPaymentStatus(response.paymentStatus)}`);
+                $('#order-date').text(`${formatTimestamp(response.createdDate)}`);
+                $('#order-userAvatar').append(getAvatarHTML(response));
+                $('#order-userName').text(response.user.fullName);
+                $('#order-userId').text(`Customer ID: #${response.user.id}`);
+                $('#order-email').text('Email: ' + response.user.email);
+                $('#order-phone').text('Điện thoại: ' + response.user.phoneNumber);
+
+                $('#order-ship-name').text('Tên: ' + response.fullName);
+                $('#order-ship-phone').text('Điện thoại: ' + response.phoneNumber);
+                $('#order-ship-address').text('Địa chỉ: ' + response.address);
+                $('#order-ship-note').text('Ghi chú: ' + response.note);
+
+                $.ajax({
+                  url: '/api/orders/countOrderByUser/' + response.user.id,
+                  type: 'GET',
+                  success: function(response) {
+                    $('#order-count').text(`${response} đơn hàng`);
+                  }
+                });
+
+                response.orderDetails.forEach((orderDetail, index) => {
+                  totalPrice += orderDetail.price * orderDetail.quantity;
+                  $('#product-list').append(`
+                    <tr>
+                      <td>${index + 1}</td>
+                      <td>
+                        <div class="d-flex justify-content-start align-items-center text-nowrap">
+                          <div class="avatar-wrapper">
+                            <div class="avatar me-2">
+                              <img src="${orderDetail.avatar}" alt="Avatar" class="rounded-2">
+                            </div>
+                          </div>
+                          <div class="d-flex flex-column">
+                            <h6 class="text-body mb-0">${orderDetail.name}</h6>
+                            <small class="text-muted">Danh mục: ${orderDetail.category}, ${orderDetail.attributes}</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <span>${orderDetail.price.toLocaleString('vi-VN') + 'đ'}</span>
+                      </td>
+                      <td>
+                        <span class="text-body">${orderDetail.quantity.toLocaleString('vi-VN')}</span>
+                      </td>
+                      <td>
+                        <h6 class="mb-0">${(orderDetail.price * orderDetail.quantity).toLocaleString('vi-VN') + 'đ'}</h6>
+                      </td>
+                    </tr>
+                  `);
+                });
+
+                $('#order-subtotal').text(totalPrice.toLocaleString('vi-VN') + 'đ');
+                $('#order-totalprice').text(totalPrice.toLocaleString('vi-VN') + 'đ');
+              }
+            });
+
+            $(document).on('click', '#action-accept', function() {
+              $.ajax({
+                url: '/api/orders/accept/' + orderId,
+                type: 'PUT',
+                success: function(response) {
+                  window.location.reload();
+                }
+              });
+            });
+
+            $(document).on('click', '#action-cancelled', function() {
+              $.ajax({
+                url: '/api/orders/cancel/' + orderId,
+                type: 'PUT',
+                success: function(response) {
+                  window.location.reload();
+                }
+              });
+            });
+
+            $(document).on('click', '#payment-true', function() {
+              $.ajax({
+                url: '/api/orders/paymentChange/' + orderId,
+                type: 'POST',
+                data: {
+                  payment: false
+                },
+                success: function(response) {
+                  window.location.reload();
+                }
+              });
+            });
+            $(document).on('click', '#payment-false', function() {
+              $.ajax({
+                url: '/api/orders/paymentChange/' + orderId,
+                type: 'POST',
+                data: {
+                  payment: true
+                },
+                success: function(response) {
+                  window.location.reload();
+                }
+              });
+            });
+
+            function getPaymentStatus(payment) {
+              if(payment)
+                  return `<span class="text-success">Đã thanh toán</span>`;
+              else
+                  return `<span class="text-warning">Chưa thanh toán</span>`;
+            }
+
+            function loadButtonAction(order) {
+              switch(order.status) {
+                case 'PENDING':
+                  $('#btn-action').append(`
+                    <div class="col-6">
+                      <button id="action-cancel" type="button" class="w-100 btn btn-sm btn-label-danger">Từ chối</button>
+                    </div>
+                    <div class="col-6">
+                      <button id="action-accept" type="button" class="w-100 btn btn-sm btn-label-success">Duyệt</button>
+                    </div>
+                  `);
+                  break;
+                default:
+                  $('#btn-action').append(`
+                    <button id="action-cancelled" type="button" class="btn btn-sm btn-label-danger">Huỷ đơn hàng</button>
+                  `);
+                  break;
+              }
+            }
+
+            function getPaymentButton(payment) {
+              if(payment)
+                $('#btn-payment').append(`<button id="payment-true" type="button" class="w-100 btn btn-sm btn-label-warning">Chưa thanh toán</button>`);
+              else
+                $('#btn-payment').append(`<button id="payment-false" type="button" class="w-100 btn btn-sm btn-label-success">Đã thanh toán</button>`);
+            }
+            
+            function changePaymentStatus() {
+              alert('Chức năng chưa được hỗ trợ');
+            }
+
+            function getAvatarHTML(order) {
+              if (order.user.image == null)
+                  return `<span class="avatar-initial rounded-circle bg-label-primary">${getInitials(order.user.fullName)}</span>`;
+              else
+                  return `<img src="${order.user.image}" alt="Avatar" class="rounded-circle">`;
+            }
+
+            function getInitials(name) {
+                const words = name.split(' ');
+                let initials = words.reduce((acc, word) => acc += word.charAt(0), '');
+                return initials.toUpperCase();
+            }
+
+            function getOrderStatus(status) {
+                switch (status) {
+                    case 'PENDING':
+                        return '<span class="badge px-2 bg-label-warning" text-capitalized="">Đang chờ xem xét</span>';
+                    case 'CONFIRMED':
+                        return '<span class="badge px-2 bg-label-primary" text-capitalized="">Đã được duyệt</span>';
+                    case 'DELIVERED':
+                        return '<span class="badge px-2 bg-label-success" text-capitalized="">Đã giao hàng</span>';
+                    case 'CANCELED':
+                        return '<span class="badge px-2 bg-label-danger" text-capitalized="">Đã huỷ</span>';
+                    case 'SHIPPING':
+                        return '<span class="badge px-2 bg-label-info" text-capitalized="">Đã giao hàng</span>';
+                    default:
+                        return 'Unknown';
+                }
+            }
+
+            function getPaymentMethod(paymentMethod) {
+                switch (paymentMethod) {
+                    case 'COD': 
+                        return `<div class="d-flex align-items-center text-nowrap">
+                                    <i class="fa-duotone fa-money-bill-1-wave"></i>
+                                    <span class="ms-2">COD</span>
+                                </div>`;
+                    case 'VNPAY':
+                        return `<div class="d-flex align-items-center text-nowrap">
+                                    <i class="fa-duotone fa-credit-card"></i>
+                                    <span class="ms-2">VnPay</span>
+                                </div>`;
+                    default:
+                        return 'Unknown';
+                }
+            }
+          })
+        </script>
+    </section>
+</body>
+</html>

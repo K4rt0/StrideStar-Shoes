@@ -3,9 +3,12 @@ package com.stores.stridestar.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.stores.stridestar.models.enums.OrderStatus;
+import com.stores.stridestar.models.enums.Payment;
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 @Setter
@@ -19,19 +22,31 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "created_date", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "created_date", updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdDate;
 
+    private String fullName;
+    private String phoneNumber;
+    private String address;
+    private String shipping;
+    private String note;
+
+    @Column(name = "payment_method")
+    @Enumerated(EnumType.STRING)
+    private Payment payment;
+
+    @Column(name = "payment_status")
+    private boolean paymentStatus;
+
     @Column(name = "total_price")
-    @NotBlank(message = "Tổng giá tiền không được bỏ trống !")
+    @Min(value = 0, message = "Giảm giá không được nhỏ hơn 0 !")
     private double totalPrice;
 
     @Column(name = "discount")
-    @Size(min = 1, message = "Giảm giá phải lớn hơn 0 !")
+    @Min(value = 0, message = "Giảm giá không được nhỏ hơn 0 !")
     private double discount;
 
     @Column(name = "status")
-    @NotBlank(message = "Trạng thái không được bỏ trống !")
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
@@ -40,5 +55,6 @@ public class Order {
     private User user;
 
     @OneToMany(mappedBy = "order")
+    @JsonIgnoreProperties("order")
     private List<OrderDetail> orderDetails;
 }

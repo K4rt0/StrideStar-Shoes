@@ -1,32 +1,33 @@
 package com.stores.stridestar.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 
 @Getter
 @Setter
 @Entity
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "cart_items")
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id", nullable = false)
-    private Cart cart;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-
-    @Column(name = "variant_id")
-    private Long variantId;
-
+    
     @Column(name = "quantity")
     private int quantity;
+    
+    @Column(name = "user_id")
+    private Long userId;
 
-    // Constructors, getters, setters, and other methods as needed
+    @ManyToOne
+    @JoinColumn(name = "productVariant_id", nullable = false)
+    @JsonIgnoreProperties("cartItems")
+    private ProductVariant productVariant;
 }

@@ -162,17 +162,26 @@ public class ProductApiController {
                 boolean found = false;
                 if(product.getProductVariants() != null) {
                     for (ProductVariant item : product.getProductVariants()) {
-                        if(variant.getId() == item.getId()) {
-                            // Directly update the found variant without the redundant inner loop
+                        if (variant.getId() == item.getId()) {
                             item.setProduct(existingProduct);
-                            item.setPrice(item.getPrice()); // Assuming you want to update the price from the item itself or some other source
+                            item.setPrice(item.getPrice());
                             item.getVariantAttributes().forEach(attribute -> {
-                                attribute.setProductVariant(item);
-                                variantAttributeService.updateVariantAttribute(attribute);
+                                if (attribute.getId() == null) {
+                                    VariantAttribute vAttribute = new VariantAttribute();
+                                    vAttribute.setProductVariant(item);
+                                    vAttribute.setProductAttributeValue(productAttributeValueService
+                                        .getAttributeValueById(attribute.getProductAttributeValue().getId())
+                                        .orElseThrow(() -> new IllegalStateException("Category with ID does not exist.")));
+                                    VariantAttribute createdAttribute = variantAttributeService.addVariantAttribute(vAttribute);
+                                    attribute.setId(createdAttribute.getId()); // Set the created ID to attribute
+                                } else {
+                                    attribute.setProductVariant(item);
+                                    variantAttributeService.updateVariantAttribute(attribute);
+                                }
                             });
                             productVariantService.updateProductVariant(item);
                             found = true;
-                            break; // Variant found in product.getProductVariants(), no need to delete, exit the loop
+                            break;
                         }
                     }
                 }

@@ -36,6 +36,10 @@
 
   <!--== Main Style CSS ==-->
   <link href="/main-site/css/style.css" rel="stylesheet" />
+  
+  <script src="/js/jquery-3.7.1.min.js"></script>
+  
+  <link href="/css/iziToast.min.css" rel="stylesheet" />
 
 </head>
 
@@ -58,12 +62,16 @@
                   <div class="header-info-items">
                     <div class="info-items">
                       <ul>
-                        <li class="number"><i class="fa fa-phone"></i><a href="tel://0123456789">+00 123 456 789</a></li>
-                        <li class="email"><i class="fa fa-envelope"></i><a href="mailto://demo@example.com">demo@example.com</a></li>
+                        <li class="number"><i class="fa fa-phone me-2"></i><a href="tel://0123456789">+84 987 654 321</a></li>
+                        <li class="email"><i class="fa fa-envelope me-2"></i><a href="mailto://contact@stridestar.vn">contact@stridestar.vn</a></li>
                         <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
                           <a th:href="@{/admin}" class="">Admin</a>
                         </li>
-                        <li class="account"><i class="fa fa-user"></i><a href="/account">Tài khoản</a></li>
+                        <li class="account">
+                          <i class="fa fa-user m-0"></i>
+                          <a th:if="${#authorization.expression('isAuthenticated()')}" href="/account" th:text="${#authentication.name}">Tài khoản</a>
+                          <a th:unless="${#authorization.expression('isAuthenticated()')}" href="/login">Tài khoản</a>
+                      </li>
                       </ul>
                     </div>
                   </div>
@@ -107,7 +115,7 @@
                     <div class="shopping-cart">
                       <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasCart" aria-controls="offcanvasRightLabel">
                         <i class="pe-7s-shopbag icon"></i>
-                        <sup class="shop-count">02</sup>
+                        <sup class="shop-count"></sup>
                       </button>
                     </div>
                     <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
@@ -360,25 +368,10 @@
         <button class="btn-aside-cart-close" data-bs-dismiss="offcanvas" aria-label="Close">Shopping Cart <i class="fa fa-chevron-right"></i></button>
       </div>
       <div class="offcanvas-body">
-        <ul class="aside-cart-product-list">
-          <li class="product-list-item">
-            <a href="#/" class="remove">×</a>
-            <a href="single-product.html">
-              <img src="/main-site/img/shop/product-mini/1.webp" width="90" height="110" alt="Image-HasTech">
-              <span class="product-title">Leather Mens Slipper</span>
-            </a>
-            <span class="product-price">1 × £69.99</span>
-          </li>
-          <li class="product-list-item">
-            <a href="#/" class="remove">×</a>
-            <a href="single-product.html">
-              <img src="/main-site/img/shop/product-mini/2.webp" width="90" height="110" alt="Image-HasTech">
-              <span class="product-title">Quickiin Mens shoes</span>
-            </a>
-            <span class="product-price">1 × £20.00</span>
-          </li>
+        <ul id="cart-modal" class="aside-cart-product-list">
+          
         </ul>
-        <p class="cart-total"><span>Subtotal:</span><span class="amount">£89.99</span></p>
+        <p class="cart-total"><span>Tạm tính:</span><span id="total-modal" class="amount"></span></p>
         <a class="btn-theme" data-margin-bottom="10" href="/cart">Xem giỏ hàng</a>
         <a class="btn-theme" href="/cart/checkout">Checkout</a>
         <a class="d-block text-end lh-1" href="shop-checkout.html"><img src="/main-site/img/photos/paypal.webp" width="133" height="26" alt="Has-image"></a>
@@ -524,6 +517,72 @@
   <!--=== jQuery Custom Js ===-->
   <script src="/main-site/js/custom.js"></script>
 
+  <script src="/js/iziToast.min.js"></script>
+
+  <script>
+    let cartModal = [];
+    $(document).ready(function() {
+      updateCartCount();
+    });
+    function updateCartCount() {
+      $.ajax({
+        url: '/api/cart/list',
+        type: 'GET',
+        success: function(response) {
+          cartModal = response;
+          let count = response.length; // Sử dụng length để lấy kích thước của mảng response
+          $('.shop-count').text(count);
+
+          $('#cart-modal').empty();
+
+          let total = 0;
+          response.forEach(item => {
+            total += item.quantity * item.productVariant.price;
+            $('#cart-modal').append(`
+              <li class="product-list-item">
+                <a href="#/" class="remove">×</a>
+                <a href="single-product.html">
+                  <img src="${item.productVariant.product.image}" width="90" height="110" alt="Image">
+                  <span class="product-title">${item.productVariant.product.name}</span>
+                  <p class="text-muted" style="font-size: 12px;">
+                    ${item.productVariant.variantAttributes
+                      .filter(attribute => attribute.productAttributeValue.productAttribute.name === 'Màu sắc')
+                      .map(attribute => attribute.productAttributeValue.value)
+                      .join(', ')} -
+                    ${item.productVariant.variantAttributes
+                          .filter(attribute => attribute.productAttributeValue.productAttribute.name === 'Size')
+                          .map(attribute => attribute.productAttributeValue.value)
+                          .join(', ')}
+                  </p>
+                </a>
+                <span class="product-price">${item.quantity} × ${item.productVariant.price.toLocaleString('vi-VN') + 'đ'}</span>
+              </li>
+            `);
+          });
+          $('#total-modal').text(total.toLocaleString('vi-VN') + 'đ');
+        }
+      });
+    }
+    function formatTimestamp(timestamp) {
+      const date = new Date(timestamp);
+
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+
+      let hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+
+      const ampm = hours >= 12 ? 'pm' : 'am';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+
+      const formattedHours = hours.toString().padStart(2, '0');
+      const formattedDate = `${day}/${month}/${year} ${formattedHours}:${minutes}${ampm}`;
+
+      return formattedDate;
+    }
+  </script>
 
 </body>
 </html>

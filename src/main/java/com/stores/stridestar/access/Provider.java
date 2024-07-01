@@ -1,7 +1,5 @@
 package com.stores.stridestar.access;
 
-import lombok.AllArgsConstructor;
-
 public enum Provider {
     LOCAL("Local"),
     GOOGLE("Google");

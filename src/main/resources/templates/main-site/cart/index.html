@@ -4,31 +4,10 @@
       layout:decorate="~{main-site/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Giỏ hàng</title>
 </head>
 <body>
   <main class="main-content" layout:fragment="content">
-    <!--== Start Page Header Area Wrapper ==-->
-    <div class="page-header-area" data-bg-img="/main-site/img/photos/bg3.webp" style="background-image: url(&quot;/main-site/img/photos/bg3.webp&quot;);">
-      <div class="container pt--0 pb--0">
-        <div class="row">
-          <div class="col-12">
-            <div class="page-header-content">
-              <h2 class="title aos-init aos-animate" data-aos="fade-down" data-aos-duration="1000">Giỏ hàng</h2>
-              <nav class="breadcrumb-area aos-init aos-animate" data-aos="fade-down" data-aos-duration="1200">
-                <ul class="breadcrumb">
-                  <li><a href="index.html">Trang chủ</a></li>
-                  <li class="breadcrumb-sep">//</li>
-                  <li>Giỏ hàng</li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--== End Page Header Area Wrapper ==-->
-
     <!--== Start Blog Area Wrapper ==-->
     <section class="shopping-cart-area">
       <div class="container">
@@ -38,48 +17,16 @@
               <form action="#" method="post">
                 <table class="table text-center">
                   <thead>
-                  <tr>
-                    <th class="product-remove">&nbsp;</th>
-                    <th class="product-thumb">&nbsp;</th>
-                    <th class="product-name">Product</th>
-                    <th class="product-price">Price</th>
-                    <th class="product-quantity">Quantity</th>
-                    <th class="product-subtotal">Total</th>
-                  </tr>
+                    <tr>
+                      <th class="product-remove">&nbsp;</th>
+                      <th class="product-thumb">&nbsp;</th>
+                      <th class="product-name">Sản phẩm</th>
+                      <th class="product-price">Giá tiền</th>
+                      <th class="product-quantity">Số lượng</th>
+                      <th class="product-subtotal">Tổng tiền</th>
+                    </tr>
                   </thead>
-                  <tbody>
-                  <tr class="cart-product-item">
-                    <td class="product-remove">
-                      <a href="#/"><i class="fa fa-trash-o"></i></a>
-                    </td>
-                    <td class="product-thumb">
-                      <a href="single-product.html">
-                        <img src="/main-site/img/shop/product-mini/1.webp" width="90" height="110" alt="Image-HasTech">
-                      </a>
-                    </td>
-                    <td class="product-name">
-                      <h4 class="title"><a href="single-product.html"><b>Leather Mens Slipper</b></a></h4>
-                      <p class="attribute" style="font-weight: 400;font-size: 12px; margin-top:4px; margin-bottom: 0;letter-spacing: 0;color: #242424;">xanh - size 42</p>
-                    </td>
-                    <td class="product-price">
-                      <span class="price">£69.99</span>
-                    </td>
-                    <td class="product-quantity">
-                      <div class="pro-qty">
-                        <input type="text" class="quantity" title="Quantity" value="1">
-                        <div class="dec qty-btn">-</div><div class="inc qty-btn">+</div></div>
-                    </td>
-                    <td class="product-subtotal">
-                      <span class="price">£69.99</span>
-                    </td>
-                  </tr>
-                  <tr class="actions">
-                    <td class="border-0" colspan="6">
-                      <button type="submit" class="update-cart" disabled="">Update cart</button>
-                      <button type="submit" class="clear-cart">Clear Cart</button>
-                      <a href="shop.html" class="btn-theme btn-flat">Continue Shopping</a>
-                    </td>
-                  </tr>
+                  <tbody id="listCart">
                   </tbody>
                 </table>
               </form>
@@ -118,58 +65,215 @@
           <div class="col-md-12 col-lg-4">
             <div class="shipping-form-cart-totals">
               <div class="section-title-cart">
-                <h5 class="title">Cart totals</h5>
+                <h5 class="title">Hoá đơn</h5>
               </div>
               <div class="cart-total-table">
                 <table class="table">
                   <tbody>
-                  <tr class="cart-subtotal">
-                    <td>
-                      <p class="value">Subtotal</p>
-                    </td>
-                    <td>
-                      <p class="price">£128.00</p>
-                    </td>
-                  </tr>
-                  <tr class="shipping">
-                    <td>
-                      <p class="value">Shipping</p>
-                    </td>
-                    <td>
-                      <ul class="shipping-list">
-                        <li class="radio">
-                          <input type="radio" name="shipping" id="radio1" checked="">
-                          <label for="radio1"><span></span> Flat Rate</label>
-                        </li>
-                        <li class="radio">
-                          <input type="radio" name="shipping" id="radio2">
-                          <label for="radio2"><span></span> Free Shipping</label>
-                        </li>
-                        <li class="radio">
-                          <input type="radio" name="shipping" id="radio3">
-                          <label for="radio3"><span></span> Local Pickup</label>
-                        </li>
-                      </ul>
-                    </td>
-                  </tr>
-                  <tr class="order-total">
-                    <td>
-                      <p class="value">Total</p>
-                    </td>
-                    <td>
-                      <p class="price">£128.00</p>
-                    </td>
-                  </tr>
+                    <tr class="cart-subtotal">
+                      <td>
+                        <p class="value">Tạm tính</p>
+                      </td>
+                      <td>
+                        <p id="subtotal-price" class="price"></p>
+                      </td>
+                    </tr>
+                    <tr class="shipping">
+                      <td>
+                        <p class="value">Giao hàng</p>
+                      </td>
+                      <td>
+                        <ul class="shipping-list">
+                          <li class="radio">
+                            <input type="radio" name="shipping" id="radio2" checked>
+                            <label for="radio2"><span></span> Free Shipping</label>
+                          </li>
+                          <li class="radio">
+                            <input type="radio" disabled name="shipping" id="radio1">
+                            <label for="radio1"><span></span> Flat Rate</label>
+                          </li>
+                          <li class="radio">
+                            <input type="radio" disabled name="shipping" id="radio3">
+                            <label for="radio3"><span></span> Local Pickup</label>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>
+                    <tr class="order-total">
+                      <td>
+                        <p class="value">Tổng tiền</p>
+                      </td>
+                      <td>
+                        <p id="totalPrice" class="price"></p>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
-              <a class="btn-theme btn-flat" href="shop-checkout.html">Proceed to checkout</a>
+              <button type="button" id="btn-checkout" class="w-100 btn-theme btn-flat">Thanh toán</button>
             </div>
           </div>
         </div>
       </div>
     </section>
     <!--== End Blog Area Wrapper ==-->
+    <script>
+      let cart = [];
+      $(document).ready(function() {
+        $.ajax({
+          url: "/api/cart/list",
+          type: "GET",
+          success: function (response) {
+            cart = response;
+            response.forEach(item => {
+              $('#listCart').append(`
+                <tr class="cart-product-item">
+                  <td class="product-remove text-center">
+                    <button type="button" data-id="${item.productVariant.id}" class="item-delete btn"><i class="fa-regular fa-trash"></i></button>
+                  </td>
+                  <td class="product-thumb">
+                    <a href="single-product.html">
+                      <img src="${item.productVariant.product.image}" width="90" height="110" alt="Image-HasTech">
+                    </a>
+                  </td>
+                  <td class="product-name">
+                    <h4 class="title"><a href="single-product.html"><b>${item.productVariant.product.name}</b></a></h4>
+                    <p class="attribute" style="font-weight: 400; font-size: 12px; margin-top:4px; margin-bottom: 0;
+                                                letter-spacing: 0;color: #242424; line-height: 15px;">
+                      Màu sắc: ${
+                        item.productVariant.variantAttributes
+                          .filter(attribute => attribute.productAttributeValue.productAttribute.name === 'Màu sắc')
+                          .map(attribute => attribute.productAttributeValue.value)
+                          .join(', ')
+                      }
+                    </p>
+                    <p class="attribute" style="font-weight: 400;font-size: 12px; margin-bottom: 0;letter-spacing: 0;
+                                              color: #242424; line-height: 15px;">
+                      Kích thước: ${
+                        item.productVariant.variantAttributes
+                          .filter(attribute => attribute.productAttributeValue.productAttribute.name === 'Size')
+                          .map(attribute => attribute.productAttributeValue.value)
+                          .join(', ')
+                      }
+                    </p>
+                  </td>
+                  <td class="product-price">
+                    <span class="price">${item.productVariant.price.toLocaleString('vi-VN') + 'đ'}</span>
+                  </td>
+                  <td class="product-quantity">
+                    <div data-id="${item.productVariant.id}" class="pro-qty">
+                      <input type="text" class="quantity" title="Quantity" value="${item.quantity}">
+                      <div class="dec qty-btn">-</div>
+                      <div class="inc qty-btn">+</div>
+                    </div>
+                  </td>
+                  <td class="product-subtotal">
+                    <span class="price">${(item.productVariant.price * item.quantity).toLocaleString('vi-VN') + 'đ'}</span>
+                  </td>
+                </tr>
+              `);
+            });
+            $('#listCart').append(`
+              <tr class="actions">
+                <td class="border-0" colspan="6">
+                  <button type="button" class="clear-cart">Xoá tất cả</button>
+                  <a href="/" class="btn-theme btn-flat">Tiếp tục mua sắm</a>
+                </td>
+              </tr>
+            `);
+            updatePrice();
+          }
+        });
+
+        $('#btn-checkout').click(function() {
+          if(cart.length === 0) {
+            showIziToast('Cảnh báo', 'Giỏ hàng của bạn đang trống !', 'yellow');
+            return;
+          }
+          window.location.href = '/cart/checkout';
+        })
+        
+        $(document).on('click', '.clear-cart', function() {
+          $.ajax({
+            url: "/api/cart/removeAll",
+            type: "DELETE",
+            success: function (response) {
+              $('#listCart').empty();
+              cart = [];
+              updatePrice();
+              updateCartCount();
+              showIziToast('Thành công', 'Xoá tất cả sản phẩm khỏi giỏ hàng thành công !');
+            }
+          });
+        })
+
+        $(document).on('click', '.dec', function() {
+          const id = $(this).closest('.pro-qty').data('id');
+          const item = cart.find(item => item.productVariant.id === id);
+          
+          if(item.quantity <= 1) {
+            showIziToast('Cảnh báo', 'Số lượng sản phẩm không thể nhỏ hơn 1 !', 'yellow');
+            return;
+          }
+
+          item.quantity--;
+          $(this).siblings('.quantity').val(item.quantity);
+          $(this).closest('.cart-product-item').find('.product-subtotal .price').text((item.productVariant.price * item.quantity).toLocaleString('vi-VN') + 'đ');
+          updatePrice();
+          updateQty(item.id, item.quantity);
+        })
+
+        $(document).on('click', '.inc', function() {
+          const id = $(this).closest('.pro-qty').data('id');
+          const item = cart.find(item => item.productVariant.id === id);
+
+          if(item.quantity >= 1000) {
+            showIziToast('Cảnh báo', 'Số lượng sản phẩm không thể lớn hơn 1,000 !', 'yellow');
+            return;
+          }
+
+          item.quantity++;
+          $(this).siblings('.quantity').val(item.quantity);
+          $(this).closest('.cart-product-item').find('.product-subtotal .price').text((item.productVariant.price * item.quantity).toLocaleString('vi-VN') + 'đ');
+          updatePrice();
+          updateQty(item.id, item.quantity);
+        })
+        
+        $(document).on('click', '.item-delete', function() {
+          const id = $(this).data('id');
+          const cartId = cart.find(item => item.productVariant.id === id).id;
+          const item = $(this).closest('.cart-product-item');
+          
+          $.ajax({
+            url: `/api/cart/delete/${cartId}`,
+            type: "DELETE",
+            success: function (response) {
+              item.remove();
+              cart = cart.filter(item => item.id !== cartId);
+              updatePrice();
+              updateCartCount();
+              showIziToast('Thành công', 'Xóa sản phẩm khỏi giỏ hàng thành công !');
+            }
+          });
+        })
+  
+        function updateQty(id, qty) {
+          $.ajax({
+            url: `/api/cart/updateQuantity/${id}`,
+            type: "POST",
+            data: { quantity: qty },
+            success: function (response) {
+              updateCartCount();
+              showIziToast('Thành công', 'Cập nhật số lượng sản phẩm thành công !');
+            }
+          });
+        }
+        function updatePrice() {
+          $('#subtotal-price').text(cart.reduce((total, item) => total + item.productVariant.price * item.quantity, 0).toLocaleString('vi-VN') + 'đ');
+          $('#totalPrice').text(cart.reduce((total, item) => total + item.productVariant.price * item.quantity, 0).toLocaleString('vi-VN') + 'đ');
+        }
+      })
+    </script>
   </main>
 </body>
 </html>
