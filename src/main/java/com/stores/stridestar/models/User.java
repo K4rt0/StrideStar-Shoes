@@ -62,6 +62,12 @@ public class User implements UserDetails {
     @Size(min = 6, message = "Mật khẩu phải từ 6 ký tự trở lên !")
     private String password;
 
+    @Transient
+    private String newPassword;
+
+    @Transient
+    private String confirmPassword;
+
     @Column(name = "birth_date")
     @Temporal(TemporalType.DATE)
     private Date birthDate;
