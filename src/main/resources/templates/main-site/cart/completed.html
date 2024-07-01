@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{main-site/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt hàng thành công</title>
+</head>
+<body>
+    <section layout:fragment="content">
+        <div class="container py-5">
+            <div style="margin: 0 15%;" class="text-center">
+                <h4 class="mt-2">Stride Star cảm ơn bạn! 🎉</h4>
+                <p class="mb-0">Đơn hàng <a href="javascript:void(0)" id="orderId" ></a> của bạn đã được đặt!</p>
+                <p><span class="fw-medium"><i class="fa-solid fa-timer"></i> Thời gian đặt:&nbsp;</span> <span id="order-time">25/05/2020 13:35pm</span></p>
+                <p>Chúng tôi đã gửi đến email của bạn có kèm theo xác nhận và biên nhận đơn hàng của bạn. Nếu email chưa đến trong vòng vài phút, vui lòng kiểm tra thư mục thư rác của bạn để xem email có được chuyển đến đó hay không.</p>
+                <a href="/" class="btn p-3 px-5" style="background-color: #eb3e32; color: #fff; font-weight: 400; font-size: 15px;">Về trang chính</a>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                var orderId = localStorage.getItem('orderId');
+                var orderTime = localStorage.getItem('orderTime');
+                $('#orderId').text("#" + orderId);
+                $('#order-time').text(formatTimestamp(orderTime));
+                localStorage.removeItem('orderId');
+                localStorage.removeItem('orderTime');
+            });
+        </script>
+    </section>
+</body>
+</html>

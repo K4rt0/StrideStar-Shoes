@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+    layout:decorate="~{admin/adminLayout}">
+<head>
+    <title>Stride Star - Tạo sản phẩm</title>
+    <link rel="stylesheet" href="/summernote-bs5/summernote-bs5.min.css">
+    <link rel="stylesheet" href="/admin/vendor/libs/dropzone/dropzone.css" />
+</head>
+<body>
+    <section layout:fragment="content">
+        <!-- Order List Table -->
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#Order</th>
+                            <th>Ngày đặt</th>
+                            <th>Người đặt</th>
+                            <th>Thanh toán</th>
+                            <th>Phương thức</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="order-list"></tbody>
+                </table>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                $.ajax({
+                    url: '/api/orders/getAll',
+                    type: 'GET',
+                    success: function(response) {
+                        response.forEach(order => {
+                            $('#order-list').append(`
+                                <tr>
+                                    <td>${order.id}</td>
+                                    <td>${formatTimestamp(order.createdDate)}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-start align-items-center order-name text-nowrap">
+                                            <div class="avatar-wrapper">
+                                                <div class="avatar me-2">
+                                                    ${getAvatarHTML(order)}
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column">
+                                                <h6 class="m-0">
+                                                    <a href="pages-profile-user.html" class="text-body">${order.user.fullName}</a>
+                                                </h6>
+                                                <small class="text-muted">${order.user.email}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        ${getPaymentStatus(order.paymentStatus)}
+                                    </td>
+                                    <td>
+                                        ${getPaymentMethod(order.payment)}
+                                    </td>
+                                    <td>
+                                        ${getOrderStatus(order.status)}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-sm-center align-items-sm-center">
+                                            <button class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                                            <div class="dropdown-menu dropdown-menu-end m-0">
+                                                <a href="/admin/orders/${order.id}" class="dropdown-item"><i class="fa-solid fa-eye me-2"></i> Xem</a>
+                                                <a href="javascript:0;" class="dropdown-item delete-record"><i class="fa-solid fa-trash me-2"></i> Xoá</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `);
+                        });
+                    }
+                });
+
+                function getAvatarHTML(order) {
+                    if (order.user.image == null)
+                        return `<span class="avatar-initial rounded-circle bg-label-primary">${getInitials(order.user.fullName)}</span>`;
+                    else
+                        return `<img src="${order.user.image}" alt="Avatar" class="rounded-circle">`;
+                }
+
+                function getInitials(name) {
+                    const words = name.split(' ');
+                    let initials = words.reduce((acc, word) => acc += word.charAt(0), '');
+                    return initials.toUpperCase();
+                }
+
+                function getOrderStatus(status) {
+                    switch (status) {
+                        case 'PENDING':
+                            return '<span class="badge px-2 bg-label-warning" text-capitalized="">Đang chờ xem xét</span>';
+                        case 'CONFIRMED':
+                            return '<span class="badge px-2 bg-label-primary" text-capitalized="">Đã được duyệt</span>';
+                        case 'DELIVERED':
+                            return '<span class="badge px-2 bg-label-success" text-capitalized="">Đã giao hàng</span>';
+                        case 'CANCELED':
+                            return '<span class="badge px-2 bg-label-danger" text-capitalized="">Đã huỷ</span>';
+                        case 'SHIPPING':
+                            return '<span class="badge px-2 bg-label-info" text-capitalized="">Đã giao hàng</span>';
+                        default:
+                            return 'Unknown';
+                    }
+                }
+
+                function getPaymentStatus(payment) {
+                    if(payment)
+                        return `<h6 class="mb-0 w-px-100 text-success"><i class="bx bxs-circle fs-tiny me-2"></i>Paid</h6>`;
+                    else
+                        return `<h6 class="mb-0 w-px-100 text-warning"><i class="bx bxs-circle fs-tiny me-2"></i>Pending</h6>`;
+                }
+
+                function getPaymentMethod(paymentMethod) {
+                    switch (paymentMethod) {
+                        case 'COD': 
+                            return `<div class="d-flex align-items-center text-nowrap">
+                                        <i class="fa-duotone fa-money-bill-1-wave"></i>
+                                        <span class="ms-2">COD</span>
+                                    </div>`;
+                        case 'VNPAY':
+                            return `<div class="d-flex align-items-center text-nowrap">
+                                        <i class="fa-duotone fa-credit-card"></i>
+                                        <span class="ms-2">VnPay</span>
+                                    </div>`;
+                        default:
+                            return 'Unknown';
+                    }
+                }
+            })
+        </script>
+    </section>
+</body>
+</html>

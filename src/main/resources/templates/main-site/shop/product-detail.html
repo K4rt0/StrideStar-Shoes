@@ -4,472 +4,350 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${title} ?: 'Product'">Title</title>
+    <title id="title"></title>
 </head>
 <body>
-
-<main class="main-content" layout:fragment="content">
-    <!--== Start Page Header Area Wrapper ==-->
-    <div class="page-header-area" data-bg-img="/main-site/img/shop/banner/1.webp" style="background-image: url(&quot;assets/img/photos/bg3.webp&quot;);"
-         th:object="${product}">
-        <div class="container pt--0 pb--0">
-            <div class="row">
-                <div class="col-12">
-                    <div class="page-header-content">
-                        <h2 class="title aos-init aos-animate" data-aos="fade-down" data-aos-duration="1000">Thông tin
-                            sản phẩm</h2>
-                        <nav class="breadcrumb-area aos-init aos-animate" data-aos="fade-down" data-aos-duration="1200">
-                            <ul class="breadcrumb">
-                                <li><a href="/">Trang chủ</a></li>
-                                <li class="breadcrumb-sep">//</li>
-                                <li th:text="*{name}"></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--== End Page Header Area Wrapper ==-->
-
-    <!--== Start Product Single Area Wrapper ==-->
-    <section class="product-area product-single-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <form method="post" th:action="@{/cart/add}">
-                        <div class="product-single-item">
-                            <div class="row">
-                                <div class="col-xl-6">
-                                    <!--== Start Product Thumbnail Area ==-->
-                                    <div class="product-single-thumb product-single-thumb-normal">
-                                        <div class="swiper-container single-product-thumb single-product-thumb-slider swiper-container-fade swiper-container-initialized swiper-container-horizontal">
-                                            <div class="swiper-wrapper">
-                                                <div class="swiper-slide swiper-slide-active"
-                                                     style="width: 570px; opacity: 1; transform: translate3d(0px, 0px, 0px);">
-                                                    <a class="lightbox-image" data-fancybox="gallery"
-                                                       href="/main-site/img/shop/product-single/1.webp">
-                                                        <img alt="Image-HasTech" height="541"
-                                                             src="/main-site/img/shop/product-single/1.webp" width="570">
-                                                    </a>
-                                                </div>
-                                                <div class="swiper-slide swiper-slide-next"
-                                                     style="width: 570px; opacity: 0; transform: translate3d(-570px, 0px, 0px);">
-                                                    <a class="lightbox-image" data-fancybox="gallery"
-                                                       href="/main-site/img/shop/product-single/2.webp">
-                                                        <img alt="Image-HasTech" height="541"
-                                                             src="/main-site/img/shop/product-single/2.webp" width="570">
-                                                    </a>
-                                                </div>
-                                                <div class="swiper-slide"
-                                                     style="width: 570px; opacity: 0; transform: translate3d(-1140px, 0px, 0px);">
-                                                    <a class="lightbox-image" data-fancybox="gallery"
-                                                       href="/main-site/img/shop/product-single/3.webp">
-                                                        <img alt="Image-HasTech" height="541"
-                                                             src="/main-site/img/shop/product-single/3.webp" width="570">
-                                                    </a>
-                                                </div>
-                                                <div class="swiper-slide"
-                                                     style="width: 570px; opacity: 0; transform: translate3d(-1710px, 0px, 0px);">
-                                                    <a class="lightbox-image" data-fancybox="gallery"
-                                                       href="/main-site/img/shop/product-single/4.webp">
-                                                        <img alt="Image-HasTech" height="541"
-                                                             src="/main-site/img/shop/product-single/4.webp" width="570">
-                                                    </a>
-                                                </div>
-                                                <div class="swiper-slide"
-                                                     style="width: 570px; opacity: 0; transform: translate3d(-2280px, 0px, 0px);">
-                                                    <a class="lightbox-image" data-fancybox="gallery"
-                                                       href="/main-site/img/shop/product-single/5.webp">
-                                                        <img alt="Image-HasTech" height="541"
-                                                             src="/main-site/img/shop/product-single/5.webp" width="570">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <span aria-atomic="true" aria-live="assertive"
-                                                  class="swiper-notification"></span></div>
-                                        <div class="swiper-container single-product-nav single-product-nav-slider swiper-container-initialized swiper-container-horizontal swiper-container-thumbs">
-                                            <div class="swiper-wrapper" style="transition-duration: 0ms;">
-                                                <div class="swiper-slide">
-                                                    <img alt="Image-HasTech" height="127"
-                                                         src="/main-site/img/shop/product-single/nav-1.webp" width="127">
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <img alt="Image-HasTech" height="127"
-                                                         src="/main-site/img/shop/product-single/nav-2.webp" width="127">
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <img alt="Image-HasTech" height="127"
-                                                         src="/main-site/img/shop/product-single/nav-3.webp" width="127">
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <img alt="Image-HasTech" height="127"
-                                                         src="/main-site/img/shop/product-single/nav-4.webp" width="127">
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <img alt="Image-HasTech" height="127"
-                                                         src="/main-site/img/shop/product-single/nav-5.webp" width="127">
-                                                </div>
-                                            </div>
-                                            <span aria-atomic="true" aria-live="assertive"
-                                                  class="swiper-notification"></span></div>
+    <main class="main-content" layout:fragment="content">
+        <!--== Start Product Single Area Wrapper ==-->
+        <section class="product-area product-single-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                    <div class="product-single-item">
+                        <div class="row">
+                        <div class="col-xl-6">
+                            <!--== Start Product Thumbnail Area ==-->
+                            <div class="product-single-thumb">
+                                <div class="swiper-container single-product-thumb single-product-thumb-slider">
+                                    <div id="productPreview" class="swiper-wrapper">
+                                        
                                     </div>
-                                    <!--== End Product Thumbnail Area ==-->
                                 </div>
-                                <div class="col-xl-6">
-                                    <!--== Start Product Info Area ==-->
-                                    <input id="productId" type="hidden" value="*{id}"/>
-                                    <input id="variantId" type="hidden" value="${firstProductVariant.id}"/>
-
-                                    <div class="product-single-info" th:object="${product}">
-                                        <h3 class="main-title" th:text="*{name}"></h3>
-                                        <div class="prices">
-                                            <span class="price">$20.19</span>
-                                        </div>
-                                        <div class="rating-box-wrap">
-                                            <div class="rating-box">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                            <div class="review-status">
-                                                <a href="javascript:void(0)">(5 Customer Review)</a>
-                                            </div>
-                                        </div>
-                                        <p th:text="*{description}"></p>
-
-                                        <div class="product-color">
-                                            <h6 class="title">Color</h6>
-
-                                        </div>
-                                        <div class="product-size">
-                                            <h6 class="title">Size</h6>
-                                            <ul class="size-list">
-                                                <li>S</li>
-                                                <li class="active">M</li>
-                                                <li>L</li>
-                                                <li>XL</li>
-                                            </ul>
-                                        </div>
-                                        <div class="product-quick-action">
-                                            <div class="qty-wrap">
-                                                <div class="pro-qty">
-                                                    <input title="Quantity" type="text" value="1">
-                                                    <div class="dec qty-btn">-</div>
-                                                    <div class="inc qty-btn">+</div>
-                                                </div>
-                                            </div>
-                                            <button class="btn-theme" href="shop-cart.html" type="submit">Thêm vào giỏ
-                                                hàng
-                                            </button>
-                                        </div>
-                                        <div class="product-wishlist-compare">
-                                            <a href="shop-wishlist.html"><i class="pe-7s-like"></i>Add to Wishlist</a>
-                                            <a href="shop-compare.html"><i class="pe-7s-shuffle"></i>Add to Compare</a>
-                                        </div>
-                                        <div class="product-info-footer">
-                                            <h6 class="code">
-                                                <span>Code :</span> <span style="color:black" th:text="*{id}"></span>
-                                            </h6>
-                                            <div class="social-icons">
-                                                <span>Share</span>
-                                                <a href="#/"><i class="fa fa-facebook"></i></a>
-                                                <a href="#/"><i class="fa fa-dribbble"></i></a>
-                                                <a href="#/"><i class="fa fa-pinterest-p"></i></a>
-                                            </div>
-                                        </div>
+                                <div class="swiper-container single-product-nav single-product-nav-slider">
+                                    <div id="productImages" class="swiper-wrapper">
+                                        
                                     </div>
-                                    <!--== End Product Info Area ==-->
                                 </div>
                             </div>
+                            <!--== End Product Thumbnail Area ==-->
                         </div>
-                    </form>
+                        <div class="col-xl-6">
+                            <!--== Start Product Info Area ==-->
+                            <div class="product-single-info">
+                            <h3 class="main-title"></h3>
+                            <div class="prices">
+                                <span id="productPrice" class="price"></span>
+                            </div>
+                            <div class="rating-box-wrap">
+                                <div class="rating-box">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="review-status">
+                                    <a href="javascript:void(0)">(5 Customer Review)</a>
+                                </div>
+                            </div>
+                            <div class="product-color">
+                                <h6 class="title">Màu sắc</h6>
+                                <ul class="color-list">
+                                </ul>
+                            </div>
+                            <div class="product-size">
+                                <h6 class="title">Kích cỡ</h6>
+                                <ul class="size-list">
+                                </ul>
+                            </div>
+                            <div class="product-quick-action">
+                                <div class="qty-wrap">
+                                <div class="pro-qty">
+                                    <input type="text" id="productQuantity" title="Quantity" value="1">
+                                </div>
+                                </div>
+                                <button type="button" id="buyNow" class="btn-theme">Mua ngay</button>
+                            </div>
+                            <div class="product-wishlist-compare">
+                                <a href="shop-wishlist.html"><i class="pe-7s-like"></i>Yêu thích</a>
+                                <a href="shop-compare.html"><i class="pe-7s-shuffle"></i>So sánh</a>
+                            </div>
+                            <div class="product-info-footer">
+                                <h6 class="code"></h6>
+                                <div class="social-icons">
+                                <span>Share</span>
+                                <a href="#/"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#/"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#/"><i class="fa-brands fa-x-twitter"></i></a>
+                                </div>
+                            </div>
+                            </div>
+                            <!--== End Product Info Area ==-->
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-12">
+                <div class="row">
+                    <div class="col-12">
                     <div class="product-review-tabs-content">
                         <ul class="nav product-tab-nav" id="ReviewTab" role="tablist">
-                            <li role="presentation">
-                                <a aria-controls="information" aria-selected="true" class="active" data-bs-toggle="pill"
-                                   href="#information" id="information-tab" role="tab">Information</a>
-                            </li>
-                            <li role="presentation">
-                                <a aria-controls="description" aria-selected="false" data-bs-toggle="pill" href="#description"
-                                   id="description-tab" role="tab" tabindex="-1">Description</a>
-                            </li>
-                            <li role="presentation">
-                                <a aria-controls="reviews" aria-selected="false" data-bs-toggle="pill" href="#reviews"
-                                   id="reviews-tab" role="tab" tabindex="-1">Reviews <span>(05)</span></a>
-                            </li>
+                        <li role="presentation">
+                            <a class="active" id="description-tab" data-bs-toggle="pill" href="#description" role="tab" aria-controls="description" aria-selected="false">Description</a>
+                        </li>
+                        <li role="presentation">
+                            <a id="reviews-tab" data-bs-toggle="pill" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews <span>(05)</span></a>
+                        </li>
                         </ul>
                         <div class="tab-content product-tab-content" id="ReviewTabContent">
-                            <div aria-labelledby="information-tab" class="tab-pane fade show active" id="information"
-                                 role="tabpanel">
-                                <div class="product-information">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim adlo minim veniam, quis
-                                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        Duis aute irure dolor in tun tuni reprehenderit in voluptate velit esse cillum
-                                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                                        sunt in culpa qui officia deserun mollit anim id est laborum. Sed ut
-                                        perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                                        laudantium, totam rel aperiam, eaque ipsa quae ab illo inventore veritatis et
-                                        quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem
-                                        quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.</p>
+                        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                            <div class="product-description">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                            <div class="product-review-content">
+                            <div class="review-content-header">
+                                <h3>Customer Reviews</h3>
+                                <div class="review-info">
+                                <ul class="review-rating">
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star-o"></li>
+                                </ul>
+                                <span class="review-caption">Based on 5 reviews</span>
+                                <span class="review-write-btn">Write a review</span>
                                 </div>
                             </div>
-                            <div aria-labelledby="description-tab" class="tab-pane fade" id="description"
-                                 role="tabpanel">
-                                <div class="product-description">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim adlo minim veniam, quis
-                                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        Duis aute irure dolor in tun tuni reprehenderit in voluptate velit esse cillum
-                                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                                        sunt in culpa qui officia deserun mollit anim id est laborum. Sed ut
-                                        perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                                        laudantium, totam rel aperiam, eaque ipsa quae ab illo inventore veritatis et
-                                        quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem
-                                        quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.</p>
-                                </div>
-                            </div>
-                            <div aria-labelledby="reviews-tab" class="tab-pane fade" id="reviews" role="tabpanel">
-                                <div class="product-review-content">
-                                    <div class="review-content-header">
-                                        <h3>Customer Reviews</h3>
-                                        <div class="review-info">
-                                            <ul class="review-rating">
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star-o"></li>
-                                            </ul>
-                                            <span class="review-caption">Based on 5 reviews</span>
-                                            <span class="review-write-btn">Write a review</span>
+
+                            <!--== Start Reviews Form Item ==-->
+                            <div class="reviews-form-area">
+                                <h4 class="title">Write a review</h4>
+                                <div class="reviews-form-content">
+                                <form action="#">
+                                    <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                        <label for="for_name">Name</label>
+                                        <input id="for_name" class="form-control" type="text" placeholder="Enter your name">
                                         </div>
                                     </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                        <label for="for_email">Email</label>
+                                        <input id="for_email" class="form-control" type="email" placeholder="john.smith@example.com">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                        <span class="title">Rating</span>
+                                        <ul class="review-rating">
+                                            <li class="fa fa-star-o"></li>
+                                            <li class="fa fa-star-o"></li>
+                                            <li class="fa fa-star-o"></li>
+                                            <li class="fa fa-star-o"></li>
+                                            <li class="fa fa-star-o"></li>
+                                        </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                        <label for="for_review-title">Review Title</label>
+                                        <input id="for_review-title" class="form-control" type="text" placeholder="Give your review a title">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                        <label for="for_comment">Body of Review (1500)</label>
+                                        <textarea id="for_comment" class="form-control" placeholder="Write your comments here"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-submit-btn">
+                                        <button type="submit" class="btn-submit">Post comment</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                            <!--== End Reviews Form Item ==-->
 
-                                    <!--== Start Reviews Form Item ==-->
-                                    <div class="reviews-form-area">
-                                        <h4 class="title">Write a review</h4>
-                                        <div class="reviews-form-content">
-                                            <form action="#">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="for_name">Name</label>
-                                                            <input class="form-control" id="for_name" placeholder="Enter your name"
-                                                                   type="text">
-                                                        </div>
+                            <div class="reviews-content-body">
+                                <!--== Start Reviews Content Item ==-->
+                                <div class="review-item">
+                                <ul class="review-rating">
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                </ul>
+                                <h3 class="title">Awesome shipping service!</h3>
+                                <h5 class="sub-title"><span>Nantu Nayal</span> no <span>Sep 30, 2022</span></h5>
+                                <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                <a href="#/">Report as Inappropriate</a>
+                                </div>
+                                <!--== End Reviews Content Item ==-->
+
+                                <!--== Start Reviews Content Item ==-->
+                                <div class="review-item">
+                                <ul class="review-rating">
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star-o"></li>
+                                    <li class="fa fa-star-o"></li>
+                                    <li class="fa fa-star-o"></li>
+                                    <li class="fa fa-star-o"></li>
+                                </ul>
+                                <h3 class="title">Low Quality</h3>
+                                <h5 class="sub-title"><span>Oliv hala</span> no <span>Sep 30, 2022</span></h5>
+                                <p>My Favorite White Sneakers From Splurge To Save the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+                                <a href="#/">Report as Inappropriate</a>
+                                </div>
+                                <!--== End Reviews Content Item ==-->
+
+                                <!--== Start Reviews Content Item ==-->
+                                <div class="review-item">
+                                <ul class="review-rating">
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                </ul>
+                                <h3 class="title">Excellent services!</h3>
+                                <h5 class="sub-title"><span>Halk Marron</span> no <span>Sep 30, 2022</span></h5>
+                                <p>The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+                                <a href="#/">Report as Inappropriate</a>
+                                </div>
+                                <!--== End Reviews Content Item ==-->
+
+                                <!--== Start Reviews Content Item ==-->
+                                <div class="review-item">
+                                <ul class="review-rating">
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star-o"></li>
+                                    <li class="fa fa-star-o"></li>
+                                </ul>
+                                <h3 class="title">Price is very high</h3>
+                                <h5 class="sub-title"><span>Musa</span> no <span>Sep 30, 2022</span></h5>
+                                <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
+                                <a href="#/">Report as Inappropriate</a>
+                                </div>
+                                <!--== End Reviews Content Item ==-->
+
+                                <!--== Start Reviews Content Item ==-->
+                                <div class="review-item">
+                                <ul class="review-rating">
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star"></li>
+                                    <li class="fa fa-star-o"></li>
+                                </ul>
+                                <h3 class="title">Normal</h3>
+                                <h5 class="sub-title"><span>Muhammad</span> no <span>Sep 30, 2022</span></h5>
+                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
+                                <a href="#/">Report as Inappropriate</a>
+                                </div>
+                                <!--== End Reviews Content Item ==-->
+                            </div>
+
+                            <!--== Start Reviews Pagination Item ==-->
+                            <div class="review-pagination">
+                                <span class="pagination-pag">1</span>
+                                <span class="pagination-pag">2</span>
+                                <span class="pagination-next">Next »</span>
+                            </div>
+                            <!--== End Reviews Pagination Item ==-->
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--== End Product Single Area Wrapper ==-->
+
+        <!--== Start Product Area Wrapper ==-->
+        <section class="product-area product-best-seller-area">
+            <div class="container pt--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-title text-center">
+                            <h3 class="title">Sản phẩm tương tự</h3>
+                            <div class="desc">
+                                <p>Các sản phẩm tương tự của Stride Star</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="product-slider-wrap">
+                            <div class="swiper-container product-slider-col4-container">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <!--== Start Product Item ==-->
+                                        <div class="product-item">
+                                            <div class="inner-content">
+                                                <div class="product-thumb">
+                                                    <a href="single-product.html">
+                                                        <img src="/main-site/img/shop/1.webp" width="270" height="274" alt="Image-HasTech">
+                                                    </a>
+                                                    <div class="product-flag">
+                                                        <ul>
+                                                            <li class="discount">-10%</li>
+                                                        </ul>
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="for_email">Email</label>
-                                                            <input class="form-control" id="for_email" placeholder="john.smith@example.com"
-                                                                   type="email">
-                                                        </div>
+                                                    <div class="product-action">
+                                                        <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                                        <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
+                                                        <button type="button" class="btn-product-quick-view-open">
+                                                            <i class="fa fa-arrows"></i>
+                                                        </button>
+                                                        <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <span class="title">Rating</span>
-                                                            <ul class="review-rating">
-                                                                <li class="fa fa-star-o"></li>
-                                                                <li class="fa fa-star-o"></li>
-                                                                <li class="fa fa-star-o"></li>
-                                                                <li class="fa fa-star-o"></li>
-                                                                <li class="fa fa-star-o"></li>
-                                                            </ul>
-                                                        </div>
+                                                    <a class="banner-link-overlay" href="shop.html"></a>
+                                                </div>
+                                                <div class="product-info">
+                                                    <div class="category">
+                                                        <ul>
+                                                            <li><a href="shop.html">Men</a></li>
+                                                            <li class="sep">/</li>
+                                                            <li><a href="shop.html">Women</a></li>
+                                                        </ul>
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="for_review-title">Review Title</label>
-                                                            <input class="form-control" id="for_review-title"
-                                                                   placeholder="Give your review a title" type="text">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="for_comment">Body of Review (1500)</label>
-                                                            <textarea class="form-control" id="for_comment"
-                                                                      placeholder="Write your comments here"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-submit-btn">
-                                                            <button class="btn-submit" type="submit">Post comment
-                                                            </button>
-                                                        </div>
+                                                    <h4 class="title"><a href="single-product.html">Modern Smart Shoes</a></h4>
+                                                    <div class="prices">
+                                                        <span class="price-old">$300</span>
+                                                        <span class="sep">-</span>
+                                                        <span class="price">$240.00</span>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
-                                    <!--== End Reviews Form Item ==-->
-
-                                    <div class="reviews-content-body">
-                                        <!--== Start Reviews Content Item ==-->
-                                        <div class="review-item">
-                                            <ul class="review-rating">
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                            </ul>
-                                            <h3 class="title">Awesome shipping service!</h3>
-                                            <h5 class="sub-title"><span>Nantu Nayal</span> no <span>Sep 30, 2022</span>
-                                            </h5>
-                                            <p>It has survived not only five centuries, but also the leap into
-                                                electronic typesetting, remaining essentially unchanged. It was
-                                                popularised in the 1960s with the release of Letraset sheets containing
-                                                Lorem Ipsum passages, and more recently with desktop publishing software
-                                                like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                            <a href="#/">Report as Inappropriate</a>
-                                        </div>
-                                        <!--== End Reviews Content Item ==-->
-
-                                        <!--== Start Reviews Content Item ==-->
-                                        <div class="review-item">
-                                            <ul class="review-rating">
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                            </ul>
-                                            <h3 class="title">Low Quality</h3>
-                                            <h5 class="sub-title"><span>Oliv hala</span> no <span>Sep 30, 2022</span>
-                                            </h5>
-                                            <p>My Favorite White Sneakers From Splurge To Save the 1500s is reproduced
-                                                below for those interested. Sections 1.10.32 and 1.10.33 from "de
-                                                Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact
-                                                original form, accompanied by English versions from the 1914 translation
-                                                by H. Rackham.</p>
-                                            <a href="#/">Report as Inappropriate</a>
-                                        </div>
-                                        <!--== End Reviews Content Item ==-->
-
-                                        <!--== Start Reviews Content Item ==-->
-                                        <div class="review-item">
-                                            <ul class="review-rating">
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                            </ul>
-                                            <h3 class="title">Excellent services!</h3>
-                                            <h5 class="sub-title"><span>Halk Marron</span> no <span>Sep 30, 2022</span>
-                                            </h5>
-                                            <p>The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from
-                                                a line in section 1.10.32.</p>
-                                            <a href="#/">Report as Inappropriate</a>
-                                        </div>
-                                        <!--== End Reviews Content Item ==-->
-
-                                        <!--== Start Reviews Content Item ==-->
-                                        <div class="review-item">
-                                            <ul class="review-rating">
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                            </ul>
-                                            <h3 class="title">Price is very high</h3>
-                                            <h5 class="sub-title"><span>Musa</span> no <span>Sep 30, 2022</span></h5>
-                                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has
-                                                roots in a piece of classical Latin literature from 45 BC, making it
-                                                over 2000 years old.</p>
-                                            <a href="#/">Report as Inappropriate</a>
-                                        </div>
-                                        <!--== End Reviews Content Item ==-->
-
-                                        <!--== Start Reviews Content Item ==-->
-                                        <div class="review-item">
-                                            <ul class="review-rating">
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star-o"></li>
-                                            </ul>
-                                            <h3 class="title">Normal</h3>
-                                            <h5 class="sub-title"><span>Muhammad</span> no <span>Sep 30, 2022</span>
-                                            </h5>
-                                            <p>There are many variations of passages of Lorem Ipsum available, but the
-                                                majority have suffered alteration in some form, by injected humour</p>
-                                            <a href="#/">Report as Inappropriate</a>
-                                        </div>
-                                        <!--== End Reviews Content Item ==-->
-                                    </div>
-
-                                    <!--== Start Reviews Pagination Item ==-->
-                                    <div class="review-pagination">
-                                        <span class="pagination-pag">1</span>
-                                        <span class="pagination-pag">2</span>
-                                        <span class="pagination-next">Next »</span>
-                                    </div>
-                                    <!--== End Reviews Pagination Item ==-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--== End Product Single Area Wrapper ==-->
-
-    <!--== Start Product Area Wrapper ==-->
-    <section class="product-area product-best-seller-area">
-        <div class="container pt--0">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-title text-center">
-                        <h3 class="title">Sản phẩm liên quan</h3>
-                        <div class="desc">
-                            <p>Có rất nhiều thể loại phù hợp với phong cách của bạn!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="product-slider-wrap">
-                        <div class="swiper-container product-slider-col4-container swiper-container-initialized swiper-container-horizontal">
-                            <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
-                                <div class="swiper-slide" style="width: 270px; margin-right: 30px;"
-                                     th:each="relatedProduct : ${relatedProducts}">
+                                    <div class="swiper-slide">
                                     <!--== Start Product Item ==-->
                                     <div class="product-item">
                                         <div class="inner-content">
                                             <div class="product-thumb">
                                                 <a href="single-product.html">
-                                                    <img alt="Image-HasTech" height="274" src="/main-site/img/shop/3.webp"
-                                                         width="270">
+                                                    <img src="/main-site/img/shop/7.webp" width="270" height="274" alt="Image-HasTech">
                                                 </a>
-                                                <div class="product-flag">
-                                                    <ul>
-                                                        <li class="discount">-10%</li>
-                                                    </ul>
-                                                </div>
                                                 <div class="product-action">
-                                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i
-                                                            class="fa fa-heart"></i></a>
-                                                    <a class="btn-product-cart" href="shop-cart.html"><i
-                                                            class="fa fa-shopping-cart"></i></a>
-                                                    <button class="btn-product-quick-view-open" type="button">
+                                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                                    <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
+                                                    <button type="button" class="btn-product-quick-view-open">
                                                         <i class="fa fa-arrows"></i>
                                                     </button>
-                                                    <a class="btn-product-compare" href="shop-compare.html"><i
-                                                            class="fa fa-random"></i></a>
+                                                    <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
                                                 </div>
                                                 <a class="banner-link-overlay" href="shop.html"></a>
                                             </div>
@@ -481,44 +359,325 @@
                                                         <li><a href="shop.html">Women</a></li>
                                                     </ul>
                                                 </div>
-                                                <h4 class="title"><a href="single-product.html"
-                                                                     th:text="${relatedProduct.name}"></a>
-                                                </h4>
+                                                <h4 class="title"><a href="single-product.html">Quickiin Mens shoes</a></h4>
                                                 <div class="prices">
-                                                    <span class="price-old"
-                                                          th:if="${relatedProduct.productVariants[0].price != null}"
-                                                          th:text="'$' + ${relatedProduct.productVariants[0].price}"></span>
-                                                    <span class="sep">-</span>
-                                                    <span class="price"
-                                                          th:if="${relatedProduct.productVariants[0].price != null}"
-                                                          th:text="'$' + ${relatedProduct.productVariants[0].price}"></span>
+                                                    <span class="price">$240.00</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <!--== End prPduct Item ==-->
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <!--== Start Product Item ==-->
+                                        <div class="product-item">
+                                            <div class="inner-content">
+                                                <div class="product-thumb">
+                                                    <a href="single-product.html">
+                                                        <img src="/main-site/img/shop/3.webp" width="270" height="274" alt="Image-HasTech">
+                                                    </a>
+                                                    <div class="product-flag">
+                                                    <ul>
+                                                        <li class="discount">-10%</li>
+                                                    </ul>
+                                                    </div>
+                                                    <div class="product-action">
+                                            <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                            <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
+                                            <button type="button" class="btn-product-quick-view-open">
+                                                <i class="fa fa-arrows"></i>
+                                            </button>
+                                            <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
+                                            </div>
+                                                    <a class="banner-link-overlay" href="shop.html"></a>
+                                                </div>
+                                            <div class="product-info">
+                                                <div class="category">
+                                        <ul>
+                                            <li><a href="shop.html">Men</a></li>
+                                                    <li class="sep">/</li>
+                                                    <li><a href="shop.html">Women</a></li>
+                                                </ul>
+                                                </div>
+                                                <h4 class="title"><a href="single-product.html">Rexpo Womens shoes</a></h4>
+                                                <div class="prices">
+                                                <span class="price-old">$300</span>
+                                                <span class="sep">-</span>
+                                                <span class="price">$240.00</span>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <!--== End prPduct Item ==-->
+                                    </div>
+                                    <div class="swiper-slide">
+                                    <!--== Start Product Item ==-->
+                                    <div class="product-item">
+                                        <div class="inner-content">
+                                        <div class="product-thumb">
+                                            <a href="single-product.html">
+                                            <img src="/main-site/img/shop/4.webp" width="270" height="274" alt="Image-HasTech">
+                                            </a>
+                                            <div class="product-action">
+                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                    <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
+                                    <button type="button" class="btn-product-quick-view-open">
+                                        <i class="fa fa-arrows"></i>
+                                    </button>
+                                    <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
+                                    </div>
+                                            <a class="banner-link-overlay" href="shop.html"></a>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="category">
+                                    <ul>
+                                        <li><a href="shop.html">Men</a></li>
+                                                <li class="sep">/</li>
+                                                <li><a href="shop.html">Women</a></li>
+                                            </ul>
+                                            </div>
+                                            <h4 class="title"><a href="single-product.html">Leather Mens Slipper</a></h4>
+                                            <div class="prices">
+                                            <span class="price">$240.00</span>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <!--== End prPduct Item ==-->
+                                    </div>
+                                    <div class="swiper-slide">
+                                    <!--== Start Product Item ==-->
+                                    <div class="product-item">
+                                        <div class="inner-content">
+                                        <div class="product-thumb">
+                                            <a href="single-product.html">
+                                            <img src="/main-site/img/shop/5.webp" width="270" height="274" alt="Image-HasTech">
+                                            </a>
+                                            <div class="product-action">
+                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                    <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
+                                    <button type="button" class="btn-product-quick-view-open">
+                                        <i class="fa fa-arrows"></i>
+                                    </button>
+                                    <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
+                                    </div>
+                                            <a class="banner-link-overlay" href="shop.html"></a>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="category">
+                                    <ul>
+                                        <li><a href="shop.html">Men</a></li>
+                                                <li class="sep">/</li>
+                                                <li><a href="shop.html">Women</a></li>
+                                            </ul>
+                                            </div>
+                                            <h4 class="title"><a href="single-product.html">Primitive Mens shoes</a></h4>
+                                            <div class="prices">
+                                            <span class="price-old">$300</span>
+                                            <span class="sep">-</span>
+                                            <span class="price">$240.00</span>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <!--== End prPduct Item ==-->
+                                    </div>
+                                    <div class="swiper-slide">
+                                    <!--== Start Product Item ==-->
+                                    <div class="product-item">
+                                        <div class="inner-content">
+                                        <div class="product-thumb">
+                                            <a href="single-product.html">
+                                            <img src="/main-site/img/shop/6.webp" width="270" height="274" alt="Image-HasTech">
+                                            </a>
+                                            <div class="product-flag">
+                                            <ul>
+                                                <li class="discount">-10%</li>
+                                            </ul>
+                                            </div>
+                                            <div class="product-action">
+                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                    <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
+                                    <button type="button" class="btn-product-quick-view-open">
+                                        <i class="fa fa-arrows"></i>
+                                    </button>
+                                    <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
+                                    </div>
+                                            <a class="banner-link-overlay" href="shop.html"></a>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="category">
+                                    <ul>
+                                        <li><a href="shop.html">Men</a></li>
+                                                <li class="sep">/</li>
+                                                <li><a href="shop.html">Women</a></li>
+                                            </ul>
+                                            </div>
+                                            <h4 class="title"><a href="single-product.html">Simple Fabric Shoe</a></h4>
+                                            <div class="prices">
+                                            <span class="price-old">$300</span>
+                                            <span class="sep">-</span>
+                                            <span class="price">$240.00</span>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <!--== End prPduct Item ==-->
+                                    </div>
                                 </div>
-
                             </div>
-                            <span aria-atomic="true" aria-live="assertive" class="swiper-notification"></span></div>
-                        <!--== Add Swiper Arrows ==-->
-                        <div class="product-swiper-btn-wrap">
-                            <div aria-disabled="true" aria-label="Previous slide" class="product-swiper-btn-prev swiper-button-disabled"
-                                 role="button" tabindex="-1">
-                                <i class="fa fa-arrow-left"></i>
-                            </div>
-                            <div aria-disabled="false" aria-label="Next slide" class="product-swiper-btn-next" role="button"
-                                 tabindex="0">
-                                <i class="fa fa-arrow-right"></i>
+                            <!--== Add Swiper Arrows ==-->
+                            <div class="product-swiper-btn-wrap">
+                                <div class="product-swiper-btn-prev">
+                                    <i class="fa fa-arrow-left"></i>
+                                </div>
+                                <div class="product-swiper-btn-next">
+                                    <i class="fa fa-arrow-right"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!--== End Product Area Wrapper ==-->
-</main>
+        </section>
+        <!--== End Product Area Wrapper ==-->
+        <script>
+            var productId = window.location.pathname.split('/').pop();
 
+            $('#buyNow').click(function(e) {
+                e.preventDefault();
+
+                var quantity = Number($('#productQuantity').val());
+                if(isNaN(quantity) || quantity <= 0) {
+                    showIziToast('Cảnh cáo', 'Số lượng không hợp lệ !', 'red');
+                    return;
+                }
+
+                var variantId = $('.sizePick.active').data('id');
+                if (!variantId) {
+                    showIziToast('Cảnh cáo', 'Vui lòng chọn màu sắc!', 'red');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/api/cart/add/' + variantId,
+                    type: 'POST',
+                    data: { quantity: quantity },
+                    success: function(response) {
+                        showIziToast('Thành công', 'Đã thêm sản phẩm vào giỏ hàng!', 'green');
+                        updateCartCount();
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                        console.log(status);
+                        console.log(error);
+                    }
+                });
+            })
+
+            $.ajax({
+                url: '/api/products/getById/' + productId,
+                type: 'GET',
+                success: function (response) {
+                    $('#title').text(response.name);
+                    $('.main-title').text(response.name);
+                    $('#productPrice').text(response.productVariants[0].price.toLocaleString('vi-VN') + 'đ');
+                    $('.product-description').html(response.description);
+
+                    $('#productPreview').append(`
+                        <div class="swiper-slide">
+                            <a id="productAvatar" class="lightbox-image" data-fancybox="gallery" href="${response.image}">
+                                <img src="${response.image}" width="570" height="541" alt="${response.name}">
+                            </a>
+                        </div>
+                    `);
+                    response.productImages.forEach(productImage => {
+                        $('#productPreview').append(`
+                            <div class="swiper-slide">
+                                <a class="lightbox-image" data-fancybox="gallery" href="${productImage.url}">
+                                    <img src="${productImage.url}" width="570" height="541" alt="${response.name}">
+                                </a>
+                            </div>
+                        `);
+                    });
+                    
+                    $('#productImages').append(`
+                        <div class="swiper-slide">
+                            <img src="${response.image}" style="object-fit: cover; width: 127px; min-height: 127px;" alt="${response.name}">
+                        </div>
+                    `);
+                    response.productImages.forEach(productImage => {
+                        $('#productImages').append(`
+                            <div class="swiper-slide">
+                                <img src="${productImage.url}" style="object-fit: cover; width: 127px; min-height: 127px;" alt="${response.name}">
+                            </div>
+                        `);
+                    });
+                    var colors = [];
+
+                    $.each(response.productVariants, function(index, variant) {
+                        var colorValue = variant.variantAttributes.find(attr => attr.productAttributeValue.productAttribute.name === "Màu sắc").productAttributeValue.value;
+                        var existingColor = colors.find(color => color.value === colorValue);
+
+                        if (!existingColor) {
+                            $('.color-list').append(`<li data-id="${variant.id}" class="colorPick text-center align-content-center" style="font-size: 12px">${colorValue}</li>`);
+                            existingColor = {
+                                id: variant.id,
+                                value: colorValue,
+                                sizes: []
+                            };
+                            colors.push(existingColor);
+                        }
+
+                        var sizeAttr = variant.variantAttributes.find(attr => attr.productAttributeValue.productAttribute.name === "Size");
+                        var sizeValue = sizeAttr ? sizeAttr.productAttributeValue.value : null;
+                        var sizeId = sizeAttr ? sizeAttr.id : null;
+                        var sizePrice = variant.price;
+                        var sizeAmount = variant.quantity;
+
+                        existingColor.sizes.push({
+                            id: sizeId,
+                            value: sizeValue,
+                            price: sizePrice,
+                            amount: sizeAmount
+                        });
+                    });
+
+                    $(document).on('click', '.colorPick', function() {
+                        var colorId = $(this).data('id');
+                        var selectedColor = colors.find(color => color.id === colorId);
+                        $('.colorPick').removeClass('active');
+                        $(this).addClass('active');
+                        $('.size-list').empty();
+
+                        selectedColor.sizes.forEach(size => {
+                            $('.size-list').append(`<li data-id="${size.id}" class="sizePick text-center align-content-center" style="font-size: 12px">${size.value}</li>`);
+                        });
+
+                        // Kích hoạt sự kiện click cho size đầu tiên mỗi khi màu được chọn
+                        var firstSizeElement = $('.size-list li').first();
+                        if (firstSizeElement.length) {
+                            firstSizeElement.trigger('click');
+                        }
+                    });
+
+                    $(document).on('click', '.sizePick', function() {
+                        var sizeId = $(this).data('id');
+                        var selectedSize = colors.find(color => color.id === $('.colorPick.active').data('id')).sizes.find(size => size.id === sizeId);
+                        $('.sizePick').removeClass('active');
+                        $(this).addClass('active');
+                        $('#productPrice').text(selectedSize.price.toLocaleString('vi-VN') + 'đ');
+                    });
+
+                    if (colors.length > 0) {
+                        var firstColorElement = $('.color-list li').first();
+                        if (firstColorElement.length) {
+                            firstColorElement.trigger('click');
+                        }
+                    }
+                }
+            });
+        </script>
+    </main>
 </body>
 </html>

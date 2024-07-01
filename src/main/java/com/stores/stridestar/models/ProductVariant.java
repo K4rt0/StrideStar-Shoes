@@ -40,4 +40,7 @@ public class ProductVariant {
     @JsonIgnoreProperties("productVariant")
     private List<VariantAttribute> variantAttributes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "productVariant")
+    @JsonIgnoreProperties("productVariant")
+    private List<CartItem> cartItems = new ArrayList<>();
 }

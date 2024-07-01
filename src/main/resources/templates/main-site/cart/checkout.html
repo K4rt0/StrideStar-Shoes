@@ -1,10 +1,201 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{main-site/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Thanh toán</title>
 </head>
 <body>
+    <section layout:fragment="content">
+        <main class="main-content">
+            <!--== Start Shopping Checkout Area Wrapper ==-->
+            <section class="shopping-checkout-wrap">
+                <div class="container">
+                    <div class="row">
+                    <div class="col-lg-6">
+                        <!--== Start Billing Accordion ==-->
+                        <div class="checkout-billing-details-wrap">
+                        <h2 class="title">Chi tiết thanh toán</h2>
+                        <div class="billing-form-wrap">
+                            <form action="#" method="post">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="order-fullName">Họ tên <abbr class="required" title="required">*</abbr></label>
+                                        <input id="order-fullName" type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="order-numberPhone">Số điện thoại <abbr class="required" title="required">*</abbr></label>
+                                        <input id="order-numberPhone" type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="order-address">Địa chỉ giao hàng <abbr class="required" title="required">*</abbr></label>
+                                        <input id="order-address" type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group mb--0">
+                                        <label for="order-notes">Ghi chú (optional)</label>
+                                        <textarea id="order-notes" class="form-control" placeholder="Ghi chú..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                        </div>
+                        <!--== End Billing Accordion ==-->
+                    </div>
+                    <div class="col-lg-6">
+                        <!--== Start Order Details Accordion ==-->
+                        <div class="checkout-order-details-wrap">
+                            <div class="order-details-table-wrap table-responsive">
+                                <h2 class="title mb-25">Đơn hàng của bạn</h2>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                        <th class="product-name">Sản phẩm</th>
+                                        <th class="product-total">Tổng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="order-listItem" class="table-body">
+                                        
+                                    </tbody>
+                                    <tfoot class="table-foot">
+                                        <tr class="cart-subtotal">
+                                            <th>Tạm tính</th>
+                                            <td id="order-subtotal"></td>
+                                        </tr>
+                                        <tr class="shipping">
+                                            <th>Giao hàng</th>
+                                            <td class="text-success">Miễn phí</td>
+                                        </tr>
+                                        <tr class="order-total">
+                                            <th>Thành tiền</th>
+                                            <td id="order-totalprice"></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <div class="shop-payment-method">
+                                    <div id="PaymentMethodAccordion">
+                                        <div class="card">
+                                            <div class="card-header" id="check_payments2">
+                                                <h5 class="title" data-bs-toggle="collapse" data-bs-target="#itemThree" aria-controls="itemTwo" data-value="COD" aria-expanded="true">Thanh toán khi nhận hàng (COD)</h5>
+                                            </div>
+                                            <div id="itemThree" class="collapse show" aria-labelledby="check_payments2" data-bs-parent="#PaymentMethodAccordion">
+                                                <div class="card-body">
+                                                    <p>Thanh toán bằng tiền mặt khi nhận hàng.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header" id="check_payments1">
+                                                <h5 class="title" data-bs-toggle="collapse" data-bs-target="#itemOne" aria-controls="itemOne" data-value="VNPAY" aria-expanded="false">Thanh toán VnPay</h5>
+                                            </div>
+                                            <div id="itemOne" class="collapse" aria-labelledby="check_payments1" data-bs-parent="#PaymentMethodAccordion">
+                                                <div class="card-body">
+                                                    <p>Thanh toán qua cổng ngân hàng VnPay.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="agree-policy">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" id="privacy" class="custom-control-input visually-hidden">
+                                            <label for="privacy" class="custom-control-label">Tôi đã đọc và đồng ý với các điều khoản và điều kiện của trang web <span class="required">*</span></label>
+                                        </div>
+                                    </div>
+                                    <button type="button" id="btn-checkout" class="btn btn-theme w-100">Thanh toán</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--== End Order Details Accordion ==-->
+                    </div>
+                    </div>
+                </div>
+            </section>
+            <!--== End Shopping Checkout Area Wrapper ==-->
+        </main>
+        <script>
+            $(document).ready(function() {
+                let cart = [];
+                $.ajax({
+                    url: "/api/cart/list",
+                    type: "GET",
+                    success: function (response) {
+                        cart = response;
+                        $('#order-listItem').empty();
+                        $('#order-subtotal').text(response.reduce((total, item) => total + item.productVariant.price * item.quantity, 0).toLocaleString('vi-VN') + 'đ');
+                        $('#order-totalprice').text(response.reduce((total, item) => total + item.productVariant.price * item.quantity, 0).toLocaleString('vi-VN') + 'đ');
+                        response.forEach(item => {
+                            $('#order-listItem').append(`
+                                <tr class="cart-item">
+                                    <td class="product-name">
+                                        ${item.productVariant.product.name} <span class="product-quantity">× ${item.quantity}</span>
+                                        <p class="ms-2 text-muted" style="font-size: 12px;">
+                                            ${
+                                                item.productVariant.variantAttributes
+                                                .filter(attribute => attribute.productAttributeValue.productAttribute.name === 'Màu sắc')
+                                                .map(attribute => attribute.productAttributeValue.value)
+                                                .join(', ')
+                                            } - 
+                                            ${
+                                                item.productVariant.variantAttributes
+                                                .filter(attribute => attribute.productAttributeValue.productAttribute.name === 'Size')
+                                                .map(attribute => attribute.productAttributeValue.value)
+                                                .join(', ')
+                                            }
+                                        </p>
+                                    </td>
+                                    <td class="product-total">${(item.productVariant.price * item.quantity).toLocaleString('vi-VN') + 'đ'}</td>
+                                </tr>
+                            `);
+                        });
+                    }
+                });
+            
+                $('#btn-checkout').click(function() {
+                    if ($('#order-fullName').val() === '' || $('#order-numberPhone').val() === '' || $('#order-address').val() === '') {
+                        showIziToast('Thông báo', 'Vui lòng điền đầy đủ thông tin', 'yellow');
+                        return;
+                    }
+                    if (!$('#privacy').is(':checked')) {
+                        showIziToast('Thông báo', 'Vui lòng đồng ý với các điều khoản và điều kiện', 'yellow');
+                        return;
+                    }
 
+                    const paymentMethod = $('#PaymentMethodAccordion').find('.title[aria-expanded="true"]').data('value');
+                    $.ajax({
+                        url: "/api/cart/checkout",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            fullName: $('#order-fullName').val(),
+                            phoneNumber: $('#order-numberPhone').val(),
+                            address: $('#order-address').val(),
+                            note: $('#order-notes').val(),
+                            totalPrice: cart.reduce((total, item) => total + item.productVariant.price * item.quantity, 0),
+                            payment: paymentMethod,
+                            shipping: "Giao hàng tiêu chuẩn"
+                        }),
+                        success: function (response) {
+                            alert('Đặt hàng thành công');
+                            localStorage.setItem('orderId', response.id);
+                            alert(response.createdDate);
+                            localStorage.setItem('orderTime', response.createdDate);
+                            window.location.href = '/cart/checkout/completed';
+                        },
+                        error: function (response) {
+                            showIziToast('Thông báo', 'Đặt hàng thất bại', 'red');
+                        }
+                    });
+                });
+            });
+        </script>
+    </section>
 </body>
 </html>

@@ -7,6 +7,8 @@ import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -36,6 +38,7 @@ public class Role implements GrantedAuthority {
 
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     @ToString.Exclude
+    @JsonIgnoreProperties("roles")
     private Set<User> users = new HashSet<>();
 
     @Override

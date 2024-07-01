@@ -1,7 +1,9 @@
 package com.stores.stridestar.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 
 @Setter
@@ -15,12 +17,21 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "avatar")
+    private String avatar;
+
+    @Column(name = "category")
+    private String category;
+
     @Column(name = "quantity")
-    @NotBlank(message = "Số lượng không được bỏ trống !")
+    @Min(value = 0, message = "Số lượng không được nhỏ hơn 0 !")
     private int quantity;
 
     @Column(name = "price")
-    @NotBlank(message = "Giá tiền không được bỏ trống !")
+    @Min(value = 0, message = "Giảm giá không được nhỏ hơn 0 !")
     private double price;
 
     @Column(name = "attributes")
@@ -28,5 +39,6 @@ public class OrderDetail {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnoreProperties("orderDetails")
     private Order order;
 }

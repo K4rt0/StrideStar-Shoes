@@ -13,6 +13,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Getter
 @Setter
 @ToString
@@ -75,15 +77,13 @@ public class User implements UserDetails {
     @Column(name = "lockout", columnDefinition = "boolean default false", nullable = false)
     private boolean lockout;
 
-    @OneToMany(mappedBy = "user")
-    private List<DeliveryAddress> deliveryAddresses;
-
     @Column(name = "provider", length = 50)
     private String provider;
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnoreProperties("users")
     private Set<Role> roles = new HashSet<>();
 
     @Override
