@@ -27,7 +27,6 @@ public class UserController {
     }
 
 
-
     @GetMapping("/register")
     public String register(@NotNull Model model) {
         model.addAttribute("user", new User()); // Thêm một đối tượng User mới vào model
@@ -51,14 +50,14 @@ public class UserController {
         return "redirect:/login"; // Chuyển hướng người dùng tới trang "login"
     }
 
-    @GetMapping("/account-detail")
+    @GetMapping("/account")
     public String getAccountDetail(Authentication authentication, Model model) {
         User user = userService.findByUsername(authentication.getName()).orElseThrow();
         model.addAttribute("user", user);
         return "/main-site/user/account-detail";
     }
 
-    @PostMapping("/account-detail")
+    @PostMapping("/account")
     public String updateAccountDetail(@ModelAttribute("user") User userForm, Model model, Authentication authentication) {
         try {
             // Lấy thông tin người dùng hiện tại
