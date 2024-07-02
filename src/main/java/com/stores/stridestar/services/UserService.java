@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -30,7 +29,7 @@ public class UserService implements UserDetailsService {
 
     public void save(@NotNull User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        user.setCreatedDate(LocalDateTime.now()) ;
+        user.setCreatedDate(LocalDateTime.now());
         user.setProvider(Provider.LOCAL.value);
         userRepository.save(user);
     }

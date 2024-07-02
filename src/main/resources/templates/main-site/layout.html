@@ -14,7 +14,7 @@
   <title>Stride Star</title>
 
   <!--== Favicon ==-->
-  <link rel="shortcut icon" th:href="@{/main-site/img/favicon.ico}" type="image/x-icon" />
+  <link rel="shortcut icon" href="/StrideStar-Logo.png" type="image/x-icon" />
 
   <!--== Google Fonts ==-->
   <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -69,7 +69,7 @@
                         </li>
                         <li class="account">
                           <i class="fa fa-user m-0"></i>
-                          <a th:if="${#authorization.expression('isAuthenticated()')}" href="/account" th:text="${#authentication.name}">Tài khoản</a>
+                          <a th:if="${#authorization.expression('isAuthenticated()')}" href="/account-detail" th:text="${#authentication.name}">Tài khoản</a>
                           <a th:unless="${#authorization.expression('isAuthenticated()')}" href="/login">Tài khoản</a>
                       </li>
                       </ul>
@@ -89,8 +89,7 @@
                 <div class="header-middle-align-start">
                   <div class="header-logo-area">
                     <a href="/">
-                      <img class="logo-main" src="/main-site/img/logo.webp" width="131" height="34" alt="Logo" />
-                      <img class="logo-light" src="/main-site/img/logo-light.webp" width="131" height="34" alt="Logo" />
+                      <img class="logo-main" src="/StrideStar-Logo-Horizontal.png"  alt="Logo" />
                     </a>
                   </div>
                 </div>
@@ -141,40 +140,17 @@
                     <li><a href="/about"><span>Về chúng tôi</span></a></li>
 
                     <li class="has-submenu position-static"><a href="/shop"><span>Sản phẩm</span></a>
-                      <ul class="submenu-nav submenu-nav-mega column-3">
+                      <ul class="submenu-nav submenu-nav-mega">
                         <li class="mega-menu-item"><a href="#/" class="mega-title"><span>Danh mục</span></a>
                           <ul>
-                            <li th:each="category : ${categories}"><a href=""><span th:text="${category.name}"></span></a></li>
-
+                            <li th:each="category : ${categories}"><a th:href="@{'/shop?categoryId=' + ${category.id}}"><span th:text="${category.name}"></span></a></li>
                           </ul>
                         </li>
-                        <li class="mega-menu-item"><a href="/" class="mega-title"><span>Phong cách</span></a>
-                          <ul>
-                            <li><a href="single-normal-product.html"><span>Single Product Normal</span></a></li>
-                            <li><a href="single-product.html"><span>Single Product Variable</span></a></li>
-                            <li><a href="single-group-product.html"><span>Single Product Group</span></a></li>
-                            <li><a href="single-affiliate-product.html"><span>Single Product Affiliate</span></a></li>
-                          </ul>
-                        </li>
+                        
                       </ul>
                     </li>
-                    <li class="has-submenu"><a href="/blogs"><span>Bài viết</span></a>
-                      <ul class="submenu-nav submenu-nav-mega">
-                        <li class="mega-menu-item"><a href="#/" class="mega-title">Blog Layout</a>
-                          <ul>
-                            <li><a href="blog.html">Blog Grid</a></li>
-                            <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-                            <li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-                          </ul>
-                        </li>
-                        <li class="mega-menu-item"><a href="#/" class="mega-title">Single Blog</a>
-                          <ul>
-                            <li><a href="blog-details-no-sidebar.html">Blog Details</a></li>
-                            <li><a href="blog-details-left-sidebar.html">Blog Details Left Sidebar</a></li>
-                            <li><a href="blog-details.html">Blog Details Right Sidebar</a></li>
-                          </ul>
-                        </li>
-                      </ul>
+                    <li><a href="/blogs"><span>Bài viết</span></a>
+                      
                     </li>
                     <li><a href="/contact"><span>Liên hệ</span></a></li>
                   </ul>
@@ -201,7 +177,7 @@
                 <div class="about-widget-wrap">
                   <div class="widget-logo-area">
                     <a href="index-2.html">
-                      <img class="logo-main" src="/main-site/img/logo-light.webp" width="131" height="34" alt="Logo" />
+                      <img class="logo-main" src="/StrideStar-Logo-Vertical.png" alt="Logo" />
                     </a>
                   </div>
                   <p class="desc">Lorem ipsum dolor sit amet consl adipisi elit, sed do eiusmod templ incididunt ut labore</p>
@@ -282,22 +258,6 @@
       </div>
       <!--== End Footer Main ==-->
 
-      <!--== Start Footer Bottom ==-->
-      <div class="footer-bottom">
-        <div class="container pt--0 pb--0">
-          <div class="row">
-            <div class="col-md-7 col-lg-6">
-              <p class="copyright">© 2021 Shome. Made with <i class="fa fa-heart"></i> by <a target="_blank" href="https://themeforest.net/user/codecarnival/portfolio">Codecarnival.</a></p>
-            </div>
-            <div class="col-md-5 col-lg-6">
-              <div class="payment">
-                <a href="account-login.html"><img src="/main-site/img/photos/payment-card.webp" width="192" height="21" alt="Payment Logo"></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--== End Footer Bottom ==-->
     </footer>
     <!--== End Footer Area Wrapper ==-->
 
