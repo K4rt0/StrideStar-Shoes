@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminHomeController {
     @GetMapping
     public String dashboard() {
+
         return "admin/home/index";
     }
 
@@ -16,4 +17,6 @@ public class AdminHomeController {
     public String home() {
         return "admin/home/index";
     }
+
+
 }

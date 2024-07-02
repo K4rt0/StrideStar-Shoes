@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,7 +25,6 @@ public class UserController {
     public String login() {
         return "/main-site/user/login";
     }
-
 
 
     @GetMapping("/register")
@@ -52,14 +50,14 @@ public class UserController {
         return "redirect:/login"; // Chuyển hướng người dùng tới trang "login"
     }
 
-    @GetMapping("/account-detail")
+    @GetMapping("/account")
     public String getAccountDetail(Authentication authentication, Model model) {
         User user = userService.findByUsername(authentication.getName()).orElseThrow();
         model.addAttribute("user", user);
         return "/main-site/user/account-detail";
     }
 
-    @PostMapping("/account-detail")
+    @PostMapping("/account")
     public String updateAccountDetail(@ModelAttribute("user") User userForm, Model model, Authentication authentication) {
         try {
             // Lấy thông tin người dùng hiện tại
