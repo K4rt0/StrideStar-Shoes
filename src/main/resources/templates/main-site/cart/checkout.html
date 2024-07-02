@@ -183,11 +183,12 @@
                             shipping: "Giao hàng tiêu chuẩn"
                         }),
                         success: function (response) {
-                            alert('Đặt hàng thành công');
+                            /* alert('Đặt hàng thành công');
                             localStorage.setItem('orderId', response.id);
                             alert(response.createdDate);
                             localStorage.setItem('orderTime', response.createdDate);
-                            window.location.href = '/cart/checkout/completed';
+                            window.location.href = '/cart/checkout/completed'; */
+                            window.location.href = response;
                         },
                         error: function (response) {
                             showIziToast('Thông báo', 'Đặt hàng thất bại', 'red');

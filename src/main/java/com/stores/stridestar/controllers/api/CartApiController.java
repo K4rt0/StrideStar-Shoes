@@ -1,5 +1,7 @@
 package com.stores.stridestar.controllers.api;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.stores.stridestar.extensions.ResourceNotFoundException;
 import com.stores.stridestar.models.CartItem;
@@ -26,11 +29,15 @@ import com.stores.stridestar.models.ProductVariant;
 import com.stores.stridestar.models.User;
 import com.stores.stridestar.models.VariantAttribute;
 import com.stores.stridestar.models.enums.OrderStatus;
+import com.stores.stridestar.models.enums.Payment;
 import com.stores.stridestar.services.CartService;
 import com.stores.stridestar.services.OrderDetailService;
 import com.stores.stridestar.services.OrderService;
 import com.stores.stridestar.services.UserService;
+import com.stores.stridestar.services.VNPayService;
 import com.stores.stridestar.services.VariantAttributeService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @CrossOrigin("*")
 @RestController
@@ -50,6 +57,9 @@ public class CartApiController {
 
     @Autowired
     private VariantAttributeService attributeService;
+
+    @Autowired
+    private VNPayService vnPayService;
 
     @PostMapping("/add/{id}")
     public ResponseEntity<CartItem> addItem(@PathVariable("id") Long id, @RequestParam("quantity") int quantity, Authentication authentication) {
@@ -162,7 +172,7 @@ public class CartApiController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<Order> checkout(@RequestBody Order order, Authentication authentication) {
+    public ResponseEntity<?> checkout(@RequestBody Order order, Authentication authentication, HttpServletRequest request) {
         if(authentication == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
@@ -205,6 +215,37 @@ public class CartApiController {
             orderDetailService.saveOrderDetail(orderDetail);
             cartService.deleteCartItem(cartItem.getId());
         });
-        return new ResponseEntity<Order>(order, HttpStatus.OK);
+
+        if(order.getPayment().equals(Payment.VNPAY)) {
+            return ResponseEntity.status(HttpStatus.OK).body(getVnPayLink(request, order.getId(), order.getTotalPrice()));
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body("/cart/checkout/completed?orderId=" + order.getId() + "&orderDate=" + order.getCreatedDate());
+    }
+
+    public String getVnPayLink(HttpServletRequest request, long orderId, double price) {
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String vnpayUrl = vnPayService.createOrder(request, price, orderId, baseUrl);
+        return vnpayUrl;
+    }
+
+    @GetMapping("/vnpay-payment-return")
+    public RedirectView paymentCompleted(@RequestParam("vnp_ResponseCode") String vnp_ResponseCode,
+                                        @RequestParam("vnp_TxnRef") String vnp_TxnRef) {
+        Long orderId = Long.parseLong(vnp_TxnRef);
+        Order order = orderService.getOrderById(orderId);
+        String redirectUrl;
+        if (vnp_ResponseCode.equals("00")) {
+            order.setPaymentStatus(true);
+            orderService.saveOrder(order);
+            redirectUrl = "/cart/checkout/completed?orderId=" + orderId + "&orderDate=" + order.getCreatedDate();
+        } else {
+            order.getOrderDetails().forEach(orderDetail -> {
+                orderDetailService.deleteOrderDetail(orderDetail.getId());
+            });
+            orderService.deleteOrder(orderId);
+            redirectUrl = "/payment-failed";
+        }
+        return new RedirectView(redirectUrl);
     }
 }

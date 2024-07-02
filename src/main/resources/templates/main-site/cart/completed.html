@@ -19,12 +19,13 @@
         </div>
         <script>
             $(document).ready(function() {
-                var orderId = localStorage.getItem('orderId');
-                var orderTime = localStorage.getItem('orderTime');
+                const urlObj = new URL(window.location.href);
+                const params = new URLSearchParams(urlObj.search);
+                const orderId = params.get('orderId');
+                const orderDate = params.get('orderDate');
+
                 $('#orderId').text("#" + orderId);
-                $('#order-time').text(formatTimestamp(orderTime));
-                localStorage.removeItem('orderId');
-                localStorage.removeItem('orderTime');
+                $('#order-time').text(formatTimestamp(orderDate));
             });
         </script>
     </section>

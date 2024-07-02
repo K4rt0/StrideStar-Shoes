@@ -12,7 +12,7 @@
                 <div class="blog-details-content-wrap">
                     <div class="blog-details-item">
                         <div class="blog-details-thumb">
-                            <img th:src="@{${blog.avatarUrl}}" width="750" height="459" th:alt="${blog.title}">
+                            <img th:src="@{'/images/blogs/' + ${blog.avatarUrl}}" width="750" height="459" th:alt="${blog.title}">
                         </div>
                         <div class="blog-meta-post">
                             <ul>
@@ -46,7 +46,7 @@
                         <div class="article-next-previous">
                             <div class="arrow-item previous">
                                 <div class="arrow-thumb">
-                                    <a th:href="@{/blog/{id}(id=${relatedBlogs[0].id})}"><img th:src="@{${relatedBlogs[0].avatarUrl}}" width="98" height="101" alt=""></a>
+                                    <a th:href="@{/blog/{id}(id=${relatedBlogs[0].id})}"><img th:src="@{'/images/blogs/' + ${relatedBlogs[0].avatarUrl}}" width="98" height="101" alt=""></a>
                                     <a class="overlay" th:href="@{/blog/{id}(id=${relatedBlogs[0].id})}"><i class="fa fa-angle-left"></i></a>
                                 </div>
                                 <div class="arrow-content">
@@ -56,7 +56,7 @@
                             </div>
                             <div class="arrow-item next">
                                 <div class="arrow-thumb">
-                                    <a th:href="@{/blog/{id}(id=${relatedBlogs[1].id})}"><img th:src="@{${relatedBlogs[1].avatarUrl}}" width="98" height="101" alt=""></a>
+                                    <a th:href="@{/blog/{id}(id=${relatedBlogs[1].id})}"><img th:src="@{'/images/blogs/' + ${relatedBlogs[1].avatarUrl}}" width="98" height="101" alt=""></a>
                                     <a class="overlay" th:href="@{/blog/{id}(id=${relatedBlogs[1].id})}"><i class="fa fa-angle-right"></i></a>
                                 </div>
                                 <div class="arrow-content">
@@ -75,7 +75,7 @@
                     <div class="comment-view-content">
                         <div class="single-comment">
                             <div class="author-pic">
-                                <a href="blog.html"><img src="assets/img/blog/author1.webp" width="101" height="118" alt="Image-HasTech"></a>
+                                <a href="blog.html"><img src="/main-site/img/blog/author1.webp" width="101" height="118" alt="Image-HasTech"></a>
                             </div>
                             <div class="author-info">
                                 <h4 class="title">
@@ -91,7 +91,7 @@
                         </div>
                         <div class="single-comment reply-comment">
                             <div class="author-pic">
-                                <a href="blog.html"><img src="assets/img/blog/author2.webp" width="101" height="118" alt="Image-HasTech"></a>
+                                <a href="blog.html"><img src="/main-site/img/blog/author2.webp" width="101" height="118" alt="Image-HasTech"></a>
                             </div>
                             <div class="author-info">
                                 <h4 class="title">
@@ -107,7 +107,7 @@
                         </div>
                         <div class="single-comment">
                             <div class="author-pic">
-                                <a href="blog.html"><img src="assets/img/blog/author3.webp" width="101" height="118" alt="Image-HasTech"></a>
+                                <a href="blog.html"><img src="/main-site/img/blog/author3.webp" width="101" height="118" alt="Image-HasTech"></a>
                             </div>
                             <div class="author-info">
                                 <h4 class="title">
